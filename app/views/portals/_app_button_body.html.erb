@@ -1,0 +1,10 @@
+<%= content_tag :div, class: 'portal_icon' do %>
+  <% if app.icon.blank? || app.icon.dirty? %>
+    <%= icon('fa-square-o') %>
+  <% else %>
+    <%= image_tag app.icon.url(:small), alt: '' %>
+  <% end %>
+<% end %>
+<%= content_tag :div, class: 'portal_label' do %>
+  <%= app.to_label %>
+<% end %>

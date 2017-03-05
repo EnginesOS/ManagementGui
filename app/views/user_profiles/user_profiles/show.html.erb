@@ -1,0 +1,10 @@
+<%= user_profile_portal_link %>
+<%= new_cloud_link %>
+
+<% current_user.user_profile.clouds.each do |cloud| %>
+
+  <%= link_to cloud.label, cloud_path(cloud_id: cloud.id),
+      class: 'btn btn-lg btn_resource',
+      title: "Manage Engines cloud #{cloud.label}" %>
+
+<% end %>

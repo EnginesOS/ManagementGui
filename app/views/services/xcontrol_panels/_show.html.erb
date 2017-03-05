@@ -1,0 +1,52 @@
+<%= modal footer_close: true, header: "#{service.name} menu", id: "service_#{service.name}_menu_modal" do %>
+  <%= content_tag :div, class: 'container_menu_header clearfix' do %>
+    <%= content_tag :div, class: 'container_menu_header_detail pull_right_wide_media' do %>
+    <% end %>
+    <%= content_tag :div, class: 'container_menu_header_icon' do %>
+      <%= icon service.icon %>
+    <% end %>
+    <%= content_tag :div, class: 'container_menu_header_names' do %>
+      <%= content_tag :div, class: 'container_menu_header_label' do %>
+        <%= service.name %>
+      <% end %>
+      <%= content_tag :div, class: 'container_menu_header_label_subtext' do %>
+        <%= service.label %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <hr>
+  <%= content_tag :div, class: "container_state_indicator" do %>
+    <% service_state = service.core_service.state %>
+    <%= content_tag :span, class: "service_#{service.name}_state_indicator" do %>
+      <%= state_indicator_for(service_state.to_sym) %>
+    <% end %>
+    <%= content_tag :span, class: "service_#{service.name}_state_label" do %>
+      <%= service_state.to_s.humanize %>
+    <% end %>
+  <% end %>
+  <%= content_tag(:div, class: 'display_inline') do %>
+    <%= service_instruction_link service, :start, icon: 'fa-play' %>
+    <%= service_instruction_link service, :stop, icon: 'fa-stop' %>
+    <%= service_instruction_link service, :pause, icon: 'fa-pause' %>
+    <%= service_instruction_link service, :unpause, icon: 'fa-pause-circle' %>
+    <%= service_instruction_link service, :restart, icon: 'fa-repeat' %>
+    <%= service_instruction_link service, :create, icon: 'fa-wrench' %>
+    <%= service_instruction_link service, :recreate, icon: 'fa-refresh' %>
+    <%= service_instruction_link service, :destroy, icon: 'fa-close' %>
+  <% end %>
+  <% if service.websites.present? %>
+    <hr>
+    <%= service_website_links service %>
+  <% end %>
+  <hr>
+  <%= resource_link :service_configurations, params: {service_name: service.name}, text: 'Configuration', icon: 'fa-cog', title: "Configuration properties for #{service.name}" %>
+  <%= resource_link :service_actions, params: {service_name: service.name}, text: 'Actions', icon: 'fa-crosshairs', title: "Actions for #{service.name}" %>
+  <hr>
+  <%= edit_resource_link :service_network, params: {service_name: service.name}, text: 'Network', icon: 'fa-sitemap', title: "Network properties for #{service.name}" %>
+  <%= edit_resource_link :service_memory, params: {service_name: service.name}, text: 'Memory', icon: 'fa-pie-chart', title: "Memory settings for #{service.name}" %>
+  <%= edit_resource_link :service_variables, params: {service_name: service.name}, text: 'Variables', icon: 'fa-question', title: "Environment variables for #{service.name}" %>
+  <hr>
+  <%= resource_link :service_report, params: {service_name: service.name}, text: 'Report', icon: 'fa-stethoscope', title: "Report for #{service.name}" %>
+  <hr>
+  <%= resource_link :service_rebuild, params: {service_name: service.name}, text: 'Rebuild', icon: 'fa-plus', remote: false %>
+<% end %>

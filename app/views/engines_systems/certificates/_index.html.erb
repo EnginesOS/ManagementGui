@@ -1,0 +1,6 @@
+<%= modal(header: {text: "Certificates for #{@engines_system.label}", icon: 'fa-certificate'}, footer_close: true) do %>
+  <%= up_to_system_control_panel_link(@engines_system) %>
+  <%= new_system_domain_certificate_link(@engines_system) %>
+  <%= system_ca_link(@engines_system) %>
+  <%= system_domain_certificate_links(@engines_system) %>
+<% end %>

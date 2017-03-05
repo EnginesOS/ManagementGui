@@ -1,0 +1,12 @@
+<%= form_for @app, url: app_properties_path(app_id: @app.id) do |f| %>
+  <%= f.engines_field :label, horizontal: true %>
+  <%= f.engines_field :icon, horizontal: true %>
+  <%= f.engines_legend %>
+  <%= f.engines_field :show_on_portal, horizontal: true, left: 2, label: false, checkbox_text: 'Show on portal' %>
+  <% if @app.worker %>
+    <%= f.engines_field :portal_worker_message, placeholder: 'Enter a message to show when the app is clicked.', hint: 'Text may be formatted with markdown.', depend_on: {input: :app_show_on_portal, property: :checked, display: :show}, label: 'Worker message', horizontal: true, as: :text %>
+  <% else %>
+    <%= f.engines_field :portal_link, depend_on: {input: :app_show_on_portal, property: :checked}, horizontal: true, as: :select, collection: ([''] + @app.websites.map{|website| [website]}) %>
+  <% end %>
+  <%= f.engines_cancel_submit url: app_menu_path(app_id: @app.id), remote: true %>
+<% end %>

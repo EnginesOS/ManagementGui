@@ -1,0 +1,10 @@
+<%= form_for @bug_report,
+    url: system_bug_reports_path(
+      engines_system_id: @bug_report.engines_system.id ),
+    method: :patch do |f| %>
+<%= f.engines_field :send_bug_reports, as: :boolean, horizontal: true,
+      label: false,
+      checkbox_text: 'Send bug reports (enable remote exception logging)' %>
+<%= f.engines_cancel_submit url: system_control_panel_path(
+      engines_system_id: @bug_report.engines_system.id ), remote: true %>
+<% end %>

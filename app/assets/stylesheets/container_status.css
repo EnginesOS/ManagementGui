@@ -1,0 +1,10 @@
+.container_state_installing i.fa { color: #bbb; }
+.container_state_running i.fa { color: #4b4; }
+.container_state_paused i.fa { color: #ff7f00; }
+.container_state_error i.fa { color: #f00; }
+.container_state_stopped i.fa { color: #66b; }
+.container_state_nocontainer i.fa { color: #bbb; }
+.container_state_state_error i.fa { color: #aaa; }
+.container_state_unbuilt i.fa { color: #666; }
+.container_state_create i.fa { color: #4b4; }
+.container_state_oom i.fa { color: #f00; }

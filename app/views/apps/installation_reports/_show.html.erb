@@ -1,0 +1,22 @@
+<%= modal footer_close: true,
+      header: {text: "#{@app.name} installation report", icon: 'fa-list-ol'},
+      id: "remote_modal" do %>
+  <%= up_to_app_control_panel_link(@app) %>
+  <div class="btn-toolbar">
+    <%= link_to content_tag(:i, "", class: "fa fa-level-up") + ' Popup report',
+          app_installation_report_popup_path(app_id: @app.id),
+          class: 'btn btn-lg btn_resource',
+          data: {popup: true} %>
+    <% if @app.first_run_url.present? %>
+      <%= resource_link :app_first_run, params: {app_id: @app.id},
+            spinner: false, remote: false,
+            target: "engines_app_#{@app.id}_first_run",
+            text: 'First run', icon: 'fa-external-link',
+            title: "First run URL for #{@app.name}" %>
+    <% end %>
+  </div>
+  <hr>
+  <div id="installation_report_content">
+    <%= markdown_text @app.core_app.build_report %>
+  </div>
+<% end %>

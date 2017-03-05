@@ -1,0 +1,14 @@
+<%= content_tag :div, class: 'page_view' do %>
+  <%= content_tag :div, class: 'row devise_form' do %>
+    <%= content_tag :div, class: 'modal-dialog' do %>
+      <%= content_tag :div, class: 'modal-content clearfix' do %>
+        <%= content_tag :div, class: 'modal-header' do %>
+          <%= icon_text 'fa-sign-in', 'Sign in' %>
+        <% end %>
+        <%= content_tag :div, class: 'modal-body' do %>
+          <%= render 'form' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

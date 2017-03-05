@@ -1,0 +1,8 @@
+<% is_edit_form = action_name.to_sym == :edit || action_name.to_sym == :update %>
+<% checkbox_depend_on = {input: 'engines_system_core_resources_domain_domain_name', value: 'local', display: :hide} %>
+<%= form_for @domain, url: system_domain_path(engines_system_id: @engines_system.id), method: (:patch if is_edit_form) do |f| %>
+<%= f.engines_field :domain_name, as: (is_edit_form ? :read_only : :string), horizontal: true, left: 4, hint: "Enter 'local' to enable Avahi" %>
+<%= f.engines_field :internal_only, as: :boolean, compact: true, horizontal: true, label: false, checkbox_text: "Internal only", left: 4, depend_on: checkbox_depend_on %>
+<%= f.engines_field :self_hosted, as: :boolean, horizontal: true, label: false, checkbox_text: "Self hosted", left: 4, depend_on: checkbox_depend_on %>
+<%= f.engines_cancel_submit url: system_domains_path(engines_system_id: @engines_system.id), remote: true %>
+<% end %>

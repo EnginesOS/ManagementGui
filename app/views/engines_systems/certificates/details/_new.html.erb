@@ -1,0 +1,19 @@
+<%= modal header: {text: "Certificate upload for #{@engines_system.label}", icon: 'fa-upload'} do %>
+  <p><label>Step 2 - Certificate details</label></p>
+  <%= form_for @certificate_detail, url: system_certificate_detail_path(engines_system_id: @certificate_detail.engines_system.id), method: :post do |f| %>
+    <%= f.engines_field :certificate_for, as: :radios, horizontal: true, label: 'For', left: 4,
+      collection: [ [:cname, "#{@certificate_detail.cname} (certificate cname)"],
+                    [:default, "#{@certificate_detail.engines_system.core_system.default_domain} (system default)"],
+                    [:custom, "Custom"] ] %>
+    <%= f.engines_field :tmp_filename, as: :hidden %>
+    <%= f.engines_field :cname, as: :hidden %>
+    <%= f.engines_field :host_domain, as: :string, left: 4, horizontal: true,
+        label: 'host.domain',
+        depend_on: { input: 'engines_system_core_resources_certificate_upload_detail_certificate_for_custom', property: :checked} %>
+    <%= f.engines_field :key, as: :text, label: 'Private key' %>
+    <%= f.engines_field :password, as: :password, hint: 'optional' %>
+    <%= f.engines_cancel_submit(
+          { url: system_certificates_path(engines_system_id: @certificate_detail.engines_system.id),
+            remote: true }, { text: 'Save' } ) %>
+  <% end %>
+<% end %>

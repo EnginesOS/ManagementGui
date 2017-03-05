@@ -1,0 +1,5 @@
+<%= modal(header: {text: "Admin user for #{@engines_system.label}", icon: 'fa-user'}, footer_close: true) do %>
+	<%= content_tag :div, up_to_system_control_panel_link(@engines_system), class: 'clearfix' %>
+	<%= edit_system_admin_password_link(@engines_system) %>
+	<%= edit_system_admin_email_link(@engines_system) %>
+<% end %>

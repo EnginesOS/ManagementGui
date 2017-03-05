@@ -1,0 +1,41 @@
+<%= modal(
+      header: {text: "Building #{@app.name}", icon: 'fa-plus-square'},
+      footer_close: true,
+      large: true,
+      id: "remote_modal") do %>
+
+  <div id="install_builder_successful_complete" style="display: none;">
+    <p>Installation complete. Review the installation report for instructions on what to do next.</p>
+    <%= resource_link :app_installation_report,
+      params: { app_id: @app.id },
+      text: 'Installation report', icon: 'fa-list-ol',
+      title: "Installation report for #{@app.name}" %>
+    <hr>
+  </div>
+
+  <div id="install_builder_progress_bar">
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped active" style="width: 0%;">
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="install_build_log_show_tab">
+      <div class="clearfix">
+        <%= install_build_log_show_link  %>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="install_build_log_tab">
+      <div class="clearfix">
+        <%= install_build_log_hide_link %>
+      </div>
+      <%= content_tag :pre, nil, id: 'install_builder_log' %>
+    </div>
+  </div>
+
+
+
+
+<% end %>

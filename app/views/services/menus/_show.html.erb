@@ -1,0 +1,71 @@
+<%= modal footer_close: true, header: "Service", id: "container_#{@service.name}_menu_modal" do %>
+  <%= content_tag :div, class: 'container_menu_header clearfix' do %>
+    <%= content_tag :div, class: 'container_menu_header_detail pull_right_wide_media' do %>
+    <% end %>
+    <%= content_tag :div, class: 'container_menu_header_icon' do %>
+      <%= icon @service.icon %>
+    <% end %>
+    <%= content_tag :div, class: 'container_menu_header_names' do %>
+      <%= content_tag :div, class: 'container_menu_header_label' do %>
+        <%= @service.name %>
+      <% end %>
+      <%= content_tag :div, class: 'container_menu_header_label_subtext' do %>
+        <%= @service.label %><br>
+        <%= @service.description %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'container_menu_header_detail pull_right_wide_media' do %>
+      <%= icon_text('fa-map-marker', 'Local mgmt GUI') if @service.is_local_mgmt %>
+    <% end %>
+  <% end %>
+  <hr>
+  <% service_state = @service.core_service.state %>
+  <%= content_tag :span, class: "container_state_indicators #{@service.name}_container_state" do %>
+    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused ].each do |state| %>
+      <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if service_state.to_s != state.to_s) do %>
+        <%= content_tag :div, class: "container_state_indicator_area" do %>
+          <%= content_tag :div, class: "container_state_indicator_icon" do %>
+            <%= state_indicator_for state %>
+          <% end %>
+          <%= content_tag :div, class: "container_state_indicator_text" do %>
+            <%= state_text_for state %>
+          <% end %>
+        <% end %>
+        <%= content_tag(:div) do %>
+          <% if @service.is_local_mgmt %>
+            <%= resource_link :service_restart_local_gui,
+                params: {service_id: @service.id},
+                text: 'Restart', icon: 'fa-repeat',
+                title: 'Restart local mgmt', form_class: 'display_inline' %>
+          <% else %>
+            <%= service_instruction_link(@service, :start, icon: 'fa-play') if [ :stopped ].include?(state) %>
+            <%= service_instruction_link(@service, :stop, icon: 'fa-stop') if [ :running ].include?(state) %>
+            <%= service_instruction_link(@service, :pause, icon: 'fa-pause') if [ :running ].include?(state) %>
+            <%= service_instruction_link(@service, :unpause, icon: 'fa-pause-circle') if [ :paused ].include?(state) %>
+            <%= service_instruction_link(@service, :restart, icon: 'fa-repeat') if [ :running ].include?(state) %>
+            <%= service_instruction_link(@service, :create, icon: 'fa-wrench') if [ :nocontainer ].include?(state) %>
+            <%= service_instruction_link(@service, :recreate, icon: 'fa-refresh') if [ :nocontainer, :stopped ].include?(state) %>
+            <%= service_instruction_link(@service, :destroy, icon: 'fa-bomb') if [ :stopped ].include?(state) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= content_tag(:div, style: "display: none;") do %>
+    <hr>
+    <%= service_instruction_link @service, :start, icon: 'fa-play' %>
+    <%= service_instruction_link @service, :stop, icon: 'fa-stop' %>
+    <%= service_instruction_link @service, :pause, icon: 'fa-pause' %>
+    <%= service_instruction_link @service, :unpause, icon: 'fa-pause-circle' %>
+    <%= service_instruction_link @service, :restart, icon: 'fa-repeat' %>
+    <%= service_instruction_link @service, :create, icon: 'fa-wrench' %>
+    <%= service_instruction_link @service, :recreate, icon: 'fa-refresh' %>
+    <%= service_instruction_link @service, :destroy, icon: 'fa-bomb' %>
+  <% end %>
+  <% if @service.websites.present? %>
+    <hr>
+    <%= service_website_links @service %>
+  <% end %>
+  <hr>
+  <%= resource_link :service_control_panel, params: {service_id: @service.id}, text: 'Control panel', icon: 'fa-cogs', title: "Control panel for #{@service.name}" %>
+<% end %>

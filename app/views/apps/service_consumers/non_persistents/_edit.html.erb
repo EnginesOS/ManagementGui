@@ -1,0 +1,17 @@
+<%= modal header: {text: "Edit #{@non_persistent_service_consumer.label} for #{@app.name}", icon: 'fa-edit'} do %>
+
+  <%= form_for @non_persistent_service_consumer, method: :patch,
+        url: app_service_consumer_non_persistent_path(app_id: @app.id) do |f| %>
+        <%= f.hidden_field :publisher_type_path %>
+        <%= f.hidden_field :service_handle %>
+    <%= f.fields_for :fields do |ff| %>
+      <%= ff.engines_field_builder %>
+    <% end %>
+    <% cancel_url = app_service_consumer_non_persistent_path(
+          app_id: @app.id,
+          publisher_type_path: @non_persistent_service_consumer.publisher_type_path,
+          service_handle: @non_persistent_service_consumer.service_handle ) %>
+    <%= f.engines_cancel_submit url: cancel_url, remote: true %>
+  <% end %>
+
+<% end %>

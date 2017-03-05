@@ -1,0 +1,6 @@
+<%= modal(
+      header: {text: "Install #{@new_app.app_label} on #{@engines_system.label}", icon: 'fa-plus-square'},
+      footer_close: false,
+      id: "remote_modal") do %>
+  <%= render 'form' %>
+<% end %>

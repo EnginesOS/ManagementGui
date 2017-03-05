@@ -1,0 +1,16 @@
+<%= modal(header: {text: "Last install for #{@engines_system.label}", icon: 'fa-history'}, footer_close: true, large: true) do %>
+  <%= up_to_system_control_panel_link(@engines_system) %>
+  <p>Installed <%= @last_build_params[:engine_name] || '?' %></p>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#installer_builder_log_tab" data-toggle="tab">Log</a></li>
+    <li><a href="#installer_builder_params_tab" data-toggle="tab">Parameters</a></li>
+  </ul>
+  <div class="installer_builder_tabs tab-content">
+    <div class="tab-pane active" id="installer_builder_log_tab">
+      <%= content_tag :pre, @last_build_log %>
+    </div>
+    <div class="tab-pane" id="installer_builder_params_tab">
+      <%= pretty_print @last_build_params %>
+    </div>
+  </div>
+<% end %>

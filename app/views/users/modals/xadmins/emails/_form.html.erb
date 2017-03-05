@@ -1,0 +1,5 @@
+<%= form_for @admin, url: system_admin_email_path(engines_system_id: @engines_system.id) do |f| %>
+  <%= f.engines_field :current_password, as: :password, autocomplete: :off, label: 'Password', title: 'Current admin password' %>
+  <%= f.engines_field :email, as: :email, autocomplete: :off %>
+  <%= f.engines_cancel_submit url: system_admin_path(engines_system_id: @engines_system.id), remote: true %>
+<% end %>

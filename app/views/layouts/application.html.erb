@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      Engines System Manager
+    </title>
+
+    <%= csrf_meta_tags %>
+    <% #= action_cable_meta_tag %>
+
+    <%= render 'layouts/favicon' %>
+
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <!-- Bootstrap: ensure proper rendering and touch zooming.
+        maaximum-scale and user-scalable added because on iOS page was zooming in too far when modals loaded. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Allow install of client on apple devices  -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  </head>
+
+  <%= navbar %>
+  <%= wait_for_system_spinner %>
+  <%= page_body(yield) %>
+  <% #= console if Rails.env.development? %>
+
+</html>

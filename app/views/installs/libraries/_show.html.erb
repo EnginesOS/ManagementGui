@@ -1,0 +1,21 @@
+<%= modal(
+      header: {text: "Install on #{@engines_system.label} from #{@library.name}", icon: 'fa-plus-square'},
+      footer_close: true,
+      large: true,
+      id: "remote_modal") do %>
+  <div id="install_libarary_apps">
+    <%= up_to_install_libraries_or_system_menu_link(@engines_system) %>
+    <%= content_tag :div, class: 'row text-center' do %>
+      <input class="search form-control" placeholder="Search" />
+      <ul class="list">
+        <% @library.apps.each do |app| %>
+          <li>
+            <div class="list_search" hidden="true"><%= app[:label] %></div>
+            <%= render 'installs/libraries/app', app: app %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+
+<% end %>

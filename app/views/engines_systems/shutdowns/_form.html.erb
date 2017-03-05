@@ -1,0 +1,4 @@
+<%= form_for @system_shutdown, url: system_shutdown_path do |f| %>
+<%= f.engines_field :reason, as: :text, left: 2, width: 8 %>
+<%= f.engines_cancel_submit %>
+<% end %>

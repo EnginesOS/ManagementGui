@@ -1,0 +1,19 @@
+.portal .btn:hover {color: inherit; background-color: rgba(0, 0, 0, 0.025);}
+.portal_icon { display: inline-block; margin: 5px; height: 64px; width: 64px; font-size: 64px; line-height: 64px; }
+.portal_icon img { max-height: 64px; max-width: 64px; }
+.portal_label { line-height: 1.2; height: 45px; width: 150px; font-size: 18px; white-space: normal; word-break: break-all;}
+// .portal .text-center .portal-col { float: none; margin-left: auto; margin-right: auto; }
+
+button.portal_button { color: inherit; background-color: transparent; }
+// button.portal_button:hover { color: inherit; background-color: transparent; }
+
+/* centered columns styles */
+.portal-body.text-center .row-centered {
+    text-align:center;
+}
+.portal-body.text-center .portal-col.col-centered {
+    display:inline-block;
+    float:none;
+    /* inline-block space fix */
+    margin-right:-4px;
+}

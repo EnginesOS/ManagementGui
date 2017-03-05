@@ -1,0 +1,79 @@
+<% app_container = @app.container %>
+
+<% begin %>
+  <% container_processes = @app.core_app.container_processes %>
+<% rescue EnginesSystemApiResourceNotFoundError %>
+  <% container_processes = nil %>
+<% end %>
+
+<% begin %>
+  <% container_logs = @app.core_app.logs %>
+<% rescue EnginesSystemApiResourceNotFoundError %>
+  <% container_logs = nil %>
+<% end %>
+
+<%= modal footer_close: true, large: true, header: {text: "Report for #{@app.name}", icon: 'fa-stethoscope'} do %>
+  <%= up_to_app_control_panel_link(@app) %>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#report_summary" data-toggle="tab">Summary</a></li>
+    <li><a href="#report_detail" data-toggle="tab">Detail</a></li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="report_summary">
+      <%= content_tag :div, class: 'dl-horizontal' do %>
+        <%= data_list_text 'Name', @app.name %>
+        <%= data_list_text 'State', @app.core_app.state %>
+        <%= data_list_text 'Set state', app_container[:set_state] %>
+        <hr>
+        <%= data_list_text 'Memory', "#{app_container[:memory]} MB" %>
+        <hr>
+        <%= data_list_text 'Container ID', "#{app_container[:container_id]}" %>
+        <%= data_list_text 'Container name', "#{app_container[:container_name]}" %>
+        <%= data_list_text 'Image', app_container[:image] %>
+        <hr>
+        <%= data_list_text 'Protocol', app_container[:protocol] %>
+        <%= data_list_text 'Hostname', app_container[:hostname] %>
+        <%= data_list_text 'Domain name', app_container[:domain_name] %>
+        <%= data_list_text 'Web root', app_container[:web_root] %>
+        <%= data_list_text 'Web port', app_container[:web_port] %>
+        <%= data_list_text 'Mapped ports', app_container[:mapped_ports] %>
+        <hr>
+        <%= data_list_text 'Repository', app_container[:repository] %>
+        <hr>
+        <%= data_list_text 'Framework', app_container[:framework] %>
+        <%= data_list_text 'Runtime', app_container[:runtime] %>
+        <hr>
+        <%= data_list_text 'Volumes', app_container[:volumes].keys.count %>
+        <hr>
+        <p><strong>Environment variables</strong></p>
+        <% if app_container[:environments].any? %>
+          <% app_container[:environments].each do |environment| %>
+            <%= data_list_text (environment[:label] || environment[:name].to_s.humanize), environment[:value] %>
+          <% end %>
+        <% else %>
+          <p><i>None</i></p>
+        <% end %>
+
+      <% end %>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="report_detail">
+      <%= content_tag :div, class: 'dl-horizontal' do %>
+        <%= report_collapse_data 'Actionators', @app.core_app.actionators %>
+        <%= report_collapse_data 'Available services', @app.core_app.available_services %>
+        <%= report_collapse_data 'Blueprint', @app.app_blueprint %>
+        <%= ( report_collapse_data 'Blueprint schema 1.0', @app.blueprint ) if @app.has_old_blueprint %>
+        <%= report_collapse_data 'Build report', @app.core_app.build_report %>
+        <%= report_collapse_data 'Container', app_container %>
+        <%= report_collapse_data 'Logs', container_logs ? container_logs : 'No container.' %>
+        <%= report_collapse_data 'Non-persistent services', @app.core_app.non_persistent_services %>
+        <%= report_collapse_data 'Persistent services', @app.core_app.persistent_services %>
+        <%= report_collapse_data 'Processes', container_processes %>
+        <%= report_collapse_data 'Status', @app.core_app.status %>
+        <%= report_collapse_data 'Websites', @app.core_app.websites %>
+      <% end %>
+    </div>
+
+  </div>
+<% end %>

@@ -1,0 +1,108 @@
+<%= modal(header: {text: "System activity for #{@engines_system.label}", icon: 'fa-bar-chart'}, footer_close: true, large: true) do %>
+  <%= up_to_system_control_panel_link(@engines_system) %>
+  <%= content_tag :div, class: 'row' do %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'Apps memory', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <% app_count = @activity.engines_memory_ranges.first[:data].count %>
+          <% if app_count > 0 %>
+            <%= pie_chart @activity.engines_memory %>
+          <% else %>
+            <p>No apps in memory</p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'Services memory', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= pie_chart @activity.services_memory %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'App memory headroom', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <% app_count = @activity.engines_memory_ranges.first[:data].count %>
+          <% if app_count > 0 %>
+            <% height = "#{app_count * 50 + 50}px" %>
+            <%= bar_chart @activity.engines_memory_ranges,
+                height: height, stacked: true,
+                library: {yAxis: {max: 1, labels: {enabled: false}}}  %>
+          <% else %>
+            <p>No apps in memory</p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'Services memory headroom', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <% services_count = @activity.services_memory_ranges.first[:data].count %>
+          <% height = "#{services_count * 50 + 50}px" %>
+          <%= bar_chart @activity.services_memory_ranges, height: height, stacked: true, library: {yAxis: {max: 1, labels: {enabled: false}}}  %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'Containers memory', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= pie_chart @activity.containers_memory %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'System memory', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= pie_chart @activity.system_memory %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'Total memory headroom', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= bar_chart @activity.containers_memory_ranges, height: "150px", stacked: true, library: {yAxis: {max: 1, labels: {enabled: false}}}  %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'CPU load', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+        <%= bar_chart @activity.cpu_load, stacked: true, library: {yAxis: {labels: {enabled: false}}} %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'CPU queue', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= column_chart @activity.cpu_queue %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'Disks', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= bar_chart @activity.disks, stacked: true %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'Network', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= bar_chart @activity.network %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,15 @@
+<%= modal(header: {text: 'Admin user', icon: 'fa-user'}, footer_close: true) do %>
+	<%= content_tag :div, class: 'dl-horizontal' do %>
+		<%= content_tag :div, up_to_system_control_panel_link(@engines_system), class: 'clearfix' %>
+		<%= data_list_text 'Email', @admin.email %>
+		<%= data_list_text 'Sign in count', @admin.sign_in_count %>
+		<%= data_list_text 'Current sign in', "#{format_time @admin.current_sign_in_at} from #{@admin.current_sign_in_ip}", title: time_ago(@admin.current_sign_in_at) %>
+		<%= data_list_text 'Last sign in', "#{format_time @admin.last_sign_in_at} from #{@admin.last_sign_in_ip}", title: time_ago(@admin.last_sign_in_at) %>
+		<hr>
+
+		<%= edit_system_admin_password_link(@engines_system) %>
+		<%= edit_system_admin_email_link(@engines_system) %>
+
+
+	<% end %>
+<% end %>

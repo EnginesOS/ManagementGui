@@ -1,0 +1,14 @@
+<% #= app %>
+
+<%= button_to new_install_repository_path(
+        engines_system_id: @engines_system.id,
+        library_id: @library.id,
+        install_metadata: app[:install_metadata],
+        repository_url: app[:repository_url] ),
+        form_class: 'install_libarary_app_link',
+        method: :get, remote: true do %>
+  <%= content_tag :div, class: 'install_libarary_app' do %>
+    <div class='icon'><%= image_tag(app[:icon_url], alt: '') if app[:icon_url].present? %></div>
+    <div class='install_libarary_app_label'><%= app[:label] %></div>
+  <% end %>
+<% end %>

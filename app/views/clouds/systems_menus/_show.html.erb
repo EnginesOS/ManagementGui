@@ -1,0 +1,10 @@
+<%= modal header: {text: 'Systems', icon: 'fa-hdd-o'}, footer_close: true do %>
+  <%= up_to_cloud_menu_link(@cloud) %>
+  <%= new_cloud_system_link(@cloud) %>
+  <% if @cloud.engines_systems.present? %>
+    <hr>
+    <% @cloud.engines_systems.each do |engines_system| %>
+      <%= delete_cloud_system_link(engines_system) %>
+    <% end %>
+  <% end %>
+<% end %>

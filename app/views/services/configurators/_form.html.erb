@@ -1,0 +1,10 @@
+<%= form_for @service_configurator, url: service_configurator_path(service_id: @service.id), method: :patch do |f| %>
+  <%= f.hidden_field :configurator_name %>
+
+  <p><%= @service_configurator.configurator_params[:description] %></p>
+
+  <%= f.fields_for :fields do |ff| %>
+    <%= ff.engines_field_builder %>
+  <% end %>
+  <%= f.engines_cancel_submit url: service_configuration_path(service_id: @service.id), remote: true %>
+<% end %>

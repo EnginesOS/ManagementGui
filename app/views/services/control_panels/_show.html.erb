@@ -1,0 +1,12 @@
+<%= modal footer_close: true, header: {text: "Control panel for #{@service.name}", icon: 'fa-cogs'} do %>
+  <%= up_to_service_menu_link(@service) %>
+  <%= resource_link :service_configuration, params: {service_id: @service.id}, text: 'Configuration', icon: 'fa-cog', title: "Configuration properties for #{@service.name}" %>
+  <%= resource_link :service_actions, params: {service_id: @service.id}, text: 'Actions', icon: 'fa-crosshairs', title: "Actions for #{@service.name}" %>
+  <hr>
+  <%= edit_resource_link :service_memory, params: {service_id: @service.id}, text: 'Memory', icon: 'fa-pie-chart', title: "Memory settings for #{@service.name}" %>
+  <hr>
+  <%= resource_link :service_environment, params: {service_id: @service.id}, text: 'Environment', icon: 'fa-question-circle-o', title: "Environment variables for #{@service.name}" %>
+  <%= resource_link :service_processes, params: {service_id: @service.id}, text: 'Processes', icon: 'fa-list-alt', title: "Processes for #{@service.name}" %>
+  <%= resource_link :service_logs, params: {service_id: @service.id}, text: 'Logs', icon: 'fa-file-text-o', title: "Logs for #{@service.name}" %>
+  <%= resource_link :service_report, params: {service_id: @service.id}, text: 'Report', icon: 'fa-stethoscope', title: "Report for #{@service.name}" %>
+<% end %>

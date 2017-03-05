@@ -1,0 +1,2 @@
+.system_api_connection_status { color: #d9534f; }
+.system_api_connection_status.engines_system_api_connected { color: #5cb85c; }

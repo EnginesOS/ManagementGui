@@ -1,0 +1,114 @@
+<%= form_for @new_app, remote: true, method: :post, url: install_new_app_path(engines_system_id: @engines_system.id) do |f| %>
+  <%= f.engines_field :install_metadata, as: :hidden %>
+  <%= f.engines_field :app_label, as: :hidden %>
+  <%= f.engines_field :app_icon_url, as: :hidden %>
+  <%= f.engines_field :repository_url, as: :hidden %>
+  <%= f.engines_field :library_id, as: :hidden %>
+  <%= f.engines_field :domains_collection, as: :hidden, value_to_json: true %>
+  <%= f.engines_field :recommended_memory, as: :hidden %>
+  <%= f.engines_field :required_memory, as: :hidden %>
+  <%= f.engines_field :deployment_type, as: :hidden %>
+  <%= f.engines_field :license_label, as: :hidden %>
+  <%= f.engines_field :install_form_comment, as: :hidden %>
+  <%= f.engines_field :license_sourceurl, as: :hidden %>
+  <%= f.engines_field :reserved_fqdns, as: :hidden, value_to_json: true %>
+  <%= f.engines_field :reserved_container_names, as: :hidden, value_to_json: true %>
+  <%= f.engines_field :custom_install, as: :hidden %>
+  <%= markdown_text @new_app.install_form_comment %>
+  <% if @new_app.custom_install != 'true' %>
+    <%= button_tag type: :button, id: 'install_custom_install_button',
+        style: "#{'display: none;' unless @new_app.custom_install != true}",
+        title: "Custom install",
+        class: 'btn btn-lg btn_resource pull_right_wide_media' do
+          icon_text 'fa-pencil', 'Custom install'
+        end %>
+  <% end %>
+  <%= content_tag :div, class: 'row' do %>
+    <%= content_tag :div, class: 'install_custom_install_settings', style: "#{'display: none;' if @new_app.custom_install != 'true'}" do %>
+      <%= content_tag :div, class: 'col-sm-12' do %>
+        <%= f.engines_field :container_name, as: :string, horizontal: true, left: 4 %>
+        <%= f.engines_field :label, as: :string, horizontal: true, left: 4 %>
+        <%= f.engines_field :memory, as: :integer, horizontal: true, left: 4,
+            hint: @new_app.memory_hint %>
+        <%= f.engines_legend 'Network' %>
+        <%= f.engines_field :http_protocol, as: :radios, horizontal: true, left: 4,
+            collection: @new_app.protocol_select_collection, value: @new_app.http_protocol %>
+        <%= f.engines_field :host_name, as: :string, horizontal: true, left: 4 %>
+        <%= f.engines_field :domain_name, as: :select,
+            collection: @new_app.domains_collection, horizontal: true, left: 4 %>
+
+      <% end %>
+      <%= content_tag :div, class: 'col-sm-12' do %>
+        <% if @new_app.service_consumers.present? %>
+          <%= f.engines_legend 'Services' %>
+        <% end %>
+        <%= content_tag :div, class: 'col-sm-12' do %>
+          <%= f.fields_for :service_consumers do |ff| %>
+            <%= content_tag :div, class: 'form-group'  do %>
+              <%= ff.engines_field :type_path, as: :hidden %>
+              <%= ff.engines_field :label, as: :hidden %>
+              <%= ff.engines_field :description, as: :hidden %>
+              <%= ff.engines_field :existing_services_collection, as: :hidden, value_to_json: true %>
+              <%= ff.engines_field :orphan_services_collection, as: :hidden, value_to_json: true %>
+              <%= content_tag :div, content_tag(:label, ff.object.label), class: 'col-sm-12' %>
+              <%= ff.engines_field :create_type, as: :select,
+                    label: false, left: 0, width: 4, title: ff.object.description,
+                    collection: ff.object.create_type_collection, compact: true %>
+              <%= ff.engines_field :existing_service, as: :select, width: 8,
+                    collection: ff.object.existing_services_collection,
+                    label: false, compact: true,
+                    depend_on: {
+                      input: "install_new_app_service_consumers_attributes_#{ff.options[:child_index]}_create_type",
+                      value: :existing } %>
+              <%= ff.engines_field :orphan_service, as: :select, width: 8,
+                    collection: ff.object.orphan_services_collection,
+                    label: false, compact: true,
+                    depend_on: {
+                      input: "install_new_app_service_consumers_attributes_#{ff.options[:child_index]}_create_type",
+                      value: :orphan } %>
+              <%= content_tag :div, content_tag(:hr), class: 'col-sm-12' %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12' do %>
+      <%= content_tag :div, class: 'install_custom_install_settings', style: "#{'display: none;' if @new_app.custom_install != 'true'}" do %>
+        <% if @new_app.environment_variables.fields.present? %>
+          <%= f.engines_legend 'Environment' %>
+        <% end %>
+      <% end %>
+      <%= content_tag :div, class: 'col-sm-12' do %>
+        <%= content_tag :div, class: 'form-group' do %>
+          <%= f.fields_for :environment_variables do |ff| %>
+            <%= ff.fields_for :fields do |fff| %>
+              <%= fff.engines_field_builder %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12' do %>
+      <%= content_tag :div, class: 'install_custom_install_settings', style: "#{'display: none;' if @new_app.custom_install != 'true'}" do %>
+        <%= f.engines_legend 'License' %>
+      <% end %>
+      <%= content_tag :div, class:'col-sm-10 col-sm-offset-2' do %>
+        <%= content_tag :div, class: 'form-group form_text' do %>
+          <%= link_to @new_app.license_label,
+              @new_app.license_sourceurl,
+              title: "Read the license",
+              class: 'install_license_link',
+              target: @new_app.license_label.underscore %>
+        <% end %>
+      <% end %>
+
+      <%= f.engines_field :license_accept, as: :boolean, label: '',
+          checkbox_text: 'I have read and accept the license', horizontal: true %>
+      <% cancel_path = @new_app.library_id.present? ?
+          install_library_path( engines_system_id: @engines_system.id,
+                                   library_id: @new_app.library_id ) :
+          system_control_panel_path(engines_system_id: @engines_system.id) %>
+      <%= f.engines_cancel_submit url: cancel_path, remote: true %>
+    <% end %>
+  <% end %>
+<% end %>

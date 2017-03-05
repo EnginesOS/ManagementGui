@@ -1,0 +1,9 @@
+<%= modal(header: {text: "Registry for #{@engines_system.label}", icon: 'fa-arrows'},
+    footer_close: true, large: true) do %>
+  <%= up_to_system_control_panel_link(@engines_system) %>
+  <div class="tree">
+    <ul>
+      <li><%= render 'node', node: @registry.tree %></li>
+    </ul>
+  </div>
+<% end %>

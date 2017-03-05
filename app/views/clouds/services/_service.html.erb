@@ -1,0 +1,22 @@
+<%= content_tag :div, class: 'engines_container service' do %>
+  <%= link_to service_menu_path(service_id: service.id), remote: true do %>
+    <%= content_tag :div, class: 'engines_container_label' do %>
+      <%= content_tag :div, class: 'button_icon' do %>
+        <!-- Empty placeholder -->
+      <% end %>
+      <%= content_tag :div, class: "container_state_indicators #{service.name}_container_state" do %>
+        <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused ].each do |state| %>
+          <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if service.state.to_s != state.to_s) do %>
+            <%= content_tag :div, class: "container_state_indicator_icon" do %>
+              <%= state_indicator_for state %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= content_tag :div, class: 'engines_container_label_text' do %>
+      <%= content_tag :div, service.name %>
+        <%= content_tag :div, service.label, class: 'engines_container_label_subtext' %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

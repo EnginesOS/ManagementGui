@@ -1,0 +1,18 @@
+<%= modal footer_close: true, header: {text: "Actions for #{@app.name}", icon: 'fa-crosshairs'} do %>
+
+  <%= up_to_app_control_panel_link(@app) %>
+
+  <% if @app.actionators.empty? %>
+    <p><i>None</i></p>
+  <% end %>
+
+  <% @app.actionators.values.each do |actionator| %>
+    <%= resource_link :new_app_actionator,
+        params: { app_id: @app.id,
+                  actionator_name: actionator[:name] },
+                  text: actionator[:label] || actionator[:name].to_s.humanize %>
+  <% end %>
+
+  <%= pretty_print @app.actionators %>
+
+<% end %>

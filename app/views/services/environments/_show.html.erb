@@ -1,0 +1,21 @@
+<%= modal header: {text: "Environment variables for #{@service.name}", icon: 'fa-question-circle-o'}, footer_close: true do %>
+
+  <%= up_to_service_control_panel_link(@service) %>
+
+  <%= content_tag :div, class: 'dl-horizontal' do %>
+    <% if @service.environment_variables.empty? %>
+      <p><i>None</i></p>
+    <% else %>
+      <% @service.environment_variables.each do |variable_param| %>
+        <hr>
+        <%= content_tag :label, ( variable_param[:label] || variable_param[:name].to_s.humanize ) %><br>
+        <%= data_list_text 'Name', variable_param[:name] %>
+        <%= data_list_text 'Value', variable_param[:value] %>
+        <%= data_list_text 'Owner type', variable_param[:owner_type] %>
+        <%= data_list_text 'Owner path', variable_param[:owner_path] %>
+        <%= data_list_text 'Changed', boolean_text(variable_param[:changed]) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+<% end %>

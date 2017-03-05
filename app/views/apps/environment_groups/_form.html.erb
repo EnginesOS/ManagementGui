@@ -1,0 +1,9 @@
+<%= form_for @environment_group, url: app_environment_group_path(app_id: @app.id), method: :patch do |f| %>
+  <%= f.hidden_field :owner_type %>
+  <%= f.hidden_field :owner_path %>
+  <%= f.fields_for :fields do |ff| %>
+    <%= ff.engines_field_builder %>
+  <% end %>
+  <%= f.engines_cancel_submit url: app_environment_group_path(app_id: @app.id, owner_type: @environment_group.owner_type, owner_path: @environment_group.owner_path), remote: true %>
+<% end %>
+<%= @environment_group.field_params_with_values %>

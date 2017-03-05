@@ -1,0 +1,8 @@
+<%= form_for @default_site,
+    url: system_default_site_path(
+      engines_system_id: @default_site.engines_system.id),
+    method: :patch do |f| %>
+<%= f.engines_field :site, as: :string %>
+<%= f.engines_cancel_submit url: system_control_panel_path(
+  engines_system_id: @default_site.engines_system.id), remote: true %>
+<% end %>

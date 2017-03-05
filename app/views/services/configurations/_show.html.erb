@@ -1,0 +1,12 @@
+<%= modal footer_close: true, header: {text: "Configuration for #{@service.name}", icon: 'fa-cog'} do %>
+  <%= up_to_service_control_panel_link(@service) %>
+  <% if @service.configurators.empty? %>
+    <p><i>None</i></p>
+  <% end %>
+  <% @service.configurators.values.each do |configurator| %>
+    <%= resource_link :edit_service_configurator,
+        params: { service_id: @service.id,
+                  configurator_name: configurator[:name] },
+                  text: configurator[:label] || configurator[:name].to_s.humanize %>
+  <% end %>
+<% end %>

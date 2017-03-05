@@ -1,0 +1,76 @@
+<% root_filepath = Rails.root.to_s %>
+<% base_url = request.base_url.to_s %>
+<% return_url =
+    if params[:cloud_id]
+      base_url + cloud_path(cloud_id: params[:cloud_id])
+    elsif current_user
+      base_url + user_profile_portal_path
+    else
+      base_url
+    end %>
+<% full_trace = @error.backtrace.map{ |line| line.sub(root_filepath, '') } %>
+<% exception_class = @error.class.to_s %>
+<% exception_message = @error.message.gsub(root_filepath, '') +
+"\nClass: #{@error.class}"\
+"\nAPI response: #{@error.try(:response) || 'n/a'}"\
+"\nInspect: #{@error.inspect}" %>
+<% application_trace = full_trace.select{ |line| a = line.split('/')[1]; a == "app" || a == "opt" } %>
+
+
+
+
+<p>Sorry, you have encountered an error in the Engines management GUI.</p>
+
+<% if Rails.application.config.bug_reports_server.present? %>
+  <p>Please send a bug report to help us fix the problem.</p>
+  <%= form_tag Rails.application.config.bug_reports_server.to_s + '/v0/bug_reports', id: 'submit_bug_report_form' do |f| %>
+    <%= hidden_field_tag :class, exception_class %>
+    <%= hidden_field_tag :message, exception_message %>
+    <%= hidden_field_tag :backtrace, full_trace %>
+    <%= hidden_field_tag :request_params, params.inspect %>
+    <%= hidden_field_tag :return_url, return_url %>
+    <div class="clearfix">
+      <div class="btn-group pull-right">
+        <% if request.format == 'js' %>
+          <%= button_tag type: 'button', 'data-dismiss': :modal, class: 'btn btn-warning' do %>
+            <%= icon_text('fa-times', 'No thanks') %>
+          <% end %>
+        <% else %>
+          <%= link_to icon_text('fa-times', 'No thanks'),return_url,
+            class: "btn btn-warning show_wait_for_system_response_spinner" %>
+        <% end %>
+    		<%= button_tag type: 'submit', id: "submit_bug_report_button", class: "btn btn-primary show_wait_for_system_response_spinner" do %>
+    	    <%= icon_text('fa-send', 'Send bug report') %>
+    	  <% end %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+<div class="alert alert-warning alert-dismissible">Set ENV['BUG_REPORTS_SERVER'] to send bug reports.</div>
+<% end %>
+
+<hr>
+<div class="tab-content">
+  <div class="tab-pane active" id="exception_backtrace_show_tab">
+    <div class="clearfix">
+      <%= exception_backtrace_show_link %>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="exception_backtrace_tab">
+    <div class="clearfix">
+      <%= exception_backtrace_hide_link %>
+    </div>
+<pre class="exception_backtrace">
+<%= exception_class %>: <%= exception_message %>
+Parameters: <%= params.inspect %>
+Application trace:
+<%= application_trace.map{ |line| line.split('/')[-1] }.join('<br>').html_safe %>
+Full trace:
+<% full_trace.each do |line| %>
+<%= line %>
+<% end %>
+</pre>
+
+  </div>
+</div>

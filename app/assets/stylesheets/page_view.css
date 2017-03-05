@@ -1,0 +1,4 @@
+#page_footer { height: 300px; }
+.container .page_view .modal-content { color: #333; background-color: #fff; }
+.container .page_view .row { margin-top: 10px; }
+.container .page_view .row.devise_form { margin-top: 0px; }

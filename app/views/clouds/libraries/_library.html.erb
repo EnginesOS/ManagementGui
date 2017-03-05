@@ -1,0 +1,9 @@
+<hr>
+<%= content_tag :div, class: 'dl-horizontal' do %>
+  <%= data_list_text 'Name', library.name %>
+  <%= data_list_text 'URL', library.url %>
+<% end %>
+<% unless library == @cloud.libraries.first %>
+  <%= edit_cloud_library_link @cloud, library %>
+  <%= delete_cloud_library_link @cloud, library %>
+<% end %>

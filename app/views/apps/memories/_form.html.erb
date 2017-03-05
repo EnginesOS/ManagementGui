@@ -1,0 +1,6 @@
+<%= form_for @memory, url: app_memory_path(app_id: @memory.app.id), method: :patch do |f| %>
+  <%= f.engines_field :memory, as: :integer, horizontal: true, comment: "Minumum #{f.object.minimum}MB. Recommended #{f.object.recommended}MB." %>
+  <%= f.engines_field :minimum, as: :hidden %>
+  <%= f.engines_field :recommended, as: :hidden %>
+  <%= f.engines_cancel_submit url: app_control_panel_path(app_id: @memory.app.id), remote: true %>
+<% end %>

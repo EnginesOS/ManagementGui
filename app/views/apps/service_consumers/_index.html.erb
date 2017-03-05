@@ -1,0 +1,40 @@
+<%= modal header: {text: "Services for #{@app.name}", icon: 'fa-compass'},
+    footer_close: true do %>
+  <%= up_to_app_control_panel_link(@app) %>
+  <%= resource_link :new_app_service_consumer, params: { app_id: @app.id },
+      text: 'New', icon: 'fa-plus-square-o',
+      title: "New service consumer for #{@app.name}" %>
+  <hr>
+  <p><strong>Persistent</strong></p>
+  <%= content_tag(:p, content_tag(:i, :none)) if @app.persistent_service_consumers.empty? %>
+  <% @app.persistent_service_consumers.each do |service| %>
+    <%= resource_link :app_service_consumer_persistent,
+        title: "Persistent service consumer #{service.label}",
+        params: { app_id: service.app.id,
+                  publisher_type_path: service.publisher_type_path,
+                  service_handle: service.service_handle },
+        text: service.label %>
+  <% end %>
+  <%= content_tag(:div, content_tag(:small, 'Shared')) if @app.persistent_service_consumer_shares.any? %>
+  <% @app.persistent_service_consumer_shares.map do |service| %>
+    <%= resource_link :app_service_consumer_persistent_share,
+        title: "Shared service consumer #{service.label}",
+        params: { app_id: service.app.id,
+                  parent_engine: service.parent_engine,
+                  publisher_type_path: service.publisher_type_path,
+                  service_handle: service.service_handle },
+        text: service.label %>
+  <% end %>
+  <hr>
+  <p><strong>Non-persistent</strong></p>
+  <%= content_tag(:p, content_tag(:i, :none)) if @app.non_persistent_service_consumers.empty? %>
+  <% @app.non_persistent_service_consumers.map do |service| %>
+    <%= resource_link :app_service_consumer_non_persistent,
+        title: "Non-persistent service consumer #{service.label}",
+        params: { app_id: service.app.id,
+                  publisher_type_path: service.publisher_type_path,
+                  service_handle: service.service_handle },
+        text: service.label %>
+  <% end %>
+
+<% end %>

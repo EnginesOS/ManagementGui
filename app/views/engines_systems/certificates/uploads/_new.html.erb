@@ -1,0 +1,9 @@
+<%= modal header: {text: 'Certificate upload', icon: 'fa-upload'} do %>
+  <p><label>Step 1 - Select certificate file</label></p>
+  <%= form_for @certificate, url: system_certificate_upload_path(engines_system_id: @certificate.engines_system.id), method: :post do |f| %>
+    <%= f.engines_field :certificate, as: :file, horizontal: true, label: false %>
+    <%= f.engines_cancel_submit(
+        { url: system_certificates_path(engines_system_id: @certificate.engines_system.id),
+          remote: true }, { text: 'Next', icon: 'fa-arrow-right' } ) %>
+  <% end %>
+<% end %>

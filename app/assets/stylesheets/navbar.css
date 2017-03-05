@@ -1,0 +1,30 @@
+nav.navbar.navbar-default { background-color: inherit; margin-bottom: 0px; border: none; }
+
+nav.navbar.navbar-default .btn_navbar {
+  background-color: inherit;
+  border: none;
+  border-radius: 0px;
+  padding: 15px;
+  font-size: 18px;
+  line-height: 20px;
+  display: inline-block; }
+nav.navbar.navbar-default .btn_navbar:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.25); }
+
+nav.navbar button.btn_navbar { min-width: 50px; text-align: center; }
+/*nav.navbar button.btn_navbar:hover { color: #333; }*/
+/*nav.navbar button.btn_navbar { color: inherit; }*/
+/*nav.navbar button.btn_navbar:hover { color: inherit; }*/
+
+nav.navbar.navbar-default .navbar_section{
+  display: inline-block;
+  vertical-align: top;
+}
+
+nav.navbar.navbar-default .navbar_section.navbar-header { margin: 0px; }
+nav.navbar.navbar-default .navbar-brand { color: inherit; background-color: transparent; padding: 0px; margin-left: 0px; }
+/*nav.navbar.navbar-default .navbar-brand:hover { color: #333; }*/
+nav.navbar.navbar-default .navbar-brand .navbar-icon { display: inline-block; }
+nav.navbar.navbar-default .navbar-brand .navbar-icon img { height: 48px; margin: 1px; }
+nav.navbar.navbar-default .navbar-brand .brand_text {
+  display: inline-block; line-height: 20px; padding: 15px 10px; }

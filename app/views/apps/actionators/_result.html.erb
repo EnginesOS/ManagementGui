@@ -1,0 +1,14 @@
+<%= modal header: {text: "#{@actionator.to_label} for #{@actionator.app.name}", icon: 'fa-crosshairs'}, footer_close: true do %>
+  <%= up_to_app_actions_link(@app) %>
+  <p><%= @actionator.actionator_params[:description] %></p>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <% case @actionator.return_type.to_sym
+         when :markdown %>
+        <%= markdown_text @actionator.api_post_result %>
+      <% when :plain_text %>
+        <% @actionator.api_post_result.split('\n').map do |line| %><%= line %><br><% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

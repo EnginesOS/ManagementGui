@@ -1,0 +1,15 @@
+<%= form_for @cloud, url: cloud_properties_path(cloud_id: @cloud.id) do |f| %>
+<%= f.engines_legend 'Cloud' %>
+<%= f.engines_field :label, horizontal: true %>
+<%= f.engines_field :icon, horizontal: true %>
+<%= f.engines_legend 'Admin' %>
+<%= f.engines_field :admin_banner, label: 'Banner' %>
+<%= f.engines_legend 'Colors' %>
+<%= f.engines_field :text_color, as: :color, label: 'Text', left: 2, width: 2, right: 0 %>
+<%= f.engines_field :background_color, as: :color, label: 'Background', left: 0, width: 2, right: 0 %>
+<%= f.engines_legend 'Portal' %>
+<%= f.engines_field :portal_center_align, checkbox_text: 'Center align', label: false %>
+<%= f.engines_field :portal_header %>
+<%= f.engines_field :portal_footer %>
+<%= f.engines_cancel_submit url: cloud_menu_path(cloud_id: @cloud.id), remote: true %>
+<% end %>

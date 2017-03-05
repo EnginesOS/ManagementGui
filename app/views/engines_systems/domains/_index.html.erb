@@ -1,0 +1,6 @@
+<%= modal header: {text: "Domains for #{@engines_system.label}", icon: 'fa-globe'}, footer_close: true do %>
+  <%= up_to_system_control_panel_link(@engines_system) %>
+  <%= new_system_domain_link(@engines_system) %>
+  <%= system_default_domain_link(@engines_system) %>
+  <%= render partial: 'engines_systems/domains/domain', collection: @engines_system.domains %>
+<% end %>

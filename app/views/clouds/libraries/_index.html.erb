@@ -1,0 +1,5 @@
+<%= modal header: {text: 'Libraries', icon: 'fa-plus-square'}, footer_close: true do %>
+  <%= up_to_cloud_menu_link(@cloud) %>
+  <%= new_cloud_library_link(@cloud) %>
+  <%= render partial: 'library', collection: @cloud.libraries %>
+<% end %>

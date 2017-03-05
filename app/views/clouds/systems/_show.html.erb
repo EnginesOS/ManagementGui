@@ -1,0 +1,40 @@
+<% begin %>
+  <%= content_tag :div, class: "pull-right engines_system_status" do %>
+    <%= icon_text('fa-warning', @engines_system.needs.join(' - ') ) if @engines_system.needs.present? %>
+  <% end %>
+  <%= system_menu_link(@engines_system, connected: true) %>
+<%#= system_reload_link(@engines_system) %>
+  <%= content_tag :div, class: 'engines_containers apps' do %>
+    <%= render @engines_system.installed_apps %>
+  <% end %>
+  <% if @engines_system.cloud.show_services %>
+    <%= content_tag :div, class: 'engines_containers services' do %>
+      <%= render @engines_system.installed_services %>
+    <% end %>
+  <% end %>
+
+
+
+ <% # = Service.all.map do |s| "#{s.name} - #{s.environment_variables}" end.join("<br>".html_safe) %>
+
+
+
+<% rescue EnginesSystemApiConnectionAuthenticationError => e %>
+  <%= system_connection_menu_link(@engines_system, connected: false) %>
+  <%= flash_message :alert, "#{e.to_s} Please click on 'Authenticate connection' and enter the admin password." %>
+  <%= system_sign_in_link(@engines_system) %>
+<% rescue EnginesSystemApiConnectionResetError,
+          EnginesSystemApiConnectionRefusedError,
+          EnginesSystemApiConnectionInvalidUrlError,
+          EnginesSystemApiConnectionSslInvalid,
+          EnginesSystemApiConnectionTimeoutError => e %>
+  <%= system_connection_menu_link(@engines_system, connected: false) %>
+  <%= flash_message :alert, "#{e.to_s} The system URL has been entered as '#{@engines_system.url}'. If this is incorrect, click on the system button (with the red icon above and to the left) to edit the connection." %>
+  <%= system_reload_link(@engines_system) %>
+<% rescue EnginesSystemError => e %>
+  <%= system_menu_link(@engines_system, connected: false) %>
+  <%= content_tag :div, id: "engines_system_#{ @engines_system.id }_flash_messages" do %>
+    <%= flash_message :alert, e.to_s %>
+  <% end %>
+  <%= system_reload_link(@engines_system) %>
+<% end %>

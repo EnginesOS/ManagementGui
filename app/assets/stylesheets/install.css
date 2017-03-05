@@ -1,0 +1,46 @@
+.install_libarary_app img {
+  max-height: 96px;
+  max-width: 96px;
+}
+
+.install_libarary_app .icon {
+  display: inline-block;
+  height: 96px;
+  width: 96px;
+  vertical-align: middle;
+  line-height: 96px;
+}
+
+#install_libarary_apps .list li {
+  display: inline-block;
+}
+
+#install_libarary_apps .search { width: 200px; display: inline-block; }
+
+.install_libarary_app {
+  width: 150px;
+  height: 170px;
+  padding-top: 20px;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  word-wrap: break-word;
+  line-height: inherit;
+  overflow: hidden;
+  /*color: #333;*/
+}
+
+
+.install_libarary_app_link button {
+  background-color: transparent;
+  border: none;
+  display: inline-block;
+}
+.install_libarary_app_link:hover .install_libarary_app .install_libarary_app_label {
+  text-decoration: none; color: #333;
+}
+.install_libarary_app_link:active .install_libarary_app {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.install_license_link { color: #48d; }

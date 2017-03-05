@@ -1,0 +1,10 @@
+<hr>
+<%= content_tag :div, class: 'dl-horizontal' do %>
+  <%= data_list_text 'Domain', domain[:domain_name] %>
+  <% unless domain[:domain_name] == 'local' %>
+    <%= data_list_text 'Internal only', boolean_text(domain[:internal_only]) %>
+    <%= data_list_text 'Self hosted', boolean_text(domain[:self_hosted]) %>
+  <% end %>
+<% end %>
+<%= delete_system_domain_link @engines_system, domain %>
+<%= edit_system_domain_link @engines_system, domain %>

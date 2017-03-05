@@ -1,0 +1,16 @@
+<%= content_tag :div, class: 'page_view' do %>
+  <%= content_tag :div, class: 'row' do %>
+    <%= content_tag :div, class: 'col-sm-12' do %>
+      <%= content_tag :div, class: 'modal-content' do %>
+        <%= content_tag :div, class: 'modal-header' do %>
+          <%= icon_text 'fa-list-ol', "#{@app.name} installation report" %>
+        <% end %>
+        <%= content_tag :div, class: 'modal-body' do %>
+          <div id="installation_report_content">
+            <%= markdown_text @app.core_app.build_report %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

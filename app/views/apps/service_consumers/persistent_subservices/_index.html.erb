@@ -1,0 +1,12 @@
+<%= modal header: {text: "Subservices on #{@persistent_service_consumer.label} for #{@app.name}", icon: 'fa-compass'},
+    footer_close: true do %>
+  <%= up_to_app_service_consumer_persistent_link(@persistent_service_consumer) %>
+  <%= resource_link :new_app_service_consumer_persistent_subservice, params: {
+        app_id: @app.id,
+        publisher_type_path: @persistent_service_consumer.publisher_type_path,
+        service_handle: @persistent_service_consumer.service_handle },
+      text: 'New', icon: 'fa-plus-square-o',
+      title: "New subservice on #{@persistent_service_consumer.label} for #{@app.name}" %>
+  <hr>
+  <p>Need API route to get list of subservice consumers on <%= "#{@persistent_service_consumer.label} for #{@app.name}" %>.</p>
+<% end %>

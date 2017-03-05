@@ -1,0 +1,8 @@
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.hidden_field :reset_password_token %>
+  <%= f.field :password, as: :password_with_confirmation, label: 'New password', hint:
+    ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+     autocomplete: "off" %>
+  <%= f.cancel_submit %>
+<% end %>

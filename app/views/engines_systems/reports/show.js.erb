@@ -1,0 +1,4 @@
+$(".modal").modal('hide');
+$("body").append("<%= j render('show') %>");
+$("#system_report_modal").modal("show");
+$("#system_report_modal").on("hidden.bs.modal", function(){$(this).remove();});

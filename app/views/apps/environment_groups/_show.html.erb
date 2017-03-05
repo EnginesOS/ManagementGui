@@ -1,0 +1,36 @@
+<%= modal header: {text: "#{@environment_group.to_label}", icon: 'fa-question-circle-o'}, footer_close: true do %>
+
+  <%= up_to_app_environment_link(@app) %>
+
+  <%= content_tag :div, class: 'dl-horizontal' do %>
+    <p><strong>Immutable</strong></p>
+    <% if @environment_group.grouped_field_params_with_values[:immutable].empty? %>
+      <p><i>None</i></p>
+    <% else %>
+      <% @environment_group.grouped_field_params_with_values[:immutable].each do |variable_param| %>
+        <%= data_list_text ( variable_param[:label] ||
+              variable_param[:name].to_s.humanize ),
+              variable_param[:value] %>
+      <% end %>
+    <% end %>
+    <hr>
+    <p><strong>Mutable</strong></p>
+    <% if @environment_group.grouped_field_params_with_values[:mutable].empty? %>
+      <p><i>None</i></p>
+    <% else %>
+      <% @environment_group.grouped_field_params_with_values[:mutable].each do |variable_param| %>
+        <%= data_list_text ( variable_param[:label] ||
+              variable_param[:name].to_s.humanize ),
+            variable_param[:value] %>
+      <% end %>
+      <div class="clearfix">
+        <div class="pull_right_wide_media">
+          <%= edit_resource_link :app_environment_group, params: { app_id: @app.id, owner_type: @environment_group.owner_type, owner_path: @environment_group.owner_path },
+            text: 'Edit' %>
+        </div>
+      </div>
+
+    <% end %>
+  <% end %>
+
+<% end %>

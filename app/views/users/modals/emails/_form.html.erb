@@ -1,0 +1,5 @@
+<%= form_for @user, url: user_modals_email_path do |f| %>
+  <%= f.engines_field :current_password, as: :password, autocomplete: :off, label: 'Password', title: 'Current admin password' %>
+  <%= f.engines_field :email, as: :email, autocomplete: :off %>
+  <%= f.engines_cancel_submit url: user_modals_menu_path, remote: true %>
+<% end %>

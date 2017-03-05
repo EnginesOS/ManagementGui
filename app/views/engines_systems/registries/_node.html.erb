@@ -1,0 +1,14 @@
+<div class="btn btn-default toggle_node">
+	<%= content_tag(:i, nil, class: 'fa fa-caret-right') + ' ' %>
+	<%= node[:name] %>
+</div>
+<ul>
+	<li style='display: none;'>
+    <div>
+      <%= pretty_print node[:content] %>
+    </div>
+  </li>
+	<% node[:children].each do |child_node| %>
+		<li style='display: none;'><%= render 'node', node: child_node %></li>
+	<% end %>
+</ul>

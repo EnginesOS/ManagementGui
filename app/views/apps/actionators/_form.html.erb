@@ -1,0 +1,7 @@
+<%= form_for @actionator, url: app_actionator_path(app_id: @app.id), method: :post do |f| %>
+  <%= f.hidden_field :actionator_name %>
+  <%= f.fields_for :fields do |ff| %>
+    <%= ff.engines_field_builder %>
+  <% end %>
+  <%= f.engines_cancel_submit url: app_actions_path(app_id: @app.id), remote: true %>
+<% end %>

@@ -1,0 +1,4 @@
+$(".modal").modal('hide');
+$("body").append("<%= j render('show', service: @service ) %>");
+$("#service_<%= @service.name %>_menu_modal").modal("show");
+$("#service_<%= @service.name %>_menu_modal").on("hidden.bs.modal", function(){$(this).remove();});

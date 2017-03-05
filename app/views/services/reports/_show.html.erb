@@ -1,0 +1,93 @@
+<% service_container = @service.container %>
+
+<% begin %>
+  <% container_processes = @service.core_service.container_processes %>
+<% rescue EnginesSystemApiResourceNotFoundError %>
+  <% container_processes = nil %>
+<% end %>
+
+<% begin %>
+  <% container_logs = @service.core_service.logs %>
+<% rescue EnginesSystemApiResourceNotFoundError %>
+  <% container_logs = nil %>
+<% end %>
+
+<%= modal footer_close: true, large: true, header: @service.name do %>
+  <%= up_to_service_control_panel_link(@service) %>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#report_summary" data-toggle="tab">Summary</a></li>
+    <li><a href="#report_detail" data-toggle="tab">Detail</a></li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="report_summary">
+      <%= content_tag :div, class: 'dl-horizontal' do %>
+        <%= data_list_text 'Name', @service.name %>
+        <%= data_list_text 'State', @service.core_service.state %>
+        <%= data_list_text 'Memory', "#{service_container[:memory]} MB" %>
+      <% end %>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="report_detail">
+      <%= content_tag :div, class: 'dl-horizontal' do %>
+        <%= report_collapse_data 'Configurations', @service.core_service.configurations %>
+        <%= report_collapse_data 'Container', service_container %>
+        <%= report_collapse_data 'Service definition', @service.service_definition %>
+        <%= report_collapse_data 'Logs', container_logs ? container_logs : 'No container.' %>
+        <%= report_collapse_data 'Processes', container_processes %>
+        <%= report_collapse_data 'Status', @service.core_service.status %>
+        <%= report_collapse_data 'Websites', @service.core_service.websites %>
+      <% end %>
+    </div>
+  </div>
+
+
+<% end %>
+
+
+<% if false %>
+<%= data_list_text 'Name', @service.name %>
+
+<%= data_list_text 'Memory', "#{@service.core_service.memory} MB" %>
+<%= data_list_text 'Stats', report_stats(@service.core_service.stats) %>
+<hr>
+<%= report_network_metrics @service.core_service.network_metrics %>
+<hr>
+<%= report_memory_statistics @service.core_service.memory_statistics %>
+<hr>
+<%= data_list_text 'HTTP protocol', @service.core_service.http_protocol %>
+<%= data_list_text 'Host name', @service.core_service.host_name %>
+<%= data_list_text 'Domain name', @service.core_service.domain_name %>
+<%= data_list_text 'Port', @service.core_service.port %>
+<%= data_list_array 'External ports', @service.core_service.external_ports %>
+<hr>
+<%= data_list_text 'State', @service.core_service.state %>
+<%= data_list_text 'Default', @service.core_service.default_startup_state %>
+<hr>
+<%= data_list_text 'Active?', @service.core_service.active? %>
+<%= data_list_text 'Running?', @service.core_service.is_running? %>
+<%= data_list_text 'Reinstall required?', @service.core_service.reinstall_required? %>
+<%= data_list_text 'Restart required?', @service.core_service.restart_required? %>
+<%= data_list_text 'Is error?', @service.core_service.is_error? %>
+<%= data_list_text 'Has container?', @service.core_service.has_container? %>
+<hr>
+<%= data_list_text 'Deployment type', @service.core_service.deployment_type %>
+<%= data_list_text 'Container type', @service.core_service.container_type %>
+<hr>
+<%= data_list_text 'Framework', @service.core_service.framework %>
+<%= data_list_text 'Runtime', @service.core_service.runtime %>
+<%= data_list_text 'Repository', @service.core_service.repository %>
+<hr>
+<%= report_ps_container_table @service.core_service.ps_container %>
+<hr>
+<%= report_collapse_data 'Last error', @service.core_service.last_error %>
+<%= report_collapse_data 'Last result', @service.core_service.last_result %>
+<%= report_collapse_data 'Container log', @service.core_service.logs_container %>
+<%= report_collapse_data 'Environment variables', @service.core_service.environments.map(&:inspect) %>
+<%= report_collapse_data 'Volumes', @service.core_service.volumes_hash %>
+<%= report_collapse_data 'Blueprint', @service.core_service.blueprint %>
+<%= report_collapse_data 'Installation report', @service.core_service.installation_report %>
+<%= report_collapse_data 'Service connections', @service.core_service.attached_services %>
+<%= report_collapse_data 'Available services', @service.core_service.available_services %>
+
+<% end %>

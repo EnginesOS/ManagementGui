@@ -1,0 +1,6 @@
+<%= modal header: {text: "Uninstall #{@app.name}", icon: 'fa-minus-square'} do %>
+  <%= form_for @uninstall, remote: true, url: app_uninstall_path(app_id: @app.id) do |f| %>
+  <%= f.engines_field :remove_data, as: :boolean, horizontal: true, label: false, checkbox_text: 'Delete app data' %>
+  <%= f.engines_cancel_submit url: app_control_panel_path(app_id: @app.id), remote: true %>
+  <% end %>
+<% end %>

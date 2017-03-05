@@ -1,0 +1,12 @@
+<%= form_for @network, url: app_network_path(app_id: @app.id),
+    method: :patch do |f| %>
+  <%= f.engines_field :host_name, as: :string, left: 2,width: 4, right: 6 %>
+  <%= f.engines_field :domain_name, as: :select,
+      collection: @network.app.engines_system.domains.
+        map{|domain| [domain[:domain_name]]}, left: 2, width: 8, right: 2 %>
+  <%= f.engines_field :http_protocol, as: :radios, left: 2, width: 10,
+      collection: @network.protocol_select_collection %>
+  <%= f.engines_field :current_fqdn, as: :hidden %>
+  <%= f.engines_cancel_submit remote: true,
+      url: app_control_panel_path(app_id: @app.id)  %>
+<% end %>

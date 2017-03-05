@@ -1,0 +1,71 @@
+<%= modal footer_close: true, header: 'App', id: "container_#{ @app.name }_menu_modal" do %>
+  <%= content_tag :div, class: 'container_menu_header clearfix' do %>
+    <%= content_tag :div, class: 'container_menu_header_icon' do %>
+      <% unless @app.icon.blank? || @app.icon.dirty? %>
+        <%= image_tag @app.icon.url(:small), alt: '' %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'container_menu_header_names' do %>
+      <%= content_tag :div, class: 'container_menu_header_label' do %>
+        <%= @app.name %>
+      <% end %>
+      <%= content_tag :div, class: 'container_menu_header_label_subtext' do %>
+        <%= @app.label %>
+      <% end %>
+      <%= content_tag :div, class: 'container_menu_header_label_subtext' do %>
+        <%= @app.title %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'container_menu_header_detail pull_right_wide_media' do %>
+      <%= content_tag :div, @app.worker ? icon_text('fa-cog', 'Worker') : icon_text('fa-globe', 'Web application') %>
+      <%= content_tag :div do %>
+        <% if @app.show_on_portal %>
+          <% if @app.worker && @app.portal_worker_message.present? %>
+            <%= content_tag :span, icon_text('fa-square-o', 'Show on cloud portal with message') %>
+          <% elsif !@app.worker && @app.portal_link.present? %>
+            <%= content_tag :span, icon_text('fa-external-link', 'Show on cloud portal with link') %>
+          <% else %>
+            <%= content_tag :span, icon_text('fa-square', 'Show on cloud portal as inactive') %>
+          <% end %>
+        <% else %>
+          <%= icon_text('fa-times', 'Do not show on cloud portal') %>
+        <%end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= content_tag :div, class: 'clearfix' do %>
+    <%= edit_resource_link :app_properties, params: {app_id: @app.id}, text: 'Edit', icon: 'fa-edit', title: "Edit #{@app.name} properties", class: 'pull_right_wide_media' %>
+  <% end %>
+  <hr>
+  <% app_state = @app.core_app.state %>
+  <%= content_tag :span, class: "container_state_indicators #{@app.name}_container_state" do %>
+    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused ].each do |state| %>
+      <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if app_state.to_s != state.to_s) do %>
+        <%= content_tag :div, class: "container_state_indicator_area" do %>
+          <%= content_tag :div, class: "container_state_indicator_icon" do %>
+            <%= state_indicator_for state %>
+          <% end %>
+          <%= content_tag :div, class: "container_state_indicator_text" do %>
+            <%= state_text_for state %>
+          <% end %>
+        <% end %>
+        <%= content_tag(:div) do %>
+          <%= app_instruction_link(@app, :start, icon: 'fa-play') if [ :stopped ].include?(state) %>
+          <%= app_instruction_link(@app, :stop, icon: 'fa-stop') if [ :running ].include?(state) %>
+          <%= app_instruction_link(@app, :pause, icon: 'fa-pause') if [ :running ].include?(state) %>
+          <%= app_instruction_link(@app, :unpause, icon: 'fa-pause-circle') if [ :paused ].include?(state) %>
+          <%= app_instruction_link(@app, :restart, icon: 'fa-repeat') if [ :running ].include?(state) %>
+          <%= app_instruction_link(@app, :create, icon: 'fa-wrench') if [ :nocontainer ].include?(state) %>
+          <%= app_instruction_link(@app, :recreate, icon: 'fa-refresh') if [ :nocontainer, :stopped ].include?(state) %>
+          <%= app_instruction_link(@app, :destroy, icon: 'fa-bomb') if [ :stopped ].include?(state) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if @app.websites.present? %>
+    <hr>
+    <%= app_website_links @app %>
+  <% end %>
+  <hr>
+  <%= resource_link :app_control_panel, params: {app_id: @app.id}, text: 'Control panel', icon: 'fa-cogs', title: "Control panel for #{@app.name}" %>
+<% end %>
