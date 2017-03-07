@@ -10,27 +10,25 @@ class EnginesSystem
         colors = [
           '#F0AD4E',  # orange
           '#3071A9',  # blue
-          '#44AA44',  # green
+          '#89bf06',  # green
           '#8A6EAF',  # purple
           '#EFDA43',  # yellow
           '#EE3434',  # red
-          '#999999',   #grey
+          '#999999',  # grey
           "#A630AC", "#3650A0", "#9F1D6D", "#80C837", "#1C167A", "#A012AA",
           "#DSES9F6E", "#C11C17", "#60B6CA", "#3EE61A", "#DE5003", "#4CA82B",
           "#EFCE10", "#E27A1D", "#7F91C3", "#434187", "#228B22", "#502E72", #loads of other colors for the skinny slices
           "#575597", "#3B256D", "#A63570", "#E6AA19", "#A670B8", "#93BDE7",
           "#6F6DA7", "#A6358C", "#A2395B"
         ]
-        if number_of_colors <= 34
+        if number_of_colors <= colors.count
           colors.first(number_of_colors)
         else
-          ( number_of_colors - 34 ).times do
+          ( number_of_colors - colors.count ).times do
             colors << "#%06x" % (rand * 0xffffff)
           end
           colors
         end
-        # byebug
-        # colors
       end
 
       def app_count
@@ -101,33 +99,6 @@ class EnginesSystem
 
       def apps_memory_ranges
         @apps_memory_ranges ||= calculate_memory_ranges_for(:applications)
-#         {
-#     labels: ["January", "February", "March", "April", "May", "June", "July"],
-#     datasets: [
-#         {
-#             label: "My First dataset",
-#             fill: false,
-#             lineTension: 0.1,
-#             backgroundColor: "rgba(75,192,192,0.4)",
-#             borderColor: "rgba(75,192,192,1)",
-#             borderCapStyle: 'butt',
-#             borderDash: [],
-#             borderDashOffset: 0.0,
-#             borderJoinStyle: 'miter',
-#             pointBorderColor: "rgba(75,192,192,1)",
-#             pointBackgroundColor: "#fff",
-#             pointBorderWidth: 1,
-#             pointHoverRadius: 5,
-#             pointHoverBackgroundColor: "rgba(75,192,192,1)",
-#             pointHoverBorderColor: "rgba(220,220,220,1)",
-#             pointHoverBorderWidth: 2,
-#             pointRadius: 1,
-#             pointHitRadius: 10,
-#             data: [65, 59, 80, 81, 56, 55, 40],
-#             spanGaps: false,
-#         }
-#     ]
-# }
       end
 
       def services_memory_ranges
@@ -155,7 +126,7 @@ class EnginesSystem
           datasets:
             [ {label: 'Current', data: currents, backgroundColor: '#3071A9' },
               {label: 'Peak', data: peaks, backgroundColor: '#F0AD4E' },
-              {label: 'Allocated', data: allocations, backgroundColor: '#44AA44' } ]
+              {label: 'Allocated', data: allocations, backgroundColor: '#89bf06' } ]
         }
       end
 
@@ -198,10 +169,9 @@ class EnginesSystem
           datasets:
             [ {label: 'Current', data: currents, backgroundColor: '#3071A9' },
               {label: 'Peak', data: peaks, backgroundColor: '#F0AD4E' },
-              {label: 'Allocated', data: allocations, backgroundColor: '#44AA44' } ]
+              {label: 'Allocated', data: allocations, backgroundColor: '#89bf06' } ]
         }
       end
-
 
       def system_memory
         @system_memory ||= calculate_system_memory
@@ -226,34 +196,7 @@ class EnginesSystem
       end
 
       def cpu_load
-
-  # p :cpu_statistics
-  # p cpu_statistics
-  # p :cpu_statistics
-
-
-        # @cpu_load ||= []
-
-
-        # { labels: labels, datasets: [ { data: data, backgroundColor: colors(data.length) }] }
-
-
-        # (
-        #   cpus_lookup = {}
-        #   cpu_statistics.cpus.each do |cpu|
-        #     cpus_lookup[cpu.num] =
-        #       { user: cpu.user,
-        #         system: cpu.system,
-        #         nice: cpu.nice,
-        #         idle: cpu.idle }
-        #   end
-        #   [
-        #     { name: 'User', data: cpus_lookup.map{|num, cpu| ["CPU #{num}", cpu[:user] ] } },
-        #     { name: 'System', data: cpus_lookup.map{|num, cpu| ["CPU #{num}", cpu[:system] ] } },
-        #     { name: 'Nice', data: cpus_lookup.map{|num, cpu| ["CPU #{num}", cpu[:nice] ] } },
-        #     { name: 'Idle', data: cpus_lookup.map{|num, cpu| ["CPU #{num}", cpu[:idle] ] } },
-        #   ] )
-        {}
+        {} # TODO
       end
 
       def cpu_queue
@@ -262,7 +205,7 @@ class EnginesSystem
                       "Five mins #{cpu_statistics[:five]}",
                       "Fifteen mins #{cpu_statistics[:fifteen]}" ],
             datasets:
-              [ { data: [ cpu_statistics[:one], cpu_statistics[:five], cpu_statistics[:fifteen] ], backgroundColor: [ '#3071A9', '#F0AD4E', '#44AA44' ] } ]
+              [ { data: [ cpu_statistics[:one], cpu_statistics[:five], cpu_statistics[:fifteen] ], backgroundColor: [ '#3071A9', '#F0AD4E', '#89bf06' ] } ]
           }
       end
 

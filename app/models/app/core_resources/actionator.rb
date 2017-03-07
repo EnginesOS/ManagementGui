@@ -17,7 +17,7 @@ class App
       end
 
       def field_params
-        ( actionator_params[:params] || {} ).values
+        actionator_params[:variables] || []
       end
 
       def field_params_with_values

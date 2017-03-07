@@ -119,7 +119,7 @@ Rails.application.routes.draw do
     resource :environment_group, only: [:show, :edit, :update]
     resource :reinstall, only: [:show]
     resource :uninstall, only: [:new, :create]
-    resource :first_run, only: [:show]
+    # resource :first_run, only: [:show]
     resource :installation_report, only: [:show]
     resource :installation_report_popup, only: [:show]
     resource :actions, only: [:show]
