@@ -11,11 +11,8 @@
                   parent_publisher_type_path: service.parent_publisher_type_path,
                   publisher_type_path: service.publisher_type_path },
         text: service.label %>
-        <%= pretty_print ({ app_id: service.app.id,
-                  parent_service_handle: service.parent_service_handle,
-                  parent_publisher_type_path: service.parent_publisher_type_path,
-                  publisher_type_path: service.publisher_type_path }) %>
+        
   <% end %>
 <% end %>
 
-<%= pretty_print @persistent_service_consumer.available_subservices %>
+<% # = pretty_print @persistent_service_consumer.available_subservices %>

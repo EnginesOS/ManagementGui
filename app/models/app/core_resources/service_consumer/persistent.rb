@@ -51,6 +51,10 @@ class App
           end
         end
 
+        def subservice_consumers
+          @subservice_consumers = []
+        end
+
 
 
       end

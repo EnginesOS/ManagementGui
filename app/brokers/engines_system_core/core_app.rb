@@ -136,7 +136,7 @@ module EnginesSystemCore
     def create_non_persistent_service_consumer_subservice_consumer(params)
       publisher_namespace = params[:publisher_type_path].split('/')[0]
       type_path = params[:publisher_type_path].split('/')[1..-1].join('/')
-      post "containers/service/#{params[:service_name]}/sub_services/#{name}/#{params[:parent_service_handle]}/:sub_handle",
+      post "containers/service/#{params[:service_name]}/sub_services/#{name}/#{params[:parent_service_handle]}",
         { publisher_namespace: publisher_namespace,
           type_path: type_path,
           variables: params[:variables] }, parse: :boolean
