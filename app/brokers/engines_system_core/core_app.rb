@@ -128,11 +128,35 @@ module EnginesSystemCore
       get "service_manager/available_services/managed_engine/#{name}", parse: :json
     end
 
+    def available_subservices_for(publisher_type_path)
+      type_path = publisher_type_path.split('/')[1..-1].join('/')
+      get "service_manager/available_services/type/#{type_path}", parse: :json
+    end
+
+    def create_non_persistent_service_consumer_subservice_consumer(params)
+      publisher_namespace = params[:publisher_type_path].split('/')[0]
+      type_path = params[:publisher_type_path].split('/')[1..-1].join('/')
+      post "containers/service/#{params[:service_name]}/sub_services/#{name}/#{params[:parent_service_handle]}/:sub_handle",
+        { publisher_namespace: publisher_namespace,
+          type_path: type_path,
+          variables: params[:variables] }, parse: :boolean
+      #
+      # create_non_persistent_service_consumer_subservice_consumer(
+      #   service_name: parent_service_definition[:service_container],
+      #   parent_service_handle: parent_service_handle,
+      #   publisher_type_path: publisher_type_path,
+      #   variables: variable_values )
+      #
+      #
+      # post /v0/containers/service/:service_name/sub_services/:engine_name/:service_handle/:sub_handle
+      #  params = [ :service_handle :publisher_namespace :type_path :variables => { }] These are of the service being attached
+      #
+      #
+    end
+
+
     def update_persistent_service_consumer(params)
       post "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}", { variables: params[:variables] }, parse: :boolean
-    # rescue
-    #   return [true,false].sample if Rails.env.development?
-    #   raise
     end
 
     def update_non_persistent_service_consumer(params)

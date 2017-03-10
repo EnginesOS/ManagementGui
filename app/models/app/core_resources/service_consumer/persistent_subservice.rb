@@ -1,7 +1,7 @@
 class App
   module CoreResources
     module ServiceConsumer
-      class NonPersistent < Base
+      class PersistentSubservice < Base
 
         def label
           @label ||= "#{service_definition[:title]} (#{service_definition[:service_container]} #{service_handle})"
@@ -46,10 +46,6 @@ class App
             field[:value] = field_values[field[:name].to_sym]
             field
           end
-        end
-
-        def app_services
-          app.core_app.non_persistent_services_for_publisher_type_path( publisher_type_path )
         end
 
       end

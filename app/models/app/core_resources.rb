@@ -49,6 +49,22 @@ class App
       build_core_resource ServiceConsumer::PersistentImport, params
     end
 
+    def build_persistent_service_consumer_subservice_consumer(params = {})
+      build_core_resource ServiceConsumer::PersistentSubservice, params
+    end
+
+    def build_persistent_service_consumer_subservice_consumer_constructor(params = {})
+      build_core_resource ServiceConsumer::PersistentSubserviceConstructor, params
+    end
+
+    def build_persistent_service_consumer_subservice_consumer_remove(params = {})
+      build_core_resource ServiceConsumer::PersistentSubserviceRemove, params
+    end
+
+    def build_persistent_service_consumer_subservice_consumer_registration(params = {})
+      build_core_resource ServiceConsumer::PersistentSubserviceRegistration, params
+    end
+
     def build_memory(params = {})
       build_core_resource Memory, params
     end

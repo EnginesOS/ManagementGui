@@ -24,7 +24,7 @@
       <%= content_tag :div, class: 'dl-horizontal' do %>
         <%= data_list_text 'Name', @app.name %>
         <%= data_list_text 'State', @app.core_app.state %>
-        <%= data_list_text 'Set state', app_container[:set_state] %>
+        <%= data_list_text 'Set state', app_container[:status][:set_state] %>
         <hr>
         <%= data_list_text 'Memory', "#{app_container[:memory]} MB" %>
         <hr>

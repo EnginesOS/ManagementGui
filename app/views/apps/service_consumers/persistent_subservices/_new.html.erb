@@ -1,6 +1,21 @@
-<%= modal header: {text: "New Subservice on #{@persistent_service_consumer.label} for #{@app.name}", icon: 'fa-compass'},
+<%= modal header: {text: "New subservice on #{@persistent_service_consumer.label} for #{@app.name}", icon: 'fa-compass'},
     footer_close: true do %>
-  <%= up_to_app_service_consumer_persistent_subservices_link(@persistent_service_consumer) %>
-  <hr>
-  <p>Need API route to get list of available subservices on <%= "#{@persistent_service_consumer.label} for #{@app.name}" %>.</p>
+  <%= up_to_app_service_consumer_persistent_link(@persistent_service_consumer) %>
+
+  <%= 'None' if @persistent_service_consumer.subservice_consumer_constructors.empty? %>
+  <% @persistent_service_consumer.subservice_consumer_constructors.map do |service| %>
+    <%= resource_link :new_app_service_consumer_persistent_subservice_create,
+        title: "New #{service.label} on #{@persistent_service_consumer.label} for #{@app.name}",
+        params: { app_id: service.app.id,
+                  parent_service_handle: service.parent_service_handle,
+                  parent_publisher_type_path: service.parent_publisher_type_path,
+                  publisher_type_path: service.publisher_type_path },
+        text: service.label %>
+        <%= pretty_print ({ app_id: service.app.id,
+                  parent_service_handle: service.parent_service_handle,
+                  parent_publisher_type_path: service.parent_publisher_type_path,
+                  publisher_type_path: service.publisher_type_path }) %>
+  <% end %>
 <% end %>
+
+<%= pretty_print @persistent_service_consumer.available_subservices %>
