@@ -3,7 +3,10 @@ source 'https://rubygems.org'
 group :development do
   # gem 'rack-mini-profiler'
   gem 'rubocop', require: false
+  gem 'rails_real_favicon'
 end
+
+
 
 gem "oink"
 

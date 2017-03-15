@@ -4,21 +4,21 @@ module EnginesSystemCore
 
       def service_definition_for(type_path)
         publisher_namespace, base_type_path = type_path.split('/', 2)
-        get "service_manager/service_definitions/#{publisher_namespace}/#{base_type_path}", parse: :json
+        get "service_manager/service_definitions/#{publisher_namespace}/#{base_type_path}", {}, parse: :json
       end
 
       def persistent_service_connections_for(type_path)
         publisher_namespace, base_type_path = type_path.split('/', 2)
-        get "service_manager/persistent_services/#{publisher_namespace}/#{base_type_path}", parse: :json
+        get "service_manager/persistent_services/#{publisher_namespace}/#{base_type_path}", {}, parse: :json
       end
 
       def orphan_service_connections_for(type_path)
         publisher_namespace, base_type_path = type_path.split('/', 2)
-        get "service_manager/orphan_services/#{publisher_namespace}/#{base_type_path}", parse: :json
+        get "service_manager/orphan_services/#{publisher_namespace}/#{base_type_path}", {}, parse: :json
       end
 
       def orphan_service_consumers
-        get 'service_manager/orphan_services/', parse: :json
+        get 'service_manager/orphan_services/', {}, parse: :json
       end
 
       def delete_orphan_service_consumer(params)

@@ -3,7 +3,7 @@ module EnginesSystemCore
     module DefaultSites
 
       def default_site
-        get 'system/config/default_site', parse: :string
+        get 'system/config/default_site', {}, parse: :string
       end
 
       # params: :default_site

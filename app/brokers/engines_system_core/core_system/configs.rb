@@ -3,7 +3,7 @@ module EnginesSystemCore
     module Configs
 
       def remote_exception_logging?
-        get 'system/config/remote_exception_logging', parse: :boolean
+        get 'system/config/remote_exception_logging', {}, parse: :boolean
       end
 
       def enable_remote_exception_logging

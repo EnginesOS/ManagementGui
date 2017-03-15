@@ -3,11 +3,11 @@ module EnginesSystemCore
     module DomainNames
 
       def list_domains
-        get 'system/domains/', parse: :json
+        get 'system/domains/', {}, parse: :json
       end
 
       def default_domain
-        get 'system/config/default_domain', parse: :string
+        get 'system/config/default_domain', {}, parse: :string
       end
 
       # params: :default_domain
@@ -16,7 +16,7 @@ module EnginesSystemCore
       end
 
       def load_domain(params)
-        get "system/domains/#{params[:domain_name]}", parse: :json
+        get "system/domains/#{params[:domain_name]}", {}, parse: :json
       end
 
       def update_domain(params)

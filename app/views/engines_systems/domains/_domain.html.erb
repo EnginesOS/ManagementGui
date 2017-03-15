@@ -1,5 +1,8 @@
 <hr>
 <%= content_tag :div, class: 'dl-horizontal' do %>
+  <% if @engines_system.default_domain == domain[:domain_name] %>
+    <div class='btn-lg btn_resource pull-right'><%= icon 'fa-star-o' %></div>
+  <% end %>
   <%= data_list_text 'Domain', domain[:domain_name] %>
   <% unless domain[:domain_name] == 'local' %>
     <%= data_list_text 'Internal only', boolean_text(domain[:internal_only]) %>
@@ -7,4 +10,6 @@
   <% end %>
 <% end %>
 <%= delete_system_domain_link @engines_system, domain %>
-<%= edit_system_domain_link @engines_system, domain %>
+<% unless domain[:domain_name] == 'local' %>
+  <%= edit_system_domain_link @engines_system, domain %>
+<% end %>

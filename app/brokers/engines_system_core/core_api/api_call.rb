@@ -62,7 +62,7 @@ module EnginesSystemCore
         raise
       end
 
-      def get(command, opts={})
+      def get(command, params={}, opts={})
         parse api_call( :get, command ), opts
       end
 
@@ -76,24 +76,21 @@ module EnginesSystemCore
       end
 
       def parse(api_call_result, opts={})
+        byebug unless api_call_result.net_http_res.content_type == "application/json" || api_call_result.net_http_res.content_type == "text/plain"
         result = api_call_result.body.to_s
         Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
-        case opts[:parse]
-        when :json
+        if api_call_result.net_http_res.content_type == "application/json" && opts[:parse] == :json
           JSON.parse result, symbolize_names: true
-        when :string
+        elsif "text/plain" && opts[:parse] == :string
           if result[0] == '"' && result[-1] == '"'
             result[1..-2] # remove leading and trailing quotation marks
           else
             result
           end
-        when :boolean
+        elsif "text/plain" && opts[:parse] == :boolean
           result == 'true'
         else
-          p :api_call_result_unparsed
-          p result
-          p result.class
-          result
+          raise 'Invalid content type.'
         end
       rescue => error
         Rails.logger.warn "Engines System API result parse #{opts[:parse]} failed: #{error}"

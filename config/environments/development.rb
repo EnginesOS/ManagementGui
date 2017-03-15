@@ -4,7 +4,7 @@ Rails.application.configure do
   config.bug_reports_server = 'http://localhost:3999'
   config.local_mgmt_url = 'http://127.0.0.1:2380'
 
-  config.run_event_stream = true #false # when true: js event streaming is enabled; files are eager loaded and cached (so need to restart server after code changes).
+  config.run_event_stream = false # when true: js event streaming is enabled; files are eager loaded and cached (so need to restart server after code changes).
   config.cache_classes = config.run_event_stream
   config.eager_load = config.run_event_stream
 

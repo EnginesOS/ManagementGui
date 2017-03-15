@@ -3,23 +3,23 @@ module EnginesSystemCore
     module Statistics
 
       def container_memory_statistics
-        get 'system/metrics/memory/statistics', parse: :json
+        get 'system/metrics/memory/statistics', {}, parse: :json
       end
 
       def system_memory_statistics
-        get 'system/metrics/memory', parse: :json
+        get 'system/metrics/memory', {}, parse: :json
       end
 
       def cpu_statistics
-        get 'system/metrics/load', parse: :json
+        get 'system/metrics/load', {}, parse: :json
       end
 
       def disk_statistics
-        get 'system/metrics/disks', parse: :json
+        get 'system/metrics/disks', {}, parse: :json
       end
 
       def network_statistics
-        get 'system/metrics/network', parse: :json
+        get 'system/metrics/network', {}, parse: :json
       end
 
       # def base_os_data

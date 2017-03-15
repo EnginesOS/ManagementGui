@@ -11,7 +11,7 @@ module EnginesSystemCore
       end
 
       def generate_key
-        get 'system/keys/user/engines/generate', parse: :string
+        get 'system/keys/user/engines/generate', {}, parse: :string
       end
 
     end

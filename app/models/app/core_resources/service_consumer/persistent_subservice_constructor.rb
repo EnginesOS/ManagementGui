@@ -6,7 +6,7 @@ class App
         attr_accessor :parent_service_handle, :parent_publisher_type_path
 
         def save_to_system
-          app.core_app.create_non_persistent_service_consumer_subservice_consumer(
+          app.core_app.create_persistent_service_consumer_subservice_consumer(
             service_name: parent_service_definition[:service_container],
             parent_service_handle: parent_service_handle,
             publisher_type_path: publisher_type_path,

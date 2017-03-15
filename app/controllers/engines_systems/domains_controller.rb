@@ -7,7 +7,7 @@ module EnginesSystems
     end
 
     def new
-      @domain =  @engines_system.build_domain
+      @domain = @engines_system.build_domain
     end
 
     def create
@@ -47,7 +47,7 @@ module EnginesSystems
     private
 
     def strong_params
-      params.require(:engines_system_core_resources_domain).permit(:domain_name, :internal_only, :self_hosted)
+      params.require(:engines_system_core_resources_domain).permit(:domain_name, :internal_only, :self_hosted, :local)
     end
 
   end

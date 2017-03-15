@@ -3,7 +3,7 @@ module EnginesSystemCore
     module Admin
 
       def update_password(params)
-        post "system/user/update/password", params, parse: :boolean
+        post "system/control/engines_system/password", params, parse: :boolean
       # rescue
       #   false
       end

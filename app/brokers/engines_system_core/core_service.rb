@@ -17,11 +17,11 @@ module EnginesSystemCore
     #  detail
 
     def container
-      get "containers/service/#{name}", parse: :json
+      get "containers/service/#{name}", {}, parse: :json
     end
 
     def container_processes
-      get "containers/service/#{name}/ps", parse: :json
+      get "containers/service/#{name}/ps", {}, parse: :json
     # rescue
     #   # dummy data
     #   {
@@ -34,47 +34,47 @@ module EnginesSystemCore
     #  state
 
     def state
-      get "containers/service/#{name}/state", parse: :string
+      get "containers/service/#{name}/state", {}, parse: :string
     end
 
     def status
-      get "containers/service/#{name}/status", parse: :string
+      get "containers/service/#{name}/status", {}, parse: :string
     end
 
     #  websites
 
     def websites
-      get "containers/service/#{name}/websites", parse: :json
+      get "containers/service/#{name}/websites", {}, parse: :json
     end
 
     #  instructions
 
     def stop
-      get "containers/service/#{name}/stop", parse: :boolean
+      get "containers/service/#{name}/stop", {}, parse: :boolean
     end
 
     def start
-      get "containers/service/#{name}/start", parse: :boolean
+      get "containers/service/#{name}/start", {}, parse: :boolean
     end
 
     def pause
-      get "containers/service/#{name}/pause", parse: :boolean
+      get "containers/service/#{name}/pause", {}, parse: :boolean
     end
 
     def unpause
-      get "containers/service/#{name}/unpause", parse: :boolean
+      get "containers/service/#{name}/unpause", {}, parse: :boolean
     end
 
     def restart
-      get "containers/service/#{name}/restart", parse: :boolean
+      get "containers/service/#{name}/restart", {}, parse: :boolean
     end
 
     def create
-      get "containers/service/#{name}/create", parse: :boolean
+      get "containers/service/#{name}/create", {}, parse: :boolean
     end
 
     def recreate
-      get "containers/service/#{name}/recreate", parse: :boolean
+      get "containers/service/#{name}/recreate", {}, parse: :boolean
     end
 
     def destroy
@@ -88,7 +88,7 @@ module EnginesSystemCore
     # configurations
 
     def configurations
-      get "containers/service/#{name}/configurations/", parse: :json
+      get "containers/service/#{name}/configurations/", {}, parse: :json
     end
 
     def update_configuration(configurator_name, params={})
@@ -98,13 +98,13 @@ module EnginesSystemCore
     # consumers
 
     def consumers_for(application_name)
-      get "containers/service/#{name}/consumers/#{application_name}", parse: :json
+      get "containers/service/#{name}/consumers/#{application_name}", {}, parse: :json
     end
 
     # actions
 
     # def actionators
-    #   get "containers/service/#{name}/actions/", parse: :json
+    #   get "containers/service/#{name}/actions/", {}, parse: :json
     # end
 
     # properties
@@ -126,7 +126,7 @@ module EnginesSystemCore
     # logs
 
     def logs
-      get "containers/service/#{name}/logs", parse: :json
+      get "containers/service/#{name}/logs", {}, parse: :json
     end
 
   end

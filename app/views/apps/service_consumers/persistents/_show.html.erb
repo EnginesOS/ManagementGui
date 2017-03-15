@@ -72,6 +72,6 @@
     service_handle: @persistent_service_consumer.service_handle },
     method: :get,
     text: 'Delete',
-    confirm: { text: "Are you sure that you want to delete #{@persistent_service_consumer.label} from #{@app.name}?" },
+    confirm: false,
     title: "Delete service #{@persistent_service_consumer.label} for #{@app.name}" %>
 <% end %>

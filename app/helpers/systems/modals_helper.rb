@@ -17,12 +17,12 @@ module Systems
     def system_update_modal(engines_system)
       modal(header: {text: "System update", icon: 'fa-refresh'}, footer_close: true) do
         up_to_system_menu_link(engines_system) +
-        content_tag(:div, class: 'display_inline') do
+        content_tag(:div) do
           content_tag(:span, "Engines (#{engines_system.engines_version})", class: 'dropdown-header') +
           system_update_engines_link(engines_system)
-        end +
-        content_tag(:div, class: 'display_inline') do
-          content_tag(:span, "#{engines_system.base_system_version[:name]} (#{engines_system.base_system_version[:version]})", class: 'dropdown-header') +
+        end + content_tag(:hr) +
+        content_tag(:div) do
+          content_tag(:span, "#{engines_system.base_system_version[:name]} #{engines_system.base_system_version[:version]}", class: 'dropdown-header') +
           system_update_base_os_link(engines_system)
         end
       end

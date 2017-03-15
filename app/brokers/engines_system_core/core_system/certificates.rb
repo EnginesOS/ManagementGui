@@ -3,11 +3,11 @@ module EnginesSystemCore
     module Certificates
 
       def certificate_domain_names
-        get 'system/certs/', parse: :json
+        get 'system/certs/', {}, parse: :json
       end
 
       def certificate_file(domain_name)
-        get "system/certs/#{domain_name}"
+        get "system/certs/#{domain_name}", {}
       end
 
       def save_domain_certificate(domain_name, certificate, key, password=nil)
@@ -19,7 +19,7 @@ module EnginesSystemCore
       end
 
       def system_ca
-        get "system/certs/system_ca"
+        get "system/certs/system_ca", {}
       end
 
     end

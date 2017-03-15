@@ -16,11 +16,11 @@ module EnginesSystemCore
     # detail
 
     def container
-      get "containers/engine/#{name}", parse: :json
+      get "containers/engine/#{name}", {}, parse: :json
     end
 
     def container_processes
-      get "containers/engine/#{name}/ps", parse: :json
+      get "containers/engine/#{name}/ps", {}, parse: :json
     # rescue
     #   # dummy data
     #   {
@@ -30,58 +30,58 @@ module EnginesSystemCore
     end
 
     def blueprint
-      get "containers/engine/#{name}/blueprint", parse: :json
+      get "containers/engine/#{name}/blueprint", {}, parse: :json
     end
 
     def build_report
-      get "containers/engine/#{name}/build_report", parse: :string
+      get "containers/engine/#{name}/build_report", {}, parse: :string
     end
 
     # state
 
     def state
-      get "containers/engine/#{name}/state", parse: :string
+      get "containers/engine/#{name}/state", {}, parse: :string
     end
 
     def status
-      get "containers/engine/#{name}/status", parse: :string
+      get "containers/engine/#{name}/status", {}, parse: :string
     end
 
     # websites
 
     def websites
-      get "containers/engine/#{name}/websites", parse: :json
+      get "containers/engine/#{name}/websites", {}, parse: :json
       # ['somesite.example.example', 'anothersite.example.example']
     end
 
     # instructions
 
     def stop
-      get "containers/engine/#{name}/stop", parse: :boolean
+      get "containers/engine/#{name}/stop", {}, parse: :boolean
     end
 
     def start
-      get "containers/engine/#{name}/start", parse: :boolean
+      get "containers/engine/#{name}/start", {}, parse: :boolean
     end
 
     def pause
-      get "containers/engine/#{name}/pause", parse: :boolean
+      get "containers/engine/#{name}/pause", {}, parse: :boolean
     end
 
     def unpause
-      get "containers/engine/#{name}/unpause", parse: :boolean
+      get "containers/engine/#{name}/unpause", {}, parse: :boolean
     end
 
     def restart
-      get "containers/engine/#{name}/restart", parse: :boolean
+      get "containers/engine/#{name}/restart", {}, parse: :boolean
     end
 
     def create
-      get "containers/engine/#{name}/create", parse: :boolean
+      get "containers/engine/#{name}/create", {}, parse: :boolean
     end
 
     def recreate
-      get "containers/engine/#{name}/recreate", parse: :boolean
+      get "containers/engine/#{name}/recreate", {}, parse: :boolean
     end
 
     def destroy
@@ -89,7 +89,7 @@ module EnginesSystemCore
     end
 
     def reinstall
-      get "containers/engine/#{name}/reinstall", parse: :boolean
+      get "containers/engine/#{name}/reinstall", {}, parse: :boolean
     end
 
     def uninstall(params={})
@@ -109,33 +109,41 @@ module EnginesSystemCore
     # services
 
     def persistent_services
-      get "containers/engine/#{name}/services/persistent/", parse: :json
+      get "containers/engine/#{name}/services/persistent/", {}, parse: :json
     end
 
     def persistent_services_for_publisher_type_path(publisher_type_path)
-      get "containers/engine/#{name}/services/persistent/#{publisher_type_path}", parse: :json
+      get "containers/engine/#{name}/services/persistent/#{publisher_type_path}", {}, parse: :json
     end
 
     def non_persistent_services
-      get "containers/engine/#{name}/services/non_persistent/", parse: :json
+      get "containers/engine/#{name}/services/non_persistent/", {}, parse: :json
     end
 
     def non_persistent_services_for_publisher_type_path(publisher_type_path)
-      get "containers/engine/#{name}/services/non_persistent/#{publisher_type_path}", parse: :json
+      get "containers/engine/#{name}/services/non_persistent/#{publisher_type_path}", {}, parse: :json
     end
 
     def available_services
-      get "service_manager/available_services/managed_engine/#{name}", parse: :json
+      get "service_manager/available_services/managed_engine/#{name}", {}, parse: :json
     end
 
     def available_subservices_for(publisher_type_path)
-      type_path = publisher_type_path.split('/')[1..-1].join('/')
-      get "service_manager/available_services/type/#{type_path}", parse: :json
+      publisher_namespace, type_path = publisher_type_path.split('/', 2)
+      get "service_manager/available_services/type/#{type_path}", {}, parse: :json
     end
 
-    def create_non_persistent_service_consumer_subservice_consumer(params)
-      publisher_namespace = params[:publisher_type_path].split('/')[0]
-      type_path = params[:publisher_type_path].split('/')[1..-1].join('/')
+    # def persistent_service_consumer_subservice_consumers_for(service_handle)
+    #
+    #
+    #   get /v0/containers/service/:service_name/sub_services
+    #    opt_get_param = [:engine_name, :service_handle]
+    #
+    #
+    # end
+
+    def create_persistent_service_consumer_subservice_consumer(params)
+      publisher_namespace, type_path = params[:publisher_type_path].split('/', 2)
       post "containers/service/#{params[:service_name]}/sub_services/#{name}/#{params[:parent_service_handle]}",
         { publisher_namespace: publisher_namespace,
           type_path: type_path,
@@ -171,15 +179,15 @@ module EnginesSystemCore
     end
 
     def register_non_persistent_service_consumer(params)
-      get "containers/engine/#{name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/register", parse: :boolean
+      get "containers/engine/#{name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/register", {}, parse: :boolean
     end
 
     def reregister_non_persistent_service_consumer(params)
-      get "containers/engine/#{name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/reregister", parse: :boolean
+      get "containers/engine/#{name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/reregister", {}, parse: :boolean
     end
 
     def deregister_non_persistent_service_consumer(params)
-      get "containers/engine/#{name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/deregister", parse: :boolean
+      get "containers/engine/#{name}/service/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/deregister", {}, parse: :boolean
     end
 
     def remove_persistent_service_consumer(params)
@@ -226,7 +234,7 @@ module EnginesSystemCore
     # persistent services import/export
 
     def persistent_service_consumer_export(params)
-      get "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/export", parse: :string
+      get "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/export", {}, parse: :string
     end
 
     def persistent_service_consumer_import(params)
@@ -245,11 +253,11 @@ module EnginesSystemCore
     # actions
 
     def actionators
-      get "containers/engine/#{name}/actions/", parse: :json
+      get "containers/engine/#{name}/actions/", {}, parse: :json
     end
 
     def actionator_for(actionator_name)
-      get "containers/engine/#{name}/action/#{actionator_name}", parse: :json
+      get "containers/engine/#{name}/action/#{actionator_name}", {}, parse: :json
     end
 
     def perform_actionator_for(actionator_name, params)
@@ -259,7 +267,7 @@ module EnginesSystemCore
     # logs
 
     def logs
-      get "containers/engine/#{name}/logs", parse: :json
+      get "containers/engine/#{name}/logs", {}, parse: :json
     end
 
   end
