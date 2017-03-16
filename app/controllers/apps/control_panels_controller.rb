@@ -4,7 +4,7 @@ module Apps
     before_action :set_app
 
     def show
-      # byebug
+      
     end
 
   end

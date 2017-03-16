@@ -73,7 +73,7 @@ class Service < ApplicationRecord
   def update_display_attributes
     self.title = service_definition[:title]
     self.description = service_definition[:description]
-    # byebug
+    
   end
 
 

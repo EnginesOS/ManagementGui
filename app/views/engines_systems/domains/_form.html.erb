@@ -1,6 +1,6 @@
 <% is_edit_form = action_name.to_sym == :edit || action_name.to_sym == :update %>
 <% checkbox_depend_on = {input: 'engines_system_core_resources_domain_local', property: 'checked', display: :hide} %>
-<%= form_for @domain, url: system_domain_path(engines_system_id: @engines_system.id), method: (:patch if is_edit_form) do |f| %>
+<%= custom_form_for @domain, url: system_domain_path(engines_system_id: @engines_system.id), method: (:patch if is_edit_form) do |f| %>
   <% if is_edit_form %>
     <%= f.engines_field :domain_name, as: :read_only, horizontal: true, left: 4 %>
   <% else %>

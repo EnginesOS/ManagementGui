@@ -1,24 +1,27 @@
 <%= modal header: {text: "Environment variables for #{@app.name}", icon: 'fa-question-circle-o'}, footer_close: true do %>
-
   <%= up_to_app_control_panel_link(@app) %>
-
-  <%= resource_link :app_environment_group,
-      params: { app_id: @app.id,
-                owner_type: :application,
-                owner_path: nil },
-      text: "Application" %>
-
-  <hr>
-  <p><label>Services</label></p>
-  <%= content_tag(:p, content_tag(:i, :none)) if @app.environment_variables[:service_consumers].empty? %>
-  <% @app.environment_variables[:service_consumers].map do |owner_path, service| %>
-    <% service_definition = @app.engines_system.core_system.
-        service_definition_for(owner_path) %>
+  <% if @app.state == 'stopped'%>
     <%= resource_link :app_environment_group,
         params: { app_id: @app.id,
-                  owner_type: :service_consumer,
-                  owner_path: owner_path },
-        text:
-        "#{service_definition[:title]}" %>
+                  owner_type: :application,
+                  owner_path: nil },
+        text: "Application" %>
+
+    <hr>
+    <p><label>Services</label></p>
+    <%= content_tag(:p, content_tag(:i, :none)) if @app.environment_variables[:service_consumers].empty? %>
+    <% @app.environment_variables[:service_consumers].map do |owner_path, service| %>
+      <% service_definition = @app.engines_system.core_system.
+          service_definition_for(owner_path) %>
+      <%= resource_link :app_environment_group,
+          params: { app_id: @app.id,
+                    owner_type: :service_consumer,
+                    owner_path: owner_path },
+          text:
+          "#{service_definition[:title]}" %>
+    <% end %>
+  <% else %>
+    <p>The app must be stopped to change environment variables.</p>
   <% end %>
+
 <% end %>

@@ -16,7 +16,7 @@ module UserProfiles
 
     def destroy
       set_cloud
-      # byebug
+      
       if @cloud.destroy
         flash[:notice] = "Successfully removed cloud #{@cloud.label}."
         redirect_to user_profile_portal_path

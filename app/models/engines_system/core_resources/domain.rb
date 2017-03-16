@@ -11,7 +11,7 @@ class EnginesSystem
       validates :domain_name, presence: true, format: { with: DOMAIN_NAME_REGEX, message: "is not valid"}
 
       def assign_attributes(attributes)
-        # byebug
+        
         attributes[:domain_name] = 'local' if attributes[:local] == '1'
         attributes[:local] = '1' if attributes[:domain_name] == 'local'
         super attributes
@@ -42,7 +42,7 @@ class EnginesSystem
       end
 
       def remove_from_system
-        core_system.remove_domain domain_name: domain_name
+        core_system.remove_domain domain_name
       end
 
       def domain_params

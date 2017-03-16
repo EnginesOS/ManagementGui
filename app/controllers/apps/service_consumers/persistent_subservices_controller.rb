@@ -5,7 +5,7 @@ module Apps
       before_action :set_app
 
       def new
-        # byebug
+        
         @persistent_service_consumer = @app.
             build_persistent_service_consumer(
               publisher_type_path: params[:publisher_type_path],

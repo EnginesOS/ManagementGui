@@ -1,3 +1,10 @@
 <%= modal header: {text: "Memory settings for #{@memory.app.name}", icon: 'fa-pie-chart'}, id: "remote_modal" do %>
-  <%= render 'form' %>
+  <% if @app.state == 'stopped'%>
+    <%= render 'form' %>
+  <% else %>
+    <%= up_to_app_control_panel_link(@app) %>
+    <%= data_list_text 'Memory', "#{@app.container[:memory]} MB" %>
+    <hr>
+    <p>The app must be stopped to change memory.</p>
+  <% end %>
 <% end %>

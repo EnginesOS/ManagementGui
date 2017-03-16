@@ -1,6 +1,6 @@
 <%= modal header: {text: "Import data to #{@persistent_service_consumer_import.label} for #{@app.name}", icon: 'fa-download'} do %>
 
-  <%= form_for @persistent_service_consumer_import, method: :post,
+  <%= custom_form_for @persistent_service_consumer_import, method: :post,
         url: app_service_consumer_persistent_import_path(app_id: @app.id) do |f| %>
     <%= f.hidden_field :publisher_type_path %>
     <%= f.hidden_field :service_handle %>

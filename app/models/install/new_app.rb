@@ -246,7 +246,7 @@ class Install
     def create_app
       @app = engines_system.apps.where(name: container_name).first_or_create
       set_app_display_properties
-      # byebug
+      
       @app.save
     end
 

@@ -1,6 +1,6 @@
 <%= modal header: {text: "New #{@persistent_service_consumer_share_constructor.label} for #{@app.name}", icon: 'fa-plus-square-o'} do %>
 
-  <%= form_for @persistent_service_consumer_share_constructor, method: :post,
+  <%= custom_form_for @persistent_service_consumer_share_constructor, method: :post,
         url: app_service_consumer_persistent_create_share_path(app_id: @app.id) do |f| %>
     <%= f.hidden_field :publisher_type_path %>
     <%= f.hidden_field :parent_engine %>

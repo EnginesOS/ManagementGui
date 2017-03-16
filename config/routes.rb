@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # mount ActionCable.server => '/cable'
 
   root to: 'clouds/portals#show'
+  resource :bug_reports, only: [:create]
 
   devise_for :users, controllers: { sessions: 'users/sessions' }
   get '/sign_in', to: redirect('users/sign_in')

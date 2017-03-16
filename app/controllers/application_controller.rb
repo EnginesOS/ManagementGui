@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
     Rails.logger.warn error.class
     Rails.logger.warn error.to_s
     output_error_backtrace_for(error)
-    @error = error
+    @bug_report = BugReport.new self, error
     respond_to do |format|
       format.js{ render 'exceptions/fatal_errors/show', status: 200 }
       format.html{ render 'exceptions/fatal_errors/show', status: 200 }

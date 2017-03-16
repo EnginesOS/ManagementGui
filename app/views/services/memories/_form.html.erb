@@ -1,4 +1,4 @@
-<%= form_for @memory, url: service_memory_path(service_id: @memory.service.id), method: :patch do |f| %>
+<%= custom_form_for @memory, url: service_memory_path(service_id: @memory.service.id), method: :patch do |f| %>
   <%= f.engines_field :memory, as: :integer, horizontal: true, comment: "Minumum #{f.object.minimum}MB. Recommended #{f.object.recommended}MB." %>
   <%= f.engines_field :minimum, as: :hidden %>
   <%= f.engines_field :recommended, as: :hidden %>

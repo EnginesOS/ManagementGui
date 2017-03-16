@@ -1,5 +1,6 @@
 <%= modal(header: {text: "System activity for #{@engines_system.label}", icon: 'fa-bar-chart'}, footer_close: true, large: true) do %>
   <%= up_to_system_control_panel_link(@engines_system) %>
+  <%= resource_link :system_activity, params: {engines_system_id: @engines_system.id}, text: 'Refresh', icon: 'fa-repeat', title: "Refresh system activity" %>
   <%= content_tag :div, class: 'row' do %>
     <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
       <%= content_tag :div, class: 'panel dashboard_panel' do %>

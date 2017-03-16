@@ -93,7 +93,7 @@ class EnginesSystem
           labels = labels[0..16] << "#{labels[17..-1].count} #{"other".pluralize(labels[17..-1].count)} #{data[17..-1].sum} MB"
           data = data[0..16] << data[17..-1].sum
         end
-        # byebug
+        
         { labels: labels, datasets: [ { data: data, backgroundColor: colors(data.length) }] }
       end
 
@@ -226,7 +226,7 @@ class EnginesSystem
           data_free << space[:free]
           data_used << space[:used]
         end
-        { labels: labels, datasets: [ { label: 'Free', data: data_free, backgroundColor: '#3071A9' }, { label: 'Used', data: data_used, backgroundColor: '#F0AD4E' } ] }
+        { labels: labels, datasets: [ { label: 'Used', data: data_used, backgroundColor: '#F0AD4E' }, { label: 'Free', data: data_free, backgroundColor: '#3071A9' } ] }
       end
 
       def disk_space_lookup
@@ -243,7 +243,7 @@ class EnginesSystem
       end
 
       def network_interfaces_count
-        # byebug
+        
         network_activity_lookup.count
       end
 

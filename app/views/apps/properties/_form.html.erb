@@ -1,4 +1,4 @@
-<%= form_for @app, url: app_properties_path(app_id: @app.id) do |f| %>
+<%= custom_form_for @app, url: app_properties_path(app_id: @app.id) do |f| %>
   <%= f.engines_field :label, horizontal: true %>
   <%= f.engines_field :icon, horizontal: true %>
   <%= f.engines_legend %>

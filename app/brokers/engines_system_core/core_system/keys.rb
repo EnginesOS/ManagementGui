@@ -3,15 +3,15 @@ module EnginesSystemCore
     module Keys
 
       def key_file
-        get 'system/keys/user/engines'
+        get 'system/keys/user/engines', expect: :file
       end
 
       def save_key(key)
-        post 'system/keys/user/engines', { public_key: key }, parse: :boolean
+        post 'system/keys/user/engines', params: { public_key: key }, expect: :boolean
       end
 
       def generate_key
-        get 'system/keys/user/engines/generate', {}, parse: :string
+        get 'system/keys/user/engines/generate', expect: :string
       end
 
     end

@@ -18,7 +18,7 @@ class Install
       end
 
       def field_params
-        # byebug
+        
         ( new_app.blueprint[:software][:environment_variables] || [] ).
         select{ |variable| variable[:ask_at_build_time] == true }
       end
