@@ -16,7 +16,7 @@ module Shared
         button_tag(type: 'button', class: 'close', data: { dismiss: 'alert' }) do
           '&times;'.html_safe
         end +
-        message
+        message.gsub("\n", "<br>" ).html_safe
       end
     end
 

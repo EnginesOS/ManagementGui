@@ -84,7 +84,11 @@ module EnginesSystemCore
         result = api_call_result.body.to_s
         Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
         if api_call_result.net_http_res.content_type == "application/json" && expected_content == :json
-          JSON.parse result, symbolize_names: true
+          begin
+            JSON.parse result, symbolize_names: true
+          rescue
+            raise "Failed to parse JSON.\n\nResult:\n#{result}"
+          end
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :string
           if result[0] == '"' && result[-1] == '"'
             byebug if Rails.env.development?
@@ -97,7 +101,7 @@ module EnginesSystemCore
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :file
           result
         else
-          raise "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult #{result}"
+          raise "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult:\n#{result}"
         end
       rescue => error
         Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{error}"

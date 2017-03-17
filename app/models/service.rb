@@ -6,11 +6,15 @@ class Service < ApplicationRecord
 
   include LabelData
 
-  attr_accessor :state
+  attr_writer :state
 
   before_save :update_display_attributes
-
   belongs_to :engines_system
+
+
+  def state
+    @state ||= core_service.state
+  end
 
   def core_service
     @core_service ||= EnginesSystemCore::CoreService.new(engines_system.url, engines_system.token, name)
@@ -73,7 +77,7 @@ class Service < ApplicationRecord
   def update_display_attributes
     self.title = service_definition[:title]
     self.description = service_definition[:description]
-    
+
   end
 
 

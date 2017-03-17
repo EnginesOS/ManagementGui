@@ -31,10 +31,10 @@ $(document).ajaxError(function(event, request, settings, error) {
       };
     } else if (settings.data.constructor.name === 'String') {
       console.log('Communication error. ' + settings.data);
-      hide_wait_for_system_response_spinner();
+      alert("There was an error communicating with the server.");
     } else {
       console.log('Communication error. Data constructor: ' + settings.data.constructor.name);
-      // location.reload();
+      alert("There was an error communicating with the server.");
     };
   } else {
     if (request.status === 200) {
@@ -43,6 +43,7 @@ $(document).ajaxError(function(event, request, settings, error) {
       location.reload();
     } else {
     console.log("Unhandled ajax error.\nRequest status: " + request.status + "\nRequest: " + JSON.stringify(request) + "\nSettings: " + JSON.stringify(settings) + "\nError: " + error);
+    alert("There was an error communicating with the server.");
     };
   };
 });

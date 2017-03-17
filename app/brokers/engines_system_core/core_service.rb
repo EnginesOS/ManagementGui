@@ -29,7 +29,7 @@ module EnginesSystemCore
     end
 
     def status
-      get "containers/service/#{name}/status", expect: :string
+      get "containers/service/#{name}/status", expect: :json
     end
 
     #  websites

@@ -247,7 +247,7 @@ module EnginesSystemCore
     # resolve string
 
     def resolve_string(string)
-      post "containers/engine/#{name}/template", {template_string: string}, expect: :string
+      post "containers/engine/#{name}/template", params: {template_string: string}, expect: :string
     end
 
     # actions

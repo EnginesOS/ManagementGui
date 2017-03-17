@@ -29,7 +29,7 @@ class EnginesSystem
     end
 
     def default_site
-      @default_domain ||= core_system.default_domain
+      @default_domain ||= core_system.default_site
     end
 
     # certificates
