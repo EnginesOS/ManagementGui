@@ -97,7 +97,7 @@ module EnginesSystemCore
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :file
           result
         else
-          raise "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}."
+          raise "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult #{result}"
         end
       rescue => error
         Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{error}"
