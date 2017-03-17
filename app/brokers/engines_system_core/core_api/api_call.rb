@@ -6,12 +6,12 @@ module EnginesSystemCore
 
       def api_call(http_method, api_route, params, file=nil)
         if http_method == :post
-          
+
           post_body = file.present? ? { file: file } : {api_vars: params}.to_json
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
           RestClient.post( "#{@api_url}/v0/#{api_route}", post_body, access_token: @token ) # , content_type: :json )
         else
-          
+
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
           RestClient.send( http_method, "#{@api_url}/v0/#{api_route}", params: params, access_token: @token, verify_ssl: true ) #, verify_ssl: false, content_type: :json )
         end
@@ -64,12 +64,12 @@ module EnginesSystemCore
 
       def get(api_route, opts)
         params = opts[:params] || {}
-        
+
         parse api_call( :get, api_route, params ), opts[:expect]
       end
 
       def post(api_route, opts, file=nil)
-        
+
         params = opts[:params] || {}
         parse api_call( :post, api_route, params, file ), opts[:expect]
       end
@@ -85,19 +85,19 @@ module EnginesSystemCore
         Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
         if api_call_result.net_http_res.content_type == "application/json" && expected_content == :json
           JSON.parse result, symbolize_names: true
-        elsif "text/plain" && expected_content == :string
+        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :string
           if result[0] == '"' && result[-1] == '"'
             byebug if Rails.env.development?
             result[1..-2] # remove leading and trailing quotation marks
           else
             result
           end
-        elsif "text/plain" && expected_content == :boolean
+        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :boolean
           result == 'true'
-        elsif "text/plain" && expected_content == :file
+        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :file
           result
         else
-          raise 'Invalid content type.'
+          raise "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}."
         end
       rescue => error
         Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{error}"
