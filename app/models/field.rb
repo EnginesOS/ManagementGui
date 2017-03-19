@@ -55,4 +55,27 @@ class Field
     end
   end
 
+  # def value_for_system
+  #   case as
+  #   when :boolean
+  #     value == '1'
+  #   when :select
+  #
+  #   when :int
+  #     :integer
+  #   when :hidden
+  #     :hidden
+  #   when :password
+  #     :password
+  #   when :password_with_confirmation
+  #     :password_with_confirmation
+  #   when :text, :text_area
+  #     :text
+  #   when :text_field
+  #     :string
+  #   else
+  #     :string
+  #   end
+  # end
+
 end

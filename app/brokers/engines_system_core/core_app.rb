@@ -44,7 +44,7 @@ module EnginesSystemCore
     end
 
     def status
-      get "containers/engine/#{name}/status", expect: :string
+      get "containers/engine/#{name}/status", expect: :json
     end
 
     # websites
