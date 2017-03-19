@@ -92,6 +92,8 @@ class ApplicationController < ActionController::Base
       format.js{ render 'exceptions/engines_errors/show', status: 200 }
       format.html{ render 'exceptions/engines_errors/show', status: 200, layout: false }
     end
+  rescue => e
+    handle_fatal_error(EnginesErrorError.new e)
   end
 
   def handle_fatal_error(error)

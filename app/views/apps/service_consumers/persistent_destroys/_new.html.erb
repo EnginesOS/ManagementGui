@@ -3,6 +3,7 @@
   <%= custom_form_for @persistent_service_consumer_remove, method: :post,
         url: app_service_consumer_persistent_destroy_path(app_id: @app.id) do |f| %>
     <%= f.hidden_field :publisher_type_path %>
+    <%= f.hidden_field :service_handle %>
     <%= f.engines_field :remove_data, as: :boolean, horizontal: true, label: false, checkbox_text: 'Delete data' %>
     <% cancel_url = app_service_consumer_persistent_path(
           app_id: @app.id,

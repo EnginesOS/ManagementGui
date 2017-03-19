@@ -15,6 +15,7 @@ class App
         end
 
         def field_params_with_values
+          @field_params_with_values ||=
           consumer_params.map do |key, field|
             field[:value] = field_values[field[:name].to_sym]
             field

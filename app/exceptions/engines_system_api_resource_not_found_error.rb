@@ -8,7 +8,7 @@ class EnginesSystemApiResourceNotFoundError < EnginesSystemApiError
     @system_error_message ||= JSON.parse(@error.response, symbolize_names: true)[:error_object][:error_mesg]
   rescue JSON::ParserError
     @system_error_message =
-      "The resource did not return valid JSON. This could be because the URL for the Engines system has been entered incorrectly."
+      "The resource did not return valid response. This could be because the URL for the Engines system has been entered incorrectly."
   end
 
   def to_s
