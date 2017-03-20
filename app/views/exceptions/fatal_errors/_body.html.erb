@@ -30,15 +30,15 @@
 <%= bug_report_data.dig :exception, :message %>
 <br>
 <div class="tab-content">
-  <div class="tab-pane active" id="exception_backtrace_show_tab">
+  <div class="tab-pane active" id="exception_detail_show_tab">
     <div class="clearfix">
-      <%= exception_backtrace_show_link %>
+      <%= exception_detail_show_link %>
     </div>
   </div>
 
-  <div class="tab-pane" id="exception_backtrace_tab">
+  <div class="tab-pane" id="exception_detail_hide_tab">
     <div class="clearfix">
-      <%= exception_backtrace_hide_link %>
+      <%= exception_detail_hide_link %>
     </div>
 <div class="exception_backtrace">
 <%= pretty_print bug_report_data[:exception] %>

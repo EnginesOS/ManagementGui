@@ -14,7 +14,7 @@ class BugReport
       },
       exception: {
         class: @error.class,
-        message: @error.to_s,
+        message: error_message,
         backtrace: application_backtrace,
         detail: { params: @context.params.inspect }
       }
@@ -22,6 +22,10 @@ class BugReport
   end
 
   private
+
+  def error_message
+    @error.to_s.sub(Rails.root.to_s, '')
+  end
 
   def application_backtrace
     @error.backtrace.map{ |line| line.sub(Rails.root.to_s, '').split(':in ')[0] }.select{ |line| line.split('/')[1] == "app" }

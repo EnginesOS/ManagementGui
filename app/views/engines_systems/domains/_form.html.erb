@@ -1,17 +1,11 @@
 <% is_edit_form = action_name.to_sym == :edit || action_name.to_sym == :update %>
-<% checkbox_depend_on = {input: 'engines_system_core_resources_domain_local', property: 'checked', display: :hide} %>
 <%= custom_form_for @domain, url: system_domain_path(engines_system_id: @engines_system.id), method: (:patch if is_edit_form) do |f| %>
   <% if is_edit_form %>
     <%= f.engines_field :domain_name, as: :read_only, horizontal: true, left: 4 %>
   <% else %>
-    <%= f.engines_field :domain_name, as: :string, horizontal: true, left: 4, depend_on: checkbox_depend_on %>
+    <%= f.engines_field :domain_name, as: :string, horizontal: true, left: 4 %>
   <% end %>
-  <%= f.engines_field :internal_only, as: :boolean, compact: true, horizontal: true, label: false, checkbox_text: "Internal only", left: 4, depend_on: checkbox_depend_on %>
-  <%= f.engines_field :self_hosted, as: :boolean, horizontal: true, label: false, checkbox_text: "Self hosted", left: 4, depend_on: checkbox_depend_on %>
-  <% if is_edit_form %>
-    <%= f.engines_field :local, as: :hidden %>
-  <% else %>
-    <%= f.engines_field :local, as: :boolean, horizontal: true, label: false, horizontal: true, checkbox_text: 'Local (Avahi zeroconf)', left: 4 %>
-  <% end %>
+  <%= f.engines_field :internal_only, as: :boolean, compact: true, horizontal: true, label: false, checkbox_text: "Internal only", left: 4 %>
+  <%= f.engines_field :self_hosted, as: :boolean, horizontal: true, label: false, checkbox_text: "Self hosted", left: 4 %>
   <%= f.engines_cancel_submit url: system_domains_path(engines_system_id: @engines_system.id), remote: true %>
 <% end %>

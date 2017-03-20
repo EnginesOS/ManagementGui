@@ -47,7 +47,7 @@ module EnginesSystems
     private
 
     def strong_params
-      params.require(:engines_system_core_resources_domain).permit(:domain_name, :internal_only, :self_hosted, :local)
+      params.require(:engines_system_core_resources_domain).permit(:domain_name, :internal_only, :self_hosted)
     end
 
   end

@@ -4,18 +4,18 @@ class EnginesSystem
 
       include ActiveModel::Model
 
-      attr_accessor :domain_name, :self_hosted, :internal_only, :engines_system, :local
+      attr_accessor :domain_name, :self_hosted, :internal_only, :engines_system
 
       DOMAIN_NAME_REGEX = /\A(local|(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])\z/
 
       validates :domain_name, presence: true, format: { with: DOMAIN_NAME_REGEX, message: "is not valid"}
 
-      def assign_attributes(attributes)
-        
-        attributes[:domain_name] = 'local' if attributes[:local] == '1'
-        attributes[:local] = '1' if attributes[:domain_name] == 'local'
-        super attributes
-      end
+      # def assign_attributes(attributes)
+      #
+      #   attributes[:domain_name] = 'local' if attributes[:local] == '1'
+      #   attributes[:local] = '1' if attributes[:domain_name] == 'local'
+      #   super attributes
+      # end
 
       def to_s
         domain_name
