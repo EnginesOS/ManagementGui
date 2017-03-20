@@ -276,7 +276,7 @@ class Install
       def variables_install_params
         {}.tap do |result|
           environment_variables.fields.each do |field|
-            result[field.attribute_name] = field.value
+            result[field.attribute_name] = field.value_for_system
           end
         end
       end

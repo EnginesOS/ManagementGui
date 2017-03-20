@@ -88,7 +88,7 @@ class App
       def perform_actionator_params
         {}.tap do |result|
           @fields.each do |field|
-            result[field.attribute_name.to_sym] = field.value
+            result[field.attribute_name.to_sym] = field.value_for_system
           end if @fields
         end
       end
