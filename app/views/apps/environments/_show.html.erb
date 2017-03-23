@@ -1,6 +1,6 @@
 <%= modal header: {text: "Environment variables for #{@app.name}", icon: 'fa-question-circle-o'}, footer_close: true do %>
   <%= up_to_app_control_panel_link(@app) %>
-  <% if @app.state == 'stopped'%>
+  <% if true || @app.state == 'stopped'%>
     <%= resource_link :app_environment_group,
         params: { app_id: @app.id,
                   owner_type: :application,
