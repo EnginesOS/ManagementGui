@@ -3,7 +3,7 @@
     <%= content_tag :div, class: 'col-sm-12' do %>
       <% if @cloud.engines_systems.empty? %>
         <div class="text-center">
-          <% if Rails.application.config.local_mgmt_url.present? &&
+          <% if Rails.application.config.local_system_api_url.present? &&
                   @cloud.user_profile.clouds.count == 1 &&
                   @cloud.engines_systems.count == 0 %>
             <%= new_cloud_local_system_link(@cloud) %>

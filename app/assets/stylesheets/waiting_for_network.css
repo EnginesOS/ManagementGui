@@ -13,8 +13,9 @@
   opacity: 0.25;
   height: 90px;
   width: 90px;
-  background-color: #999;
-  border: 0px solid transparent;
+  margin: auto;
+  margin-top: 40%;
+  border: 45px solid transparent;
   text-align: center;
   border-radius: 50px;
   vertical-align: middle;

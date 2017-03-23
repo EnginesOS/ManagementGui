@@ -5,6 +5,7 @@
   <div class="btn-toolbar">
     <%= link_to content_tag(:i, "", class: "fa fa-level-up") + ' Popup report',
           app_installation_report_popup_path(app_id: @app.id),
+          target: "engines_app_#{@app.id}",
           class: 'btn btn-lg btn_resource',
           data: {popup: true} %>
     <% if @app.first_run_url.present? %>
@@ -13,7 +14,6 @@
             target: @app.first_run_url,
             class: 'btn btn-lg btn_resource',
             data: {popup: true} %>
-      <%= @app.first_run_url %>
     <% end %>
   </div>
   <hr>

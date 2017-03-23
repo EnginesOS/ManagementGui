@@ -6,12 +6,10 @@ module EnginesSystemCore
 
       def api_call(http_method, api_route, params, file=nil)
         if http_method == :post
-
           post_body = file.present? ? { file: file } : {api_vars: params}.to_json
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
           RestClient.post( "#{@api_url}/v0/#{api_route}", post_body, access_token: @token ) # , content_type: :json )
         else
-
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
           RestClient.send( http_method, "#{@api_url}/v0/#{api_route}", params: params, access_token: @token, verify_ssl: true ) #, verify_ssl: false, content_type: :json )
         end
@@ -47,7 +45,7 @@ module EnginesSystemCore
       rescue RestClient::Forbidden => e
         Rails.logger.debug "EnginesSystemApiConnectionAuthenticationError: #{e.inspect} #{e.response}"
         raise EnginesSystemApiConnectionAuthenticationError.new(@api_url)
-      rescue RestClient::Exceptions::OpenTimeout => e
+      rescue RestClient::Exceptions::OpenTimeout, RestClient::Exceptions::ReadTimeout => e
         Rails.logger.debug "EnginesSystemApiConnectionTimeoutError: #{e.inspect} #{e.response}"
         raise EnginesSystemApiConnectionTimeoutError
       rescue => e
@@ -64,12 +62,10 @@ module EnginesSystemCore
 
       def get(api_route, opts)
         params = opts[:params] || {}
-
         parse api_call( :get, api_route, params ), opts[:expect]
       end
 
       def post(api_route, opts, file=nil)
-
         params = opts[:params] || {}
         parse api_call( :post, api_route, params, file ), opts[:expect]
       end

@@ -31,8 +31,10 @@ var install_process_builder_log_line = function(new_line) {
   installProgressBarWidth = installProgressBarWidth + 1;
   if ( installProgressBarWidth > 900 ) { installProgressBarWidth = 500 };
   install_update_progress_bar();
-  var new_html = ansi_up.ansi_to_html(new_line);
-  $("#install_builder_log").prepend(new_html + '\n');
+  if ( new_line != '.' ) {
+    var new_html = ansi_up.ansi_to_html(new_line);
+    $("#install_builder_log").prepend(new_html + '\n');
+  };
 };
 
 // Close log listener and load build_complete
