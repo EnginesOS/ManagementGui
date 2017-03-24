@@ -1,3 +1,10 @@
 <%= modal header: {text: "Memory settings for #{@memory.service.name}", icon: 'fa-pie-chart'}, id: "remote_modal" do %>
-  <%= render 'form' %>
+  <% if @service.state == 'stopped'%>
+    <%= render 'form' %>
+  <% else %>
+    <%= up_to_service_control_panel_link(@service) %>
+    <%= data_list_text 'Memory', "#{@service.container[:memory]} MB" %>
+    <hr>
+    <p>The service must be stopped to change memory.</p>
+  <% end %>
 <% end %>

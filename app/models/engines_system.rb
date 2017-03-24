@@ -44,40 +44,8 @@ class EnginesSystem < ApplicationRecord
     apps.select(&:show_on_portal)
   end
 
-  # def save
-  #   valid? && core_system_authentication && super
-  # end
-
-  # def update(params)
-  #   assign_attributes(params) && save
-  # end
-
-  # Test for local mgmt GUI
   def is_local_system
-    url == Rails.application.config.local_mgmt_url
+    url == Rails.application.config.local_system_api_url
   end
-
-
-  private
-
-  # def core_system_authentication
-  #   self.token = core_system.authenticate
-  # end
-  # def check_portal_link(app)
-  #
-  #   p "#{app.name} app.show_on_portal #{app.show_on_portal} #{app.show_on_portal.class}"
-  #   p "#{app.name} app.portal_link #{app.portal_link} #{app.portal_link.class}"
-  #   if app.state.to_sym == :running && app.show_on_portal && app.portal_link.blank?
-  #     # app_websites = app.websites
-  #     # if app_websites.present
-  #     #   app.portal_link = app_websites.first
-  #     #   app.save
-  #     # else
-  #     #   # app.show_on_portal = false
-  #     # end
-  #   end
-  # end
-
-
 
 end

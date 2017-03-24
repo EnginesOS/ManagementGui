@@ -5,7 +5,9 @@
 <% end %>
 
 <%= modal footer_close: true, large: true, header: {text: "Processes for #{@app.name}", icon: 'fa-list-alt'} do %>
+  <span id="refresh_app_processes_alert_area" class="pull-left"></span>
   <%= up_to_app_control_panel_link(@app) %>
+  <%= resource_link :app_processes, params: {app_id: @app.id}, text: 'Refresh', icon: 'fa-repeat', title: "Refresh processes for #{@app.name}" %>
   <% if container_processes %>
     <table class="table">
       <tr>

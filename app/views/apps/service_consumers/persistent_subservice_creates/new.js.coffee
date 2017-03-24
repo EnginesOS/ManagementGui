@@ -1,4 +1,4 @@
 $('.modal').modal 'hide'
-$('body').append '<%= j(render 'apps/service_consumers/persistent_share_creates/new') %>'
+$('body').append '<%= j(render 'new') %>'
 $('#remote_modal').modal(backdrop: 'static').modal 'show'
 $('#remote_modal').on 'hidden.bs.modal', -> $(this).remove()

@@ -1,5 +1,5 @@
 <%= modal header: {text: "New key upload for #{@engines_system.label}", icon: 'fa-upload'}, id: 'new_system_key_upload_modal' do %>
-  <%= form_for @key, url: system_key_upload_path(engines_system_id: @key.engines_system.id), remote: true do |f| %>
+  <%= custom_form_for @key, url: system_key_upload_path(engines_system_id: @key.engines_system.id), remote: true do |f| %>
   <%= f.engines_field :key, as: :file, horizontal: true, label: false %>
   <%= f.engines_cancel_submit url: system_keys_path(engines_system_id: @key.engines_system.id), remote: true%>
   <% end %>

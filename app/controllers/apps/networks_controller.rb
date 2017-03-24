@@ -12,10 +12,10 @@ module Apps
      if @network.valid?
        if @network.save_to_system
          flash.now[:notice] = "Network settings for #{@network.app.name} were successfully updated."
-         render 'apps/menus/show'
+         render 'apps/control_panels/show'
        else
          flash.now[:alert] = "Failed to update network settings for #{@network.app.name}."
-         render 'apps/menus/show'
+         render 'apps/control_panels/show'
        end
      else
        render 'edit'

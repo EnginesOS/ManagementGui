@@ -114,7 +114,7 @@ class App
         def variable_values
           {}.tap do |result|
             fields.each do |field|
-              result[field.attribute_name.to_sym] = field.value
+              result[field.attribute_name.to_sym] = field.value_for_system
             end
           end
         end

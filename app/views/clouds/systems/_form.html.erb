@@ -1,4 +1,4 @@
-<%= form_for @engines_system, url: cloud_system_path(cloud_id: @cloud.id) do |f| %>
+<%= custom_form_for @engines_system, url: cloud_system_path(cloud_id: @cloud.id) do |f| %>
   <%= f.engines_field :label %>
   <%= f.engines_field :url %>
 <%= f.engines_cancel_submit url: cloud_systems_menu_path(cloud_id: @cloud.id), remote: true %>

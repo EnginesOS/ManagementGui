@@ -25,6 +25,8 @@ module EnginesSystems
           end
         end
       end
+    rescue JSON::ParserError => e
+      send_event({type: :error, message: "Failed to process response from API. (#{e})"})
     rescue ActionController::Live::ClientDisconnected
       Rails.logger.warn "GUI client disconnected from event stream for #{@engines_system.url}"
     rescue => e
@@ -35,6 +37,7 @@ module EnginesSystems
     end
 
     def send_event(data_string)
+      # byebug
       send_string = "event: engines_system_event\ndata: #{data_string.to_json}\n\n"
       Rails.logger.debug "Relaying event from #{@engines_system.url}: #{send_string}"
       response.stream.write(send_string)

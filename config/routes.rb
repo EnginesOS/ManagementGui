@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # mount ActionCable.server => '/cable'
 
   root to: 'clouds/portals#show'
+  resource :bug_reports, only: [:create]
 
   devise_for :users, controllers: { sessions: 'users/sessions' }
   get '/sign_in', to: redirect('users/sign_in')
@@ -100,10 +101,10 @@ Rails.application.routes.draw do
       resource :persistent_destroy, only: [:new, :create]
       resource :persistent_import, only: [:new, :create]
       resource :persistent_export, only: [:show]
-      resources :persistent_subservices, only: [:index, :new]
-      resource :persistent_subservice, only: [:show, :edit, :update]
+      resource :persistent_subservice, only: [:new, :show, :edit, :update]
       resource :persistent_subservice_create, only: [:new, :create]
       resource :persistent_subservice_destroy, only: [:new, :create]
+      resource :persistent_subservices_registration, only: [:show]
       resource :non_persistent, only: [:show, :edit, :update]
       resource :non_persistent_destroy, only: [:destroy]
       resource :non_persistent_registration, only: [:show]
@@ -119,7 +120,7 @@ Rails.application.routes.draw do
     resource :environment_group, only: [:show, :edit, :update]
     resource :reinstall, only: [:show]
     resource :uninstall, only: [:new, :create]
-    resource :first_run, only: [:show]
+    # resource :first_run, only: [:show]
     resource :installation_report, only: [:show]
     resource :installation_report_popup, only: [:show]
     resource :actions, only: [:show]

@@ -1,6 +1,6 @@
 <%= modal header: {text: "New #{@non_persistent_service_consumer_constructor.label} for #{@app.name}", icon: 'fa-plus-square-o'} do %>
 
-  <%= form_for @non_persistent_service_consumer_constructor, method: :post,
+  <%= custom_form_for @non_persistent_service_consumer_constructor, method: :post,
         url: app_service_consumer_non_persistent_create_path(app_id: @app.id) do |f| %>
     <%= f.hidden_field :publisher_type_path %>
     <%= f.fields_for :fields do |ff| %>

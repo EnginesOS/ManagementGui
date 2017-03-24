@@ -11,6 +11,10 @@
   line-height: 96px;
 }
 
+#install_libarary_apps ul.list {
+  padding: 0px;
+}
+
 #install_libarary_apps .list li {
   display: inline-block;
 }

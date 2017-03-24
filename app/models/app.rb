@@ -11,7 +11,11 @@ class App < ApplicationRecord
   belongs_to :engines_system
   has_one :cloud, through: :engines_system
 
-  attr_accessor :state
+  attr_writer :state
+
+  def state
+    @state ||= core_app.state
+  end
 
   validates :label, length: { maximum: 32 }
 

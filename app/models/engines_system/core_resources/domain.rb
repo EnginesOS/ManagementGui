@@ -6,7 +6,16 @@ class EnginesSystem
 
       attr_accessor :domain_name, :self_hosted, :internal_only, :engines_system
 
-      validates :domain_name, presence: true
+      DOMAIN_NAME_REGEX = /\A(local|(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])\z/
+
+      validates :domain_name, presence: true, format: { with: DOMAIN_NAME_REGEX, message: "is not valid"}
+
+      # def assign_attributes(attributes)
+      #
+      #   attributes[:domain_name] = 'local' if attributes[:local] == '1'
+      #   attributes[:local] = '1' if attributes[:domain_name] == 'local'
+      #   super attributes
+      # end
 
       def to_s
         domain_name
@@ -33,7 +42,7 @@ class EnginesSystem
       end
 
       def remove_from_system
-        core_system.remove_domain domain_name: domain_name
+        core_system.remove_domain domain_name
       end
 
       def domain_params

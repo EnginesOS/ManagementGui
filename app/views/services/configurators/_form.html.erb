@@ -1,4 +1,4 @@
-<%= form_for @service_configurator, url: service_configurator_path(service_id: @service.id), method: :patch do |f| %>
+<%= custom_form_for @service_configurator, url: service_configurator_path(service_id: @service.id), method: :patch do |f| %>
   <%= f.hidden_field :configurator_name %>
 
   <p><%= @service_configurator.configurator_params[:description] %></p>

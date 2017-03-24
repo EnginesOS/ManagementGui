@@ -12,7 +12,7 @@ module EnginesSystems
       if @shutdown.shutdown
         render
       else
-        flash.now[:alert] = 'Failed to shutdown machine.'
+        flash.now[:alert] = 'Failed to shutdown system.'
         render 'engines_systems/control_panels/show'
       end
     end
@@ -20,7 +20,7 @@ module EnginesSystems
     private
 
     def strong_params
-      params.require(:systems_shutdown).permit(:reason)
+      params.require(:engines_system_core_resources_shutdown).permit(:reason)
     end
 
   end

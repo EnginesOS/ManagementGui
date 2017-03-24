@@ -1,4 +1,4 @@
-<%= form_for @non_persistent_service_consumer,
+<%= custom_form_for @non_persistent_service_consumer,
       url: app_service_consumer_non_persistent_path(app_id: @app.id) do |f| %>
       <%= f.hidden_field :service_container_name %>
       <%= f.hidden_field :parent_engine %>

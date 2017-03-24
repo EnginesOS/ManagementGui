@@ -1,4 +1,4 @@
-<%= form_for @network, url: app_network_path(app_id: @app.id),
+<%= custom_form_for @network, url: app_network_path(app_id: @app.id),
     method: :patch do |f| %>
   <%= f.engines_field :host_name, as: :string, left: 2,width: 4, right: 6 %>
   <%= f.engines_field :domain_name, as: :select,

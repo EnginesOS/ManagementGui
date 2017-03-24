@@ -29,12 +29,9 @@ $(document).ajaxError(function(event, request, settings, error) {
       } else {
         console.log('Ajax error thrown. Ajax status 0. Data constructor not Array.');
       };
-    } else if (settings.data.constructor.name === 'String') {
-      console.log('Communication error. ' + settings.data);
-      hide_wait_for_system_response_spinner();
     } else {
-      console.log('Communication error. Data constructor: ' + settings.data.constructor.name);
-      // location.reload();
+      console.log('Undefined communication error. Data constructor: ' + settings.data.constructor.name);
+      alert("There was a communication error. Please reload the page. (Client failed to connect to the management application server.)");
     };
   } else {
     if (request.status === 200) {
@@ -43,6 +40,17 @@ $(document).ajaxError(function(event, request, settings, error) {
       location.reload();
     } else {
     console.log("Unhandled ajax error.\nRequest status: " + request.status + "\nRequest: " + JSON.stringify(request) + "\nSettings: " + JSON.stringify(settings) + "\nError: " + error);
+    engines_system_id = getUrlParameter(settings.url, 'engines_system_id');
+    $("#engines_system_" + engines_system_id + " .engines_system_loading").hide();
+    alert("There was a communication error. Please reload the page. (Client has lost its connection with the management application server.)");
     };
   };
 });
+
+
+function getUrlParameter(url, param_name) {
+    name = param_name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(url);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};

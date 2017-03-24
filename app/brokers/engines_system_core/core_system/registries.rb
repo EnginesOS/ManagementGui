@@ -3,23 +3,23 @@ module EnginesSystemCore
     module Registries
 
       def registry_configurations
-        get 'registry/configurations/', parse: :json
+        get 'registry/configurations/', expect: :json
       end
 
       def registry_apps
-        get 'registry/engines/', parse: :json
+        get 'registry/engines/', expect: :json
       end
 
       def registry_services
-        get 'registry/services/', parse: :json
+        get 'registry/services/', expect: :json
       end
 
       def registry_orphans
-        get 'registry/orphans/', parse: :json
+        get 'registry/orphans/', expect: :json
       end
 
       def registry_shares
-        get 'registry/shares/', parse: :json
+        get 'registry/shares/', expect: :json
       end
 
     end

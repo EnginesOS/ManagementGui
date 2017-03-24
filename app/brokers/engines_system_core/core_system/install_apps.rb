@@ -3,19 +3,19 @@ module EnginesSystemCore
     module InstallApps
 
       def build_app(params)
-        post 'containers/engines/build', params, parse: :boolean
+        post 'containers/engines/build', params: params, expect: :boolean
       end
 
       def current_build_params
-        get 'engine_builder/params', parse: :json
+        get 'engine_builder/params', expect: :json
       end
 
       def last_build_params
-        get 'engine_builder/last_build/params', parse: :json
+        get 'engine_builder/last_build/params', expect: :json
       end
 
       def last_build_log
-        get 'engine_builder/last_build/log', parse: :string
+        get 'engine_builder/last_build/log', expect: :string
       end
 
     end

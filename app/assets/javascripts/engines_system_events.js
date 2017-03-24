@@ -4,23 +4,27 @@ function listen_to_engines_system_event_stream(engines_system_event_stream_url, 
       engines_system_id,
       engines_system_event_stream_url,
       "engines_system_event",
-      function(event) { process_engines_system_event(engines_system_id, engines_system_label, engines_system_event_stream_url, event.data) },
-      function(error) { process_engines_system_event_error(engines_system_id, engines_system_label, engines_system_event_stream_url, error) } );
+      function(event) { process_engines_system_event(engines_system_event_stream_url, engines_system_id, engines_system_label, event.data) },
+      function(error) { process_engines_system_event_error(engines_system_event_stream_url, engines_system_id, engines_system_label, error) } );
   };
 };
 
-var process_engines_system_event_error = function(engines_system_id, engines_system_label, engines_system_event_stream_url, error) {
+var process_engines_system_event_error = function(engines_system_event_stream_url, engines_system_id, engines_system_label, error) {
   console.log('Events stream error from ' + engines_system_label + '(' + engines_system_event_stream_url + ') - ' + JSON.stringify(error));
-  console.log('Error constructor: ' + error.constructor.name);
-  console.log('Error detail: ' + error.currentTarget);
-  // $('.modal').hide();
-  // EnginesSystemEventsListeners[engines_system_id].close();
+  EnginesSystemEventsListeners[engines_system_id].close();
+  EnginesSystemEventsListeners[engines_system_id] = null;
+  alert("There was a communication error. Please reload the page. (Client event stream has closed after receiving an error from the management application server.)");
+    // error.currentTarget.close();
+    // EnginesSystemEventsListeners[engines_system_id].close();
+    // listen_to_engines_system_event_stream(engines_system_event_stream_url, engines_system_id, engines_system_label);
+
+    // $('.modal').hide();
   // delete EnginesSystemEventsListeners[engines_system_id];
   // alert("Events stream error from the Engines system " + engines_system_label + ". Page will reload.");
   // location.reload();
 };
 
-var process_engines_system_event = function(engines_system_id, engines_system_label, engines_system_event_stream_url, event_string) {
+var process_engines_system_event = function(engines_system_event_stream_url, engines_system_id, engines_system_label, event_string) {
   // console.log('System ' + engines_system_id + ' event - ' + event_string);
   var event = JSON.parse(event_string);
   console.log('System ' + engines_system_id + ' event - ' + JSON.stringify(event));
@@ -32,7 +36,13 @@ var process_engines_system_event = function(engines_system_id, engines_system_la
         break;
       case "empty":
         break;
+      case "error":
+        EnginesSystemEventsListeners[engines_system_id].close();
+        EnginesSystemEventsListeners[engines_system_id] = null;
+        alert(event.message);
+        break;
       case "timeout":
+        display_disconnected_system(engines_system_id, engines_system_label);
         console.log('Timeout on API events stream ' + engines_system_event_stream_url);
         break;
       case "disconnected":

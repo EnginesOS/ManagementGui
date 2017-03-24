@@ -1,0 +1,20 @@
+<%= modal header: {text: "New #{@persistent_service_consumer_subservices_consumer_constructor.label} for #{@app.name}", icon: 'fa-plus-square-o'} do %>
+
+  <%= custom_form_for @persistent_service_consumer_subservices_consumer_constructor, method: :post,
+        url: app_service_consumer_persistent_subservice_create_path(app_id: @app.id) do |f| %>
+    <%= f.hidden_field :publisher_type_path %>
+    <%= f.hidden_field :parent_publisher_type_path %>
+    <%= f.hidden_field :parent_service_handle %>
+    <%= f.fields_for :fields do |ff| %>
+      <%= ff.engines_field_builder %>
+    <% end %>
+    <% cancel_url = new_app_service_consumer_persistent_subservice_path(
+          app_id: @app.id,
+          publisher_type_path: @persistent_service_consumer_subservices_consumer_constructor.parent_publisher_type_path,
+          service_handle: @persistent_service_consumer_subservices_consumer_constructor.parent_service_handle  ) %>
+    <%= f.engines_cancel_submit url: cancel_url, remote: true %>
+  <% end %>
+
+  <% #= pretty_print @persistent_service_consumer_subservices_consumer_constructor.parent_service_definition %>
+
+<% end %>

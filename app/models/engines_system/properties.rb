@@ -16,7 +16,8 @@ class EnginesSystem
     def domains
       @domains ||=
       core_system.list_domains.map(&:second).
-      sort_by { |domain| domain[:domain_name] }
+      sort_by { |domain| domain[:domain_name] }.
+      sort_by { |domain| domain[:domain_name] == 'local' ? 0 : 1 }
     end
 
     def domain_for(domain_name)
@@ -28,7 +29,7 @@ class EnginesSystem
     end
 
     def default_site
-      @default_domain ||= core_system.default_domain
+      @default_domain ||= core_system.default_site
     end
 
     # certificates

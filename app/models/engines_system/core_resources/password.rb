@@ -8,7 +8,6 @@ class EnginesSystem
 
       validates :current_password, presence: true
       validates :new_password, presence: true, confirmation: true
-      # validate :new_password_confirmed
 
       def update_system
         valid? && core_system.update_password(update_params)

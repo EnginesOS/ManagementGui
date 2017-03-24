@@ -1,4 +1,4 @@
-<%= form_for @sign_in, url: system_sign_in_path(engines_system_id: @engines_system.id) do |f| %>
+<%= custom_form_for @sign_in, url: system_sign_in_path(engines_system_id: @engines_system.id) do |f| %>
   <%= f.engines_field :password, as: :password, label: 'Admin password', autocomplete: :off, title: 'Engines system admin password' %>
   <%= f.engines_cancel_submit %>
 <% end %>

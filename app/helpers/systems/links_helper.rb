@@ -278,22 +278,19 @@ module Systems
       params: {engines_system_id: engines_system.id},
       method: :get, url: new_system_shutdown_path,
       text: 'Shutdown', icon: 'fa-plug', title: 'Shutdown system',
-      confirm: {text: 'Are you sure that you want to shutdown the system?',
-                title: {text: 'Confirm shutdown'},
-                submit_text: 'Shutdown',
-                disabled_text: 'Submitting' }
+      confirm: false
     end
 
     def system_update_engines_link(engines_system)
       resource_link :system_update_engines,
       params: {engines_system_id: engines_system.id},
-      text: 'Update', title: 'Update Engines', icon: 'fa-refresh'
+      text: 'Update Engines', title: 'Update Engines', icon: 'fa-refresh'
     end
 
     def system_update_base_os_link(engines_system)
       resource_link :system_update_base_os,
       params: {engines_system_id: engines_system.id},
-      text: 'Update', title: 'Update Base OS', icon: 'fa-refresh'
+      text: 'Update base OS', title: 'Update base OS', icon: 'fa-refresh'
     end
 
   end

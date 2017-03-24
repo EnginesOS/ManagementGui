@@ -7,7 +7,7 @@ module EnginesSystems
     end
 
     def new
-      @domain =  @engines_system.build_domain
+      @domain = @engines_system.build_domain
     end
 
     def create

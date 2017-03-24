@@ -101,7 +101,7 @@ module Clouds
         params: {
                   engines_system: {
                     label: 'Local system',
-                    url: Rails.application.config.local_mgmt_url
+                    url: Rails.application.config.local_system_api_url
                   }
                 },
         text: 'Connect local system',

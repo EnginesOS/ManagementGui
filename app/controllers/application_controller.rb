@@ -92,6 +92,8 @@ class ApplicationController < ActionController::Base
       format.js{ render 'exceptions/engines_errors/show', status: 200 }
       format.html{ render 'exceptions/engines_errors/show', status: 200, layout: false }
     end
+  rescue => e
+    handle_fatal_error(EnginesErrorError.new e)
   end
 
   def handle_fatal_error(error)
@@ -99,7 +101,7 @@ class ApplicationController < ActionController::Base
     Rails.logger.warn error.class
     Rails.logger.warn error.to_s
     output_error_backtrace_for(error)
-    @error = error
+    @bug_report = BugReport.new self, error
     respond_to do |format|
       format.js{ render 'exceptions/fatal_errors/show', status: 200 }
       format.html{ render 'exceptions/fatal_errors/show', status: 200 }

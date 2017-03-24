@@ -5,7 +5,7 @@ module Apps
 
     def show
 
-# byebug
+
     end
 
   end

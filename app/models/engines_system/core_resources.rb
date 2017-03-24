@@ -73,47 +73,12 @@ class EnginesSystem
       build_core_resource ::Install::NewApp, params
     end
 
-    # def build_installer_repository(params = {})
-    #   build_core_resource Installer::Repository, params
-    # end
-
     private
 
     def build_core_resource(klass, params={})
       params = params.to_h.merge!({ engines_system: self })
       klass.new params
     end
-
-
-
-
-
-
-    # def apps
-    #   @apps ||=
-    #   begin
-    #     core_system.engine_states.map do |name, state|
-    #       App.where(name: name).first_or_create.tap{ |app| app.state = state }
-    #     end.sort_by &:name
-    #   rescue => e
-    #     raise
-    #   end
-    # end
-    #
-    # def services
-    #   @services ||=
-    #   begin
-    #     core_system.service_states.map do |name, state|
-    #       Service.where(name: name).first_or_create.tap{ |service| service.state = state }
-    #     end.sort_by &:name
-    #   rescue => e
-    #     Rails.logger.warn "Failed to get 'services states' from Engines System API. #{e}"
-    #     raise
-    #   end
-    # end
-
-
-
 
   end
 end

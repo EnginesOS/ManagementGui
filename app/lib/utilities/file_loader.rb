@@ -4,7 +4,7 @@
 
       def self.get url
         return nil if url.blank?
-# byebug
+
 
         url_without_timestamp = url.split('?').first
         file = Tempfile.new('app_icon_upload')

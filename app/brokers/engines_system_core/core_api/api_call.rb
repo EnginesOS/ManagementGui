@@ -4,16 +4,14 @@ module EnginesSystemCore
 
       private
 
-      def api_call(http_method, command, params={}, file=nil)
-        if http_method.to_s == 'post'
-          # byebug
+      def api_call(http_method, api_route, params, file=nil)
+        if http_method == :post
           post_body = file.present? ? { file: file } : {api_vars: params}.to_json
-          Rails.logger.debug "#{http_method} command: #{@api_url}/v0/#{command}, api_vars: #{params}, access_token: #{@token}"
-          RestClient.post( "#{@api_url}/v0/#{command}", post_body, access_token: @token ) # , content_type: :json )
+          Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
+          RestClient.post( "#{@api_url}/v0/#{api_route}", post_body, access_token: @token ) # , content_type: :json )
         else
-          # byebug
-          Rails.logger.debug "#{http_method} command: #{@api_url}/v0/#{command}, access_token: #{@token}"
-          RestClient.send( http_method, "#{@api_url}/v0/#{command}", access_token: @token, verify_ssl: true ) #, verify_ssl: false, content_type: :json )
+          Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
+          RestClient.send( http_method, "#{@api_url}/v0/#{api_route}", params: params, access_token: @token, verify_ssl: true ) #, verify_ssl: false, content_type: :json )
         end
       rescue SocketError => e # normally thrown when invalid url is provided for server address
         Rails.logger.debug "EnginesSystemApiConnectionTcpError: #{e.inspect}"
@@ -47,14 +45,14 @@ module EnginesSystemCore
       rescue RestClient::Forbidden => e
         Rails.logger.debug "EnginesSystemApiConnectionAuthenticationError: #{e.inspect} #{e.response}"
         raise EnginesSystemApiConnectionAuthenticationError.new(@api_url)
-      rescue RestClient::Exceptions::OpenTimeout => e
+      rescue RestClient::Exceptions::OpenTimeout, RestClient::Exceptions::ReadTimeout => e
         Rails.logger.debug "EnginesSystemApiConnectionTimeoutError: #{e.inspect} #{e.response}"
         raise EnginesSystemApiConnectionTimeoutError
       rescue => e
         Rails.logger.warn \
         "++++++++\n"\
         "UNHANDLED ENGINES API ERROR in EnginesSystemCore::CoreApi::ApiCall.api_call\n"\
-        "api call: #{http_method} #{command} #{params}\n"\
+        "api call: #{http_method} #{api_route} #{params}\n"\
         ">>>>> e.class: #{e.class}\n"\
         ">>>>> e.response: #{e.try(:response) || 'n/a'}\n"\
         ">>>>> e.inspect: #{e.inspect}\n"\
@@ -62,41 +60,47 @@ module EnginesSystemCore
         raise
       end
 
-      def get(command, opts={})
-        parse api_call( :get, command ), opts
+      def get(api_route, opts)
+        params = opts[:params] || {}
+        parse api_call( :get, api_route, params ), opts[:expect]
       end
 
-      def post(command, params, opts={}, file=nil)
-        # byebug
-        parse api_call( :post, command, params, file ), opts
+      def post(api_route, opts, file=nil)
+        params = opts[:params] || {}
+        parse api_call( :post, api_route, params, file ), opts[:expect]
       end
 
-      def delete(command, opts={})
-        parse api_call( :delete, command ), opts
+      def delete(api_route, opts)
+        params = opts[:params] || {}
+        parse api_call( :delete, api_route, params ), opts[:expect]
       end
 
-      def parse(api_call_result, opts={})
+      def parse(api_call_result, expected_content)
+        byebug if Rails.env.development? && !( api_call_result.net_http_res.content_type != "application/json" || api_call_result.net_http_res.content_type != "text/plain" )
         result = api_call_result.body.to_s
         Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
-        case opts[:parse]
-        when :json
-          JSON.parse result, symbolize_names: true
-        when :string
+        if api_call_result.net_http_res.content_type == "application/json" && expected_content == :json
+          begin
+            JSON.parse result, symbolize_names: true
+          rescue
+            raise "Failed to parse JSON.\n\nResult:\n#{result}"
+          end
+        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :string
           if result[0] == '"' && result[-1] == '"'
+            byebug if Rails.env.development?
             result[1..-2] # remove leading and trailing quotation marks
           else
             result
           end
-        when :boolean
+        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :boolean
           result == 'true'
-        else
-          p :api_call_result_unparsed
-          p result
-          p result.class
+        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :file
           result
+        else
+          raise "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult:\n#{result}"
         end
       rescue => error
-        Rails.logger.warn "Engines System API result parse #{opts[:parse]} failed: #{error}"
+        Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{error}"
         raise EnginesSystemApiResponseError.new error
       end
 

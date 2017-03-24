@@ -27,7 +27,33 @@ module Domains
     def new_system_domain_link(engines_system)
       new_resource_link :system_domain, text: 'New',
       params: { engines_system_id: engines_system.id },
-      form_class: 'display_inline'
+      form_class: 'display_inline pull_right_wide_media'
+    end
+
+    def delete_system_local_domain_link(engines_system)
+      destroy_resource_link :local_domain,
+      url: system_domain_path(
+        engines_system_id: engines_system.id,
+        engines_system_core_resources_domain:
+            { domain_name: :local }),
+      form_class: 'display_inline pull_right_wide_media',
+      text: 'Disable', icon: 'fa-toggle-on', title: "Disable Avahi zeroconf",
+      confirm: false
+    end
+
+    def create_system_local_domain_link(engines_system)
+      resource_link :local_domain,
+      url: system_domain_path(
+        engines_system_id: engines_system.id,
+        engines_system_core_resources_domain:
+            { domain_name: :local }),
+      method: :post,
+      form_class: 'display_inline pull_right_wide_media',
+      text: 'Enable', icon: 'fa-toggle-off', title: "Enable Avahi zeroconf"
+
+# "engines_system_core_resources_domain"=>{"domain_name"=>"local", "internal_only"=>"0", "self_hosted"=>"0"}, "button"=>"", "engines_system_id"=>"32"}
+
+
     end
 
   end
