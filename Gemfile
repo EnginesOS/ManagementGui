@@ -1,12 +1,10 @@
 source 'https://rubygems.org'
 
 group :development do
-  # gem 'rack-mini-profiler'
   gem 'rubocop', require: false
+  gem 'rails_real_favicon'
 end
-
 gem "oink"
-
 
 ## Engines System Gems
 # Local Docker socket
@@ -39,7 +37,8 @@ gem 'redcarpet'
 # File attachments
 gem 'paperclip'
 # Charting
-gem 'chartkick'
+# gem 'chartkick'
+gem 'chartjs-ror'
 # File upload via AJAX
 gem 'remotipart', '~> 1.3.1'
 # ANSI code text parsing for javascript

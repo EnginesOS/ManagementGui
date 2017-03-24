@@ -13,7 +13,7 @@ module Users
     end
 
     def user_sign_in_modal_form
-      form_for(resource, as: resource_name, url: session_path(resource_name), user_sign_in_form: true) do |f|
+      custom_form_for(resource, as: resource_name, url: session_path(resource_name), user_sign_in_form: true) do |f|
         ( f.engines_field :username, horizontal: true, left: 4, width: 6  ) +
         ( f.engines_field :password, as: :password, horizontal: true, left: 4, width: 6 ) +
         ( f.engines_cancel_submit({ text: 'Sign in', icon: 'fa-sign-in' }) )

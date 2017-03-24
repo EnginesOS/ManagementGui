@@ -3,13 +3,13 @@ module EnginesSystemCore
     module Admin
 
       def update_password(params)
-        post "system/user/update/password", params, parse: :boolean
+        post "system/control/engines_system/update/password", params: params, expect: :boolean
       # rescue
       #   false
       end
 
       def update_email(params)
-        post "system/user/update/email", params, parse: :boolean
+        post "system/control/engines_system/update/email", params: params, expect: :boolean
       # rescue
       #   false
       end

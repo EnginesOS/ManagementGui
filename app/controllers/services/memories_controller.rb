@@ -12,11 +12,11 @@ module Services
      if @memory.valid?
        if @memory.update_system
          flash.now[:notice] = "Memory settings for #{@memory.service.name} were successfully updated."
-         render 'services/menus/show'
+         render 'services/control_panels/show'
        else
          flash.now[@memory.exception.flash_message_params[:type]] =
          "Failed to update memory settings for #{@memory.service.name}. (#{@memory.exception.flash_message_params[:message]})"
-         render 'services/menus/show'
+         render 'services/control_panels/show'
        end
      else
        render 'edit'

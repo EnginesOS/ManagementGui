@@ -4,7 +4,7 @@ class App
       class NonPersistent < Base
 
         def label
-          @label ||= "#{service_definition[:title]} (#{service_definition[:service_container]} #{service_handle || '-- !!! missing service handle !!!'})"
+          @label ||= "#{service_definition[:title]} (#{service_definition[:service_container]} #{service_handle})"
         end
 
         def registration(action)

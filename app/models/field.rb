@@ -55,4 +55,17 @@ class Field
     end
   end
 
+  def value_for_system
+    case as
+    when :boolean
+      value == '1'
+    when :integer
+      value.to_i
+    when :float, :decimal
+      value.to_f
+    else
+      value
+    end
+  end
+
 end

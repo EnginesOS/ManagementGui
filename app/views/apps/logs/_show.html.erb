@@ -6,6 +6,7 @@
 
 <%= modal footer_close: true, large: true, header: {text: "Logs for #{@app.name}", icon: 'fa-file-text-o'} do %>
   <%= up_to_app_control_panel_link(@app) %>
+  <%= resource_link :app_logs, params: {app_id: @app.id}, text: 'Refresh', icon: 'fa-repeat', title: "Refresh logs for #{@app.name}" %>
   <ul class="nav nav-tabs">
     <li class="active"><a href="#log_out" data-toggle="tab">Out</a></li>
     <li><a href="#log_errors" data-toggle="tab">Error</a></li>

@@ -246,7 +246,7 @@ class Install
     def create_app
       @app = engines_system.apps.where(name: container_name).first_or_create
       set_app_display_properties
-      # byebug
+      
       @app.save
     end
 
@@ -276,7 +276,7 @@ class Install
       def variables_install_params
         {}.tap do |result|
           environment_variables.fields.each do |field|
-            result[field.attribute_name] = field.value
+            result[field.attribute_name] = field.value_for_system
           end
         end
       end

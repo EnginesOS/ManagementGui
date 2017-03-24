@@ -3,19 +3,19 @@ module EnginesSystemCore
     module Status
 
       def builder_status
-        get 'engine_builder/status', parse: :json
+        get 'engine_builder/status', expect: :json
       end
 
       def system_status
-        get 'system/status', parse: :json
+        get 'system/status', expect: :json
       end
 
       def system_update_status
-        get 'system/status/update', parse: :json
+        get 'system/status/update', expect: :json
       end
 
       def first_run_required?
-        get 'system/status/first_run_required', parse: :boolean
+        get 'system/status/first_run_required', expect: :boolean
       end
 
     end

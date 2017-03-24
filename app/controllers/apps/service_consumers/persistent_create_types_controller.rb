@@ -17,7 +17,7 @@ module Apps
         when :existing
           @persistent_service_consumer_share_constructor =
             @persistent_service_consumer_constructor_type.build_share_constructor
-          render 'apps/service_consumers/persistent_share_creates/new'
+          render 'apps/service_consumers/persistent_create_shares/new'
         when :orphan
           @persistent_service_consumer_orphan_constructor =
             @persistent_service_consumer_constructor_type.build_orphan_constructor

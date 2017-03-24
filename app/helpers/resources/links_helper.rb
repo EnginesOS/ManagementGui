@@ -58,33 +58,39 @@ module Resources
       url = opts[:url] || url_for([resource])
       confirm_opts = opts[:confirm] || {}
       confirm_text = confirm_opts[:text] || "Are you sure that you want to destroy #{resource.to_s.humanize}?"
-      confirm_title_opts = confirm_opts[:title] || {}
-      confirm_title_text = confirm_title_opts[:text] || "Confirm destroy"
-      confirm_title_icon = confirm_title_opts[:icon] || 'fa-warning'
-      confirm_title = icon_text(confirm_title_icon, confirm_title_text).gsub('"',"'")
-      confirm_submit_text = confirm_opts[:submit_text] || 'Destroy'
-      confirm_submit_icon = confirm_opts[:submit_icon] || 'fa-check'
-      confirm_cancel_text = confirm_opts[:cancel_text] || 'Cancel'
-      confirm_cancel_icon = confirm_opts[:cancel_icon] || 'fa-times'
-      confirm_disabled_text = confirm_opts[:disabled_text] || 'Destroying'
-      confirm_disabled_icon = confirm_opts[:disabled_icon] || 'fa-hourglass-o'
-      disable_with = icon_text(confirm_disabled_icon, confirm_disabled_text)
+      # confirm_title_opts = confirm_opts[:title] || {}
+      # confirm_title_text = confirm_title_opts[:text] || "Confirm destroy"
+      # confirm_title_icon = confirm_title_opts[:icon] || 'fa-warning'
+      # confirm_title = icon_text(confirm_title_icon, confirm_title_text).gsub('"',"'")
+      # confirm_submit_text = confirm_opts[:submit_text] || 'Destroy'
+      # confirm_submit_icon = confirm_opts[:submit_icon] || 'fa-check'
+      # confirm_cancel_text = confirm_opts[:cancel_text] || 'Cancel'
+      # confirm_cancel_icon = confirm_opts[:cancel_icon] || 'fa-times'
+      # confirm_disabled_text = confirm_opts[:disabled_text] || 'Destroying'
+      # confirm_disabled_icon = confirm_opts[:disabled_icon] || 'fa-hourglass-o'
+      # disable_with = icon_text(confirm_disabled_icon, confirm_disabled_text)
       remote = opts[:remote] != false
       spinner = opts[:spinner] != false && !remote
       disabled = opts[:disabled] ? "disabled" : nil
       method = opts[:method] || :delete
       html_class = "#{opts[:class]} btn btn-lg btn_resource"
       html_class = html_class + ' show_wait_for_system_response_spinner' if spinner
-      button_to url, method: method, params: opts[:params],
-        title: title, remote: remote, form_class: opts[:form_class], class: html_class, disabled: disabled,
-        disable_with: disable_with,
-        'data-confirm': confirm_text,
-        'data-confirm-title': confirm_title,
-        'data-confirm-cancel-class': 'btn-warning pull-left',
-        'data-confirm-proceed-class': 'btn-danger',
-        'data-confirm-cancel': icon_text(confirm_cancel_icon, confirm_cancel_text),
-        'data-confirm-proceed': icon_text(confirm_submit_icon, confirm_submit_text),
-        'data-confirm-fade': false do
+      button_opts = {
+        method: method, params: opts[:params],
+        title: title, remote: remote, form_class: opts[:form_class],
+        class: html_class, disabled: disabled }
+      button_opts = button_opts.merge({data: {confirm: confirm_text}}) unless opts[:confirm] == false
+      button_to(url, button_opts) do
+        # , disable_with: disable_with
+        # 
+        # ,
+        # 'data-confirm-title': confirm_title,
+        # 'data-confirm-cancel-class': 'btn-warning pull-left',
+        # 'data-confirm-proceed-class': 'btn-danger',
+        # 'data-confirm-cancel': icon_text(confirm_cancel_icon, confirm_cancel_text),
+        # 'data-confirm-proceed': icon_text(confirm_submit_icon, confirm_submit_text),
+        # 'data-confirm-fade': false
+        #  do
           icon_text(icon, text)
         end
     end

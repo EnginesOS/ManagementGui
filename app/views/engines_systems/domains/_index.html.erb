@@ -1,6 +1,27 @@
 <%= modal header: {text: "Domains for #{@engines_system.label}", icon: 'fa-globe'}, footer_close: true do %>
   <%= up_to_system_control_panel_link(@engines_system) %>
-  <%= new_system_domain_link(@engines_system) %>
-  <%= system_default_domain_link(@engines_system) %>
+  <label>Avahi zeroconf</label>
+  <% if @engines_system.domains.find{ |domain| domain[:domain_name] == 'local' }.present? %>
+    <div class="clearfix">
+      <%= icon_text 'fa fa-check','Enabled .local'  %>
+      <%= delete_system_local_domain_link @engines_system %>
+    </div>
+  <% else %>
+    <div class="clearfix">
+      <%= icon_text 'fa fa-times','Disabled .local'  %>
+      <%= create_system_local_domain_link @engines_system %>
+    </div>
+  <% end %>
+  <hr>
+  <label>Default domain</label><br>
+  <div class="clearfix">
+    <%= @engines_system.default_domain %>
+    <%= system_default_domain_link(@engines_system) %>
+  </div>
+  <hr>
+  <div class="clearfix">
+    <label>Domains</label><br>
+    <%= new_system_domain_link(@engines_system) %>
+  </div>
   <%= render partial: 'engines_systems/domains/domain', collection: @engines_system.domains %>
 <% end %>

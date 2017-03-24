@@ -28,7 +28,7 @@ class App
         end
 
         def uploaded_data_file
-          # byebug
+          
           # data_file.tempfile.binmode
           File.new(data_file.path, 'rb') #{|io| io.read} #.force_encoding('iso-8859-1').encode('utf-8')
         end

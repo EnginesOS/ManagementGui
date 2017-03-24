@@ -1,13 +1,14 @@
-<%= modal header: {text: "New #{@persistent_service_consumer.label} for #{@app.name}", icon: 'fa-plus-square-o'} do %>
+<%= modal header: {text: "New #{@persistent_service_consumer_remove.label} for #{@app.name}", icon: 'fa-plus-square-o'} do %>
 
-  <%= form_for @persistent_service_consumer, method: :post,
+  <%= custom_form_for @persistent_service_consumer_remove, method: :post,
         url: app_service_consumer_persistent_destroy_path(app_id: @app.id) do |f| %>
     <%= f.hidden_field :publisher_type_path %>
+    <%= f.hidden_field :service_handle %>
     <%= f.engines_field :remove_data, as: :boolean, horizontal: true, label: false, checkbox_text: 'Delete data' %>
     <% cancel_url = app_service_consumer_persistent_path(
           app_id: @app.id,
-          publisher_type_path: @persistent_service_consumer.publisher_type_path,
-          service_handle: @persistent_service_consumer.service_handle ) %>
+          publisher_type_path: @persistent_service_consumer_remove.publisher_type_path,
+          service_handle: @persistent_service_consumer_remove.service_handle ) %>
     <%= f.engines_cancel_submit url: cancel_url, remote: true %>
   <% end %>
 

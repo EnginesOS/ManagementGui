@@ -4,7 +4,7 @@ class App
       class Persistent < Base
 
         def label
-          @label ||= "#{service_definition[:title]} (#{service_definition[:service_container]} #{service_handle || '-- !!! missing service handle !!!'})"
+          @label ||= "#{service_definition[:title]} (#{service_definition[:service_container]} #{service_handle})"
         end
 
         def save_to_system
@@ -15,6 +15,7 @@ class App
         end
 
         def field_params_with_values
+          @field_params_with_values ||=
           consumer_params.map do |key, field|
             field[:value] = field_values[field[:name].to_sym]
             field
@@ -36,6 +37,26 @@ class App
         def app_services
           app.core_app.persistent_services_for_publisher_type_path( publisher_type_path )
         end
+
+        def available_subservices
+          app.core_app.available_subservices_for(publisher_type_path)[:non_persistent]
+        end
+
+        def subservice_consumer_constructors
+          @subservice_consumer_constructors ||=
+          available_subservices.map do |subservice|
+            app.build_persistent_service_consumer_subservice_consumer_constructor(
+              parent_service_handle: service_handle,
+              parent_publisher_type_path: publisher_type_path,
+              publisher_type_path: "#{subservice[:publisher_namespace]}/#{subservice[:type_path]}" )
+          end
+        end
+
+        def subservice_consumers
+          @subservice_consumers = []
+        end
+
+
 
       end
     end

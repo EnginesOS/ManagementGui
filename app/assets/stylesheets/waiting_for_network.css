@@ -11,13 +11,15 @@
 
 #wait_for_system_response_spinner .system_response_spinner_container {
   opacity: 0.25;
-  height: 0px;
-  width: 0px;
-  border: 0px solid transparent;
+  height: 90px;
+  width: 90px;
+  margin: auto;
+  margin-top: 40%;
+  border: 45px solid transparent;
   text-align: center;
   border-radius: 50px;
   vertical-align: middle;
-  line-height: 0px;
+  line-height: 90px;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -25,4 +27,4 @@
 
 #wait_for_system_response_spinner .system_response_spinner_container i {
   font-size: 90px;
-  margin-top: 0px; }
+  text-align: center; }

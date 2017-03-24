@@ -4,14 +4,8 @@ module Apps
 
       before_action :set_app
 
-      def index
-        @persistent_service_consumer = @app.
-            build_persistent_service_consumer(
-              publisher_type_path: params[:publisher_type_path],
-              service_handle: params[:service_handle] )
-      end
-
       def new
+        
         @persistent_service_consumer = @app.
             build_persistent_service_consumer(
               publisher_type_path: params[:publisher_type_path],
@@ -22,14 +16,16 @@ module Apps
         @persistent_service_consumer_subservice_consumer = @app.
             build_persistent_service_consumer_subservice_consumer(
               publisher_type_path: params[:publisher_type_path],
-              service_handle: params[:service_handle] )
+              service_handle: params[:service_handle],
+              subservice_handle: params[:subservice_handle] )
       end
 
       def edit
         @persistent_service_consumer_subservice_consumer = @app.
             build_persistent_service_consumer_subservice_consumer(
               publisher_type_path: params[:publisher_type_path],
-              service_handle: params[:service_handle] )
+              service_handle: params[:service_handle],
+              subservice_handle: params[:subservice_handle] )
       end
 
       def update

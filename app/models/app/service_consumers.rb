@@ -17,7 +17,7 @@ class App
       persistent_services.select do |service|
         service[:shared] == true
       end.map do |service|
-        # byebug
+
         build_persistent_service_consumer_share(
           parent_engine: service[:parent_engine],
           publisher_type_path: "#{service[:publisher_namespace]}/#{service[:type_path]}",

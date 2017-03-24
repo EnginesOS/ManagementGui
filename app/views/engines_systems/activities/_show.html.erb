@@ -1,13 +1,30 @@
 <%= modal(header: {text: "System activity for #{@engines_system.label}", icon: 'fa-bar-chart'}, footer_close: true, large: true) do %>
   <%= up_to_system_control_panel_link(@engines_system) %>
+  <%= resource_link :system_activity, params: {engines_system_id: @engines_system.id}, text: 'Refresh', icon: 'fa-repeat', title: "Refresh system activity" %>
   <%= content_tag :div, class: 'row' do %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'Containers memory', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= doughnut_chart @activity.containers_memory, { legend: { display: true, position: 'right' } } %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'System memory', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= doughnut_chart @activity.system_memory, { legend: { display: true, position: 'right' } } %>
+        <% end %>
+      <% end %>
+    <% end %>
     <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
         <%= content_tag :div, 'Apps memory', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <% app_count = @activity.engines_memory_ranges.first[:data].count %>
-          <% if app_count > 0 %>
-            <%= pie_chart @activity.engines_memory %>
+          <% if @activity.app_count > 0 %>
+            <%= doughnut_chart( @activity.apps_memory, { legend: { display: true, position: 'right' } } ) %>
+            <%#= pie_chart @activity.apps_memory, {} %>
           <% else %>
             <p>No apps in memory</p>
           <% end %>
@@ -18,7 +35,7 @@
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
         <%= content_tag :div, 'Services memory', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <%= pie_chart @activity.services_memory %>
+          <%= doughnut_chart @activity.services_memory, { legend: { display: true, position: 'right' } } %>
         <% end %>
       <% end %>
     <% end %>
@@ -26,12 +43,11 @@
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
         <%= content_tag :div, 'App memory headroom', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <% app_count = @activity.engines_memory_ranges.first[:data].count %>
-          <% if app_count > 0 %>
-            <% height = "#{app_count * 50 + 50}px" %>
-            <%= bar_chart @activity.engines_memory_ranges,
-                height: height, stacked: true,
-                library: {yAxis: {max: 1, labels: {enabled: false}}}  %>
+          <% if @activity.app_count > 0 %>
+            <% height = @activity.app_count * 15 + 30 %>
+            <%= horizontal_bar_chart @activity.apps_memory_ranges, {
+                height: height,
+                scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>
           <% else %>
             <p>No apps in memory</p>
           <% end %>
@@ -42,65 +58,61 @@
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
         <%= content_tag :div, 'Services memory headroom', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <% services_count = @activity.services_memory_ranges.first[:data].count %>
-          <% height = "#{services_count * 50 + 50}px" %>
-          <%= bar_chart @activity.services_memory_ranges, height: height, stacked: true, library: {yAxis: {max: 1, labels: {enabled: false}}}  %>
+          <% height = @activity.services_count * 15 + 30 %>
+          <%= horizontal_bar_chart @activity.services_memory_ranges, {
+              height: height,
+              scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>
         <% end %>
       <% end %>
     <% end %>
     <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
-        <%= content_tag :div, 'Containers memory', class: 'panel-heading' %>
+        <%= content_tag :div, 'Total memory headroom', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <%= pie_chart @activity.containers_memory %>
+        <%= horizontal_bar_chart @activity.containers_memory_ranges, {
+            height: 160,
+            scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>
         <% end %>
       <% end %>
     <% end %>
+
+<% if false %>
     <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
-        <%= content_tag :div, 'System memory', class: 'panel-heading' %>
+        <%= content_tag :div, 'CPU load', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <%= pie_chart @activity.system_memory %>
+        <%= horizontal_bar_chart @activity.cpu_load, {} %>
+        <% end %>
+      <% end %>
+    <% end %>
+<% end %>
+
+    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+      <%= content_tag :div, class: 'panel dashboard_panel' do %>
+        <%= content_tag :div, 'CPU queue', class: 'panel-heading' %>
+        <%= content_tag :div, class: 'panel-body' do %>
+          <%= bar_chart @activity.cpu_queue, { height: 160, legend: false, scales: { yAxes: [ { ticks: { beginAtZero: true } } ] } } %>
         <% end %>
       <% end %>
     <% end %>
     <%= content_tag :div, class: 'col-sm-12' do %>
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
-        <%= content_tag :div, 'Total memory headroom', class: 'panel-heading' %>
+        <%= content_tag :div, 'Network', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <%= bar_chart @activity.containers_memory_ranges, height: "150px", stacked: true, library: {yAxis: {max: 1, labels: {enabled: false}}}  %>
+        <% height = @activity.network_interfaces_count * 30 + 40 %>
+        <%= horizontal_bar_chart @activity.network_activity, {
+            height: height, scales: { xAxes: [ {  scaleLabel: { display: true, labelString: 'MB' } } ] } } %>
         <% end %>
       <% end %>
     <% end %>
-    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
-      <%= content_tag :div, class: 'panel dashboard_panel' do %>
-        <%= content_tag :div, 'CPU load', class: 'panel-heading' %>
-        <%= content_tag :div, class: 'panel-body' do %>
-        <%= bar_chart @activity.cpu_load, stacked: true, library: {yAxis: {labels: {enabled: false}}} %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
-      <%= content_tag :div, class: 'panel dashboard_panel' do %>
-        <%= content_tag :div, 'CPU queue', class: 'panel-heading' %>
-        <%= content_tag :div, class: 'panel-body' do %>
-          <%= column_chart @activity.cpu_queue %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
+    <%= content_tag :div, class: 'col-sm-12' do %>
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
         <%= content_tag :div, 'Disks', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <%= bar_chart @activity.disks, stacked: true %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <%= content_tag :div, class: 'col-sm-12 col-md-6' do %>
-      <%= content_tag :div, class: 'panel dashboard_panel' do %>
-        <%= content_tag :div, 'Network', class: 'panel-heading' %>
-        <%= content_tag :div, class: 'panel-body' do %>
-          <%= bar_chart @activity.network %>
+          <% height = @activity.disks_count * 15 + 20 %>
+          <%= horizontal_bar_chart @activity.disks_usage, {
+              height: height,
+              scales: { xAxes: [ { display: false, stacked: true } ], yAxes: [ { stacked: true } ] } } %>
         <% end %>
       <% end %>
     <% end %>

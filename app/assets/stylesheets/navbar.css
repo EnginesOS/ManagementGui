@@ -25,6 +25,6 @@ nav.navbar.navbar-default .navbar_section.navbar-header { margin: 0px; }
 nav.navbar.navbar-default .navbar-brand { color: inherit; background-color: transparent; padding: 0px; margin-left: 0px; }
 /*nav.navbar.navbar-default .navbar-brand:hover { color: #333; }*/
 nav.navbar.navbar-default .navbar-brand .navbar-icon { display: inline-block; }
-nav.navbar.navbar-default .navbar-brand .navbar-icon img { height: 48px; margin: 1px; }
+nav.navbar.navbar-default .navbar-brand .navbar-icon img { height: 42px; margin: 0px; }
 nav.navbar.navbar-default .navbar-brand .brand_text {
   display: inline-block; line-height: 20px; padding: 15px 10px; }

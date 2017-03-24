@@ -14,6 +14,8 @@ module Apps
         end
       end
 
+      private
+
       def create_service_consumer
         if @persistent_service_consumer_share_constructor.save_to_system
           flash.now[:notice] =
@@ -28,8 +30,6 @@ module Apps
         end
         render 'apps/service_consumers/index'
       end
-
-      private
 
       def strong_params
         params.

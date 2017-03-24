@@ -5,14 +5,15 @@
   <div class="btn-toolbar">
     <%= link_to content_tag(:i, "", class: "fa fa-level-up") + ' Popup report',
           app_installation_report_popup_path(app_id: @app.id),
+          target: "engines_app_#{@app.id}",
           class: 'btn btn-lg btn_resource',
           data: {popup: true} %>
     <% if @app.first_run_url.present? %>
-      <%= resource_link :app_first_run, params: {app_id: @app.id},
-            spinner: false, remote: false,
-            target: "engines_app_#{@app.id}_first_run",
-            text: 'First run', icon: 'fa-external-link',
-            title: "First run URL for #{@app.name}" %>
+      <%= link_to icon_text('fa-external-link', 'First run'),
+            @app.first_run_url,
+            target: @app.first_run_url,
+            class: 'btn btn-lg btn_resource',
+            data: {popup: true} %>
     <% end %>
   </div>
   <hr>

@@ -12,11 +12,11 @@ module Apps
      if @memory.valid?
        if @memory.update_system
          flash.now[:notice] = "Memory settings for #{@memory.app.name} were successfully updated."
-         render 'apps/menus/show'
+         render 'apps/control_panels/show'
        else
          flash.now[@memory.exception.flash_message_params[:type]] =
          "Failed to update memory settings for #{@memory.app.name}. (#{@memory.exception.flash_message_params[:message]})"
-         render 'apps/menus/show'
+         render 'apps/control_panels/show'
        end
      else
        render 'edit'

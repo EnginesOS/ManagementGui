@@ -19,7 +19,17 @@
         title: "Import data to #{@persistent_service_consumer.label} for #{@app.name}" %>
     <% end %>
     <hr>
-
+    <p><strong>Subservices</strong></p>
+    <div class="clearfix">
+      <%= resource_link :new_app_service_consumer_persistent_subservice, params: {
+          app_id: @app.id,
+          publisher_type_path: @persistent_service_consumer.publisher_type_path,
+          service_handle: @persistent_service_consumer.service_handle },
+        text: 'New', icon: 'fa-plus-square-o', class: 'pull-right',
+        title: "New subservice on #{@persistent_service_consumer.label} for #{@app.name}" %>
+    </div>
+    <% #= pretty_print @persistent_service_consumer.subservice_consumers %>
+    <hr>
     <p><strong>Immutable</strong></p>
     <% @persistent_service_consumer.grouped_field_params_with_values[:immutable].
                   each do |consumer_param| %>
@@ -56,19 +66,12 @@
     <% end %>
   <% end %>
   <hr>
-  <%= resource_link :app_service_consumer_persistent_subservices, params: {
-    app_id: @app.id,
-    publisher_type_path: @persistent_service_consumer.publisher_type_path,
-    service_handle: @persistent_service_consumer.service_handle },
-    text: 'Subservices', icon: 'fa-compass',
-    title: "Subservices on #{@persistent_service_consumer.label} for #{@app.name}" %>
-  <hr>
   <%= destroy_resource_link :new_app_service_consumer_persistent_destroy, params: {
     app_id: @app.id,
     publisher_type_path: @persistent_service_consumer.publisher_type_path,
     service_handle: @persistent_service_consumer.service_handle },
     method: :get,
     text: 'Delete',
-    confirm: { text: "Are you sure that you want to delete #{@persistent_service_consumer.label} from #{@app.name}?" },
+    confirm: false,
     title: "Delete service #{@persistent_service_consumer.label} for #{@app.name}" %>
 <% end %>

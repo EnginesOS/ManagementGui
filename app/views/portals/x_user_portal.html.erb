@@ -1,4 +1,4 @@
-<%= content_tag :div, class: 'col-xs-6 col-sm-4 col-md-3 col-lg-2 text-center' do %>
+<%= content_tag :div, class: 'col-xxs-12 col-xs-6 col-sm-4 col-md-3 col-lg-2 text-center' do %>
   <%= button_to user_profile_portal_path, method: :get, class: 'btn portal_button', title: "Open #{current_user.username} user portal" do %>
     <%= content_tag :div, class: 'portal_icon' do %>
       <% if true # current_user.icon.blank? || current_user.icon.dirty? %>
