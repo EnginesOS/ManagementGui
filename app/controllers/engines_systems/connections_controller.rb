@@ -9,7 +9,7 @@ module EnginesSystems
 
     def update
       @connection =  @engines_system.build_connection(strong_params)
-      if @connection.update_system
+      if @connection.update
         flash.now[:notice] = 'Successfully updated connection.'
         redirect_to cloud_path(cloud_id: @engines_system.cloud.id)
       else

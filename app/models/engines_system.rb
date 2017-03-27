@@ -9,18 +9,11 @@ class EnginesSystem < ApplicationRecord
   belongs_to :cloud
   has_many :apps, dependent: :destroy
   has_many :services, dependent: :destroy
-  # has_many :installer_repositories, class_name: '::Installer::Repository', dependent: :destroy
-  # has_one :certificate, class_name: 'CoreResources::Certificate', dependent: :destroy
-
-  # attr_accessor :password, :exception
 
   validates :label, presence: true
   validates :url, presence: true, uniqueness: { scope: :cloud }
-  # validates :password, presence: true
 
   custom_attribute_labels url: 'URL', password: "Admin password"
-
-  # has_image :icon
 
   def core_system
     @core_system ||= EnginesSystemCore::CoreSystem.new(url, token, label)

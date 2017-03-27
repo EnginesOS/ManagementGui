@@ -2,7 +2,7 @@ module Navbar
   module NavbarHelper
 
     def navbar
-      if @error
+      if @error || @bug_report
         simple_navbar
       elsif controller_path == 'clouds/portals'
         cloud_admin_banner(@cloud) +

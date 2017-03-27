@@ -9,17 +9,16 @@ module Apps
             build_non_persistent_service_consumer_remove(
               publisher_type_path: params[:publisher_type_path],
               service_handle: params[:service_handle] )
-        if @non_persistent_service_consumer_remove.remove_from_system
-          flash.now[:notice] =
-            "Successfully deleted #{@non_persistent_service_consumer_remove.label} "\
-            "for #{@app.name}."
-          render 'apps/service_consumers/index'
-        else
-          flash.now[:alert] =
-            "Failed to delete #{@non_persistent_service_consumer_remove.label} "\
-            "for #{@app.name}."
-          render 'show'
-        end
+        @non_persistent_service_consumer_remove.remove_from_system
+        flash.now[:notice] =
+          "Successfully deleted #{@non_persistent_service_consumer_remove.label} "\
+          "for #{@app.name}."
+        render 'apps/service_consumers/index'
+      rescue EnginesError => e
+        flash.now[:alert] =
+          "Failed to delete #{@non_persistent_service_consumer_remove.label} "\
+          "for #{@app.name}. (#{@non_persistent_service_consumer_remove.exception})"
+        render 'show'
       end
 
    end

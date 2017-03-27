@@ -4,7 +4,7 @@ class Service
 
       include ActiveModel::Model
 
-      attr_accessor :service, :configurator_name, :exception
+      attr_accessor :service, :configurator_name
 
       def to_label
         configurator_params[:label] || configurator_name.to_s.humanize

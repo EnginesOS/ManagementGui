@@ -47,7 +47,7 @@ class App
       end
 
       def save_to_system
-        app.core_app.set_network_properties(network_update_params)
+        @app.core_app.set_network_properties(network_update_params)
       end
 
       def network_update_params

@@ -4,7 +4,7 @@ class App
       class PersistentOrphanConstructor < Base
 
         def save_to_system
-          app.core_app.create_persistent_service_consumer_orphan(
+          @app.core_app.create_persistent_service_consumer_orphan(
               publisher_type_path: publisher_type_path,
               parent_engine: parent_engine,
               service_handle: service_handle,

@@ -19,22 +19,22 @@
 
 
 
-<% rescue EnginesSystemApiConnectionAuthenticationError => e %>
+<% rescue EnginesError::ApiConnectionAuthenticationError => e %>
   <%= system_connection_menu_link(@engines_system, connected: false) %>
-  <%= flash_message :alert, "#{e.to_s} Please click on 'Authenticate connection' and enter the admin password." %>
+  <%= flash_message :alert, "#{e} Please click on 'Authenticate connection' and enter the admin password." %>
   <%= system_sign_in_link(@engines_system) %>
-<% rescue EnginesSystemApiConnectionResetError,
-          EnginesSystemApiConnectionRefusedError,
-          EnginesSystemApiConnectionInvalidUrlError,
-          EnginesSystemApiConnectionSslInvalid,
-          EnginesSystemApiConnectionTimeoutError => e %>
+<% rescue EnginesError  => e %>
   <%= system_connection_menu_link(@engines_system, connected: false) %>
-  <%= flash_message :alert, "#{e.to_s}\n\nThe system URL is set to '#{@engines_system.url}'. If this is incorrect, click on the system button (with the red icon above and to the left) to edit the connection." %>
+  <%= flash_message :alert, "#{e}\n\nThe system URL is set to '#{@engines_system.url}'. If this is incorrect, click on the system button (with the red icon above and to the left) to edit the connection." %>
   <%= system_reload_link(@engines_system) %>
-<% rescue EnginesSystemError => e %>
+<% if false # rescue EnginesSystemError => e %>
   <%= system_menu_link(@engines_system, connected: false) %>
   <%= content_tag :div, id: "engines_system_#{ @engines_system.id }_flash_messages" do %>
     <%= flash_message :alert, e.to_s %>
   <% end %>
   <%= system_reload_link(@engines_system) %>
+<% end %>
+
+
+
 <% end %>
