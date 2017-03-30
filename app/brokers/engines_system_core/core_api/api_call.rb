@@ -80,8 +80,8 @@ module EnginesSystemCore
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :boolean
           result == 'true'
         # elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :file
-        #   result
-        elsif api_call_result.net_http_res.content_type == "application/octet-stream" && expected_content == :file
+        #   result text/plain
+        elsif ( api_call_result.net_http_res.content_type == "text/plain" || api_call_result.net_http_res.content_type == "application/octet-stream" ) && expected_content == :file
           result
         else
           raise EnginesError.new "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult:\n#{result}"
