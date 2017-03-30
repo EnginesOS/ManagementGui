@@ -1,11 +1,12 @@
 <% begin %>
   <% container_processes = @service.core_service.container_processes %>
-<% rescue EnginesSystemApiResourceNotFoundError %>
+<% rescue EnginesError #EnginesSystemApiResourceNotFoundError %>
   <% container_processes = nil %>
 <% end %>
 
 <%= modal footer_close: true, large: true, header: {text: "Processes for #{@service.name}", icon: 'fa-list-alt'} do %>
   <%= up_to_service_control_panel_link(@service) %>
+  <%= resource_link :service_processes, params: {service_id: @service.id}, text: 'Refresh', icon: 'fa-repeat', title: "Resfresh processes for #{@service.name}" %>
   <% if container_processes %>
     <table class="table">
       <tr>

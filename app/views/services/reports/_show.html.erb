@@ -2,13 +2,13 @@
 
 <% begin %>
   <% container_processes = @service.core_service.container_processes %>
-<% rescue EnginesSystemApiResourceNotFoundError %>
+<% rescue EnginesError #EnginesSystemApiResourceNotFoundError %>
   <% container_processes = nil %>
 <% end %>
 
 <% begin %>
   <% container_logs = @service.core_service.logs %>
-<% rescue EnginesSystemApiResourceNotFoundError %>
+<% rescue EnginesError #EnginesSystemApiResourceNotFoundError %>
   <% container_logs = nil %>
 <% end %>
 
