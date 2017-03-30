@@ -43,14 +43,14 @@ module EnginesLibraries
       JSON.parse(json).deep_symbolize_keys
     rescue => e
       Rails.logger.warn "Engines library #{@url} parse apps json failed: #{e}"
-      raise EnginesLibraryResponseError
+      raise EnginesError.new "Library error. Failed to parse json from Engines library at #{@url}. #{e}"
     end
 
     def apps_json
       RestClient::Request.execute(method: :get, url: @url, verify_ssl: false, payload: {per_page: 1000})
     rescue => e
       Rails.logger.warn "Engines library #{@url} get apps call failed: #{e}"
-      raise EnginesLibraryConnectionError
+      raise EnginesError.new "Library error. Failed to get apps from Engines library at #{@url}. #{e}"
     end
 
   end

@@ -68,7 +68,7 @@ module EnginesSystemCore
           begin
             JSON.parse result, symbolize_names: true
           rescue
-            raise "Failed to parse JSON.\n\nResult:\n#{result}"
+            raise EnginesError.new "Failed to parse JSON.\n\nResult:\n#{result}"
           end
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :string
           if result[0] == '"' && result[-1] == '"'
@@ -84,7 +84,7 @@ module EnginesSystemCore
         elsif api_call_result.net_http_res.content_type == "application/octet-stream" && expected_content == :file
           result
         else
-          raise "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult:\n#{result}"
+          raise EnginesError.new "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult:\n#{result}"
         end
       rescue => e
         Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{e}"
