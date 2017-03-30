@@ -31,6 +31,9 @@
     <div role="tabpanel" class="tab-pane" id="report_detail">
       <%= content_tag :div, class: 'dl-horizontal' do %>
         <%= report_collapse_data 'Configurations', @service.core_service.configurations %>
+        <%= report_collapse_data 'Consumed non-persistent services', @service.core_service.consumed_non_persistent_services %>
+        <%= report_collapse_data 'Consumed persistent services', @service.core_service.consumed_persistent_services %>
+        <%= report_collapse_data 'Consumers', @service.core_service.consumers %>
         <%= report_collapse_data 'Container', service_container %>
         <%= report_collapse_data 'Service definition', @service.service_definition %>
         <%= report_collapse_data 'Logs', container_logs ? container_logs : 'No container.' %>
