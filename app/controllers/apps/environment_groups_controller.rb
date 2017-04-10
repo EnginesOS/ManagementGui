@@ -20,7 +20,7 @@ module Apps
         else
           if @environment_group.exception
             flash.now[@environment_group.exception.flash_message_params[:type]] =
-            "#{@environment_group.exception}"
+            "Failed to update environment variables. #{@environment_group.exception}"
           end
           render 'apps/environment_groups/show'
         end

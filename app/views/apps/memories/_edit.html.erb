@@ -1,5 +1,5 @@
 <%= modal header: {text: "Memory settings for #{@memory.app.name}", icon: 'fa-pie-chart'}, id: "remote_modal" do %>
-  <% if @app.state == 'stopped'%>
+  <% if true || @app.state == 'stopped'%>
     <%= render 'form' %>
   <% else %>
     <%= up_to_app_control_panel_link(@app) %>

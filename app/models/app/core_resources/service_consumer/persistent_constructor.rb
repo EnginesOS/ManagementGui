@@ -4,7 +4,7 @@ class App
       class PersistentConstructor < Base
 
         def save_to_system
-          app.core_app.create_persistent_service_consumer(
+          @app.core_app.create_persistent_service_consumer(
               publisher_type_path: publisher_type_path,
               variables: variable_values)
         end

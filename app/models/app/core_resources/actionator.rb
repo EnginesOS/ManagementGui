@@ -4,7 +4,7 @@ class App
 
       include ActiveModel::Model
 
-      attr_accessor :app, :actionator_name, :api_post_result, :exception
+      attr_accessor :app, :actionator_name, :api_post_result
 
       validate :fields_valid
 
@@ -74,11 +74,7 @@ class App
       end
 
       def save_to_system
-         @api_post_result = app.core_app.perform_actionator_for(actionator_name, perform_actionator_params)
-      #  rescue => e
-      #    @exception = e
-      #    return false if e.is_a? EnginesError
-      # true
+        @api_post_result = app.core_app.perform_actionator_for(actionator_name, perform_actionator_params)
       end
 
       def return_type

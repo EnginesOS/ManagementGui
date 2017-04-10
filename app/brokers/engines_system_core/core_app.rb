@@ -234,12 +234,12 @@ module EnginesSystemCore
     # persistent services import/export
 
     def persistent_service_consumer_export(params)
-      get "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/export", expect: :string
+      get "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/export", expect: :file
     end
 
     def persistent_service_consumer_import(params)
       post "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/#{params[:write]}",
-        {}, { expect: :boolean }, params[:data_file]
+        { expect: :boolean }, params[:data_file]
     # rescue
     #   !true
     end

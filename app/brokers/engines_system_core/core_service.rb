@@ -88,9 +88,24 @@ module EnginesSystemCore
 
     # consumers
 
+    def consumers
+      get "containers/service/#{name}/consumers/", expect: :json
+    end
+
     def consumers_for(application_name)
       get "containers/service/#{name}/consumers/#{application_name}", expect: :json
     end
+
+    # consumed services
+
+    def consumed_persistent_services
+      get "containers/service/#{name}/services/persistent/", expect: :json
+    end
+
+    def consumed_non_persistent_services
+      get "containers/service/#{name}/services/non_persistent/", expect: :json
+    end
+
 
     # actions
 

@@ -4,7 +4,7 @@ class App
 
       include ActiveModel::Model
 
-      attr_accessor :app, :owner_type, :owner_path, :exception
+      attr_accessor :app, :owner_type, :owner_path
 
       validate :fields_valid
 
@@ -106,10 +106,7 @@ class App
       end
 
       def save_to_system
-         app.core_app.set_runtime_properties(environment_variables: environment_variable_update_values)
-       rescue => e
-         @exception = e
-         return false if e.is_a? EnginesError
+        @app.core_app.set_runtime_properties(environment_variables: environment_variable_update_values)
       end
 
       def environment_variable_update_values

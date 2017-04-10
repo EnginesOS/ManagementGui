@@ -46,8 +46,9 @@ class App < ApplicationRecord
     websites.first
   # Rescue catches case when app install does not complete and system is
   # subsquently unable to supply a website url for gui app.
-  rescue  EnginesSystemApiConnectionRefusedError,
-          EnginesSystemApiResourceNotFoundError
+  rescue EnginesError  
+    # EnginesSystemApiConnectionRefusedError,
+    # EnginesSystemApiResourceNotFoundError
     nil
   end
 

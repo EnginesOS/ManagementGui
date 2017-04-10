@@ -6,8 +6,8 @@ module Installs
     def new
       @new_app = @engines_system.build_new_app(install_repository_params)
       # @new_app.blueprint
-    rescue EnginesRepositoryUrlError, EnginesRepositoryParseError => e
-      flash.now[:alert] = "Failed to load blueprint from #{install_repository_params[:repository_url]}. #{e.to_s}"
+    rescue EnginesError # EnginesRepositoryUrlError, EnginesRepositoryParseError => e
+      flash.now[:alert] = "Failed to load blueprint from #{install_repository_params[:repository_url]}. #{e}"
       new_fail
     end
 

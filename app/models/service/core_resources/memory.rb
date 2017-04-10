@@ -5,7 +5,7 @@ class Service
       include ActiveModel::Model
       include ActiveModel::Validations
 
-      attr_accessor :service, :memory, :minimum, :recommended, :exception
+      attr_accessor :service, :memory, :minimum, :recommended
 
       validates :memory, presence: true
       validate :memory_meets_minimum
@@ -24,9 +24,6 @@ class Service
 
       def update_system
         service.core_service.set_runtime_properties(memory: memory)
-      rescue EnginesError => e
-        @exception = e
-        false
       end
 
       def memory_meets_minimum

@@ -1,6 +1,6 @@
 <% begin %>
   <% container_processes = @app.core_app.container_processes %>
-<% rescue EnginesSystemApiResourceNotFoundError %>
+<% rescue EnginesError # EnginesSystemApiResourceNotFoundError %>
   <% container_processes = nil %>
 <% end %>
 

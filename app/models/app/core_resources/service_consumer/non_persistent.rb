@@ -23,7 +23,7 @@ class App
         end
 
         def save_to_system
-          app.core_app.update_non_persistent_service_consumer(
+          @app.core_app.update_non_persistent_service_consumer(
               publisher_type_path: publisher_type_path,
               service_handle: service_handle,
               variables: variable_values)
