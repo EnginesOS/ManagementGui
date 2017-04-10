@@ -1,1 +1,0 @@
-class EnginesSystemApiError < EnginesSystemError; end

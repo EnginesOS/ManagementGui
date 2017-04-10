@@ -13,8 +13,10 @@ class EnginesSystem
         @url ||= engines_system.url
       end
 
-      def update_system
-        engines_system.update(url: url)
+      def update
+        return true if engines_system.update(url: url)
+        errors.add(:url, engines_system.errors[:url])
+        false
       end
 
     end

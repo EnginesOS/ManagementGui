@@ -17,17 +17,17 @@ module Apps
       private
 
       def create_service_consumer
-        if @persistent_service_consumer_share_constructor.save_to_system
-          flash.now[:notice] =
-            "Successfully shared "\
-            "#{@persistent_service_consumer_share_constructor.label} service "\
-            "for #{@app.name}."
-        else
-          flash.now[:alert] =
-            "Failed to share "\
-            "#{@persistent_service_consumer_share_constructor.label} service "\
-            "for #{@app.name}."
-        end
+        @persistent_service_consumer_share_constructor.save_to_system
+        flash.now[:notice] =
+          "Successfully shared "\
+          "#{@persistent_service_consumer_share_constructor.label} service "\
+          "for #{@app.name}."
+        render 'apps/service_consumers/index'
+      rescue EnginesError => e
+        flash.now[:alert] =
+          "Failed to share "\
+          "#{@persistent_service_consumer_share_constructor.label} service "\
+          "for #{@app.name}. #{e}"
         render 'apps/service_consumers/index'
       end
 

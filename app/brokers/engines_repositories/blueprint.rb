@@ -8,7 +8,8 @@ module EnginesRepositories
     def blueprint
       JSON.parse(raw_blueprint, symbolize_names: true)
     rescue JSON::ParserError
-      raise EnginesRepositoryParseError
+      Rails.logger.warn "Engines installer parse blueprint failed: #{e.class}"
+      raise EnginesError.new "Repository error. Failed to parse blueprint json from repository at #{@url}. #{e}"
     end
 
     def raw_blueprint
@@ -26,7 +27,7 @@ module EnginesRepositories
       RestClient.get(@url)
     rescue URI::InvalidURIError => e
       Rails.logger.warn "Engines installer get blueprint failed: #{e.class}"
-      raise EnginesRepositoryUrlError
+      raise EnginesError.new "Repository error. Failed to get blueprint from repository at #{@url}. #{e}"
     end
 
     def clone_blueprint
@@ -36,7 +37,7 @@ module EnginesRepositories
       File.read cloned_blueprint_path
     rescue URI::InvalidURIError => e
       Rails.logger.warn "Engines installer clone blueprint failed: #{e}"
-      raise EnginesRepositoryUrlError
+      raise EnginesError.new "Repository error. Failed to clone blueprint from repository at #{@url}. #{e}"
     end
 
     def is_git_repo?

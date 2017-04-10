@@ -1,6 +1,6 @@
 <% begin %>
   <% container_logs = @app.core_app.logs %>
-<% rescue EnginesSystemApiResourceNotFoundError %>
+<% rescue EnginesError #EnginesSystemApiResourceNotFoundError %>
   <% container_logs = nil %>
 <% end %>
 

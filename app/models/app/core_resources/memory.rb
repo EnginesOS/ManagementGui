@@ -4,7 +4,7 @@ class App
 
       include ActiveModel::Model
 
-      attr_accessor :app, :memory, :minimum, :recommended, :exception
+      attr_accessor :app, :memory, :minimum, :recommended
 
       validates :memory, presence: true
       validate :memory_meets_minimum
@@ -22,10 +22,7 @@ class App
       end
 
       def update_system
-        app.core_app.set_runtime_properties(memory: memory)
-      rescue EnginesError => e
-        @exception = e
-        false
+        @app.core_app.set_runtime_properties(memory: memory)
       end
 
       def memory_meets_minimum

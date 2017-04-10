@@ -25,7 +25,9 @@ class BugReport
   private
 
   def error_message
-    @error.to_s.sub(Rails.root.to_s, '')
+    @error.to_s.encode('UTF-8').sub(Rails.root.to_s, '')
+  rescue => e
+    "Failed to extract error message from error object. #{e}"
   end
 
   def application_backtrace
@@ -33,7 +35,7 @@ class BugReport
   end
 
   def system_response
-    JSON.parse(@error.response)
+    JSON.parse(@error.response.encode('UTF-8'))
   rescue
     'n/a'
   end

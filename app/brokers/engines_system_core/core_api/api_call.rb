@@ -14,40 +14,25 @@ module EnginesSystemCore
           RestClient.send( http_method, "#{@api_url}/v0/#{api_route}", params: params, access_token: @token, verify_ssl: true ) #, verify_ssl: false, content_type: :json )
         end
       rescue SocketError => e # normally thrown when invalid url is provided for server address
-        Rails.logger.debug "EnginesSystemApiConnectionTcpError: #{e.inspect}"
-        raise EnginesSystemApiConnectionTcpError
-      rescue OpenSSL::SSL::SSLError => e # normally throw when user enters
-        Rails.logger.debug "EnginesSystemApiConnectionSslError: #{e.inspect}"
-        raise EnginesSystemApiConnectionSslInvalid
+        raise EnginesError.new "The address for the Engines system #{@api_url} is invalid."
+      rescue OpenSSL::SSL::SSLError => e # normally throw when SSL certificate is invalid
+        raise EnginesError.new "The security certificate is invalid."
       rescue RestClient::SSLCertificateNotVerified
-        Rails.logger.debug "EnginesSystemApiConnectionSslError: #{e.inspect}"
-        raise EnginesSystemApiConnectionSslNotTrusted
+        raise EnginesError.new "The security certificate is not trusted."
       rescue Errno::ECONNREFUSED => e # normally thrown when system is offline.
-        Rails.logger.debug "EnginesSystemApiConnectionRefusedError: #{e.inspect}"
-        raise EnginesSystemApiConnectionRefusedError
+        raise EnginesError.new "Failed to connect with the Engines system."
       rescue Errno::ECONNRESET => e # normally thrown after system update.
-        Rails.logger.debug "EnginesSystemApiConnectionResetError: #{e.inspect}"
-        raise EnginesSystemApiConnectionResetError
+        raise EnginesError.new "The connection to the Engines system has been reset."
       rescue RestClient::ServerBrokeConnection => e  # normally thrown when the system has been online and then goes offline (when system stopped, for example).
-        Rails.logger.debug "EnginesSystemApiConnectionResetError: #{e.inspect} #{e.response}"
-        raise EnginesSystemApiConnectionResetError
-        # elsif error.is_a?(RestClient::BadRequest)
-        #   raise EnginesSystemApiConnectionRefusedError
-      # rescue RestClient::BadRequest => e
-      #   Rails.logger.debug "EnginesSystemApiConnectionBadRequestError: #{e.inspect} #{e.response}"
-      #   raise EnginesSystemApiConnectionBadRequestError.new(e)
+        raise EnginesError.new "The connection to the Engines system has been broken."
       rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system
-        Rails.logger.debug "EnginesSystemApiConnectionInvalidUrlError: #{e.inspect}"
-        raise EnginesSystemApiConnectionInvalidUrlError
-      rescue RestClient::NotFound => e # || error.is_a?(SocketError)
-        Rails.logger.debug "EnginesSystemApiResourceNotFoundError: #{e.inspect} #{e.response}"
-        raise EnginesSystemApiResourceNotFoundError.new(e)
-      rescue RestClient::Forbidden => e
-        Rails.logger.debug "EnginesSystemApiConnectionAuthenticationError: #{e.inspect} #{e.response}"
-        raise EnginesSystemApiConnectionAuthenticationError.new(@api_url)
+        raise EnginesError.new "The URL is invalid."
+      rescue RestClient::NotFound => e
+        raise EnginesError.new "Failed to find the requested resource. #{system_error_message_from(e)}"
       rescue RestClient::Exceptions::OpenTimeout, RestClient::Exceptions::ReadTimeout => e
-        Rails.logger.debug "EnginesSystemApiConnectionTimeoutError: #{e.inspect} #{e.response}"
-        raise EnginesSystemApiConnectionTimeoutError
+        raise EnginesError.new "The connection to the Engines system timed-out."
+      rescue RestClient::Forbidden => e # can't authenticate. Throwing special error so that gui knows to present authentication link
+        raise EnginesError::ApiConnectionAuthenticationError.new "Failed to authenticate the connection with the Engines system."
       rescue => e
         Rails.logger.warn \
         "++++++++\n"\
@@ -83,7 +68,7 @@ module EnginesSystemCore
           begin
             JSON.parse result, symbolize_names: true
           rescue
-            raise "Failed to parse JSON.\n\nResult:\n#{result}"
+            raise EnginesError.new "Failed to parse JSON.\n\nResult:\n#{result}"
           end
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :string
           if result[0] == '"' && result[-1] == '"'
@@ -94,15 +79,27 @@ module EnginesSystemCore
           end
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :boolean
           result == 'true'
-        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :file
+        # elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :file
+        #   result text/plain
+        elsif ( api_call_result.net_http_res.content_type == "text/plain" || api_call_result.net_http_res.content_type == "application/octet-stream" ) && expected_content == :file
           result
         else
-          raise "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult:\n#{result}"
+          raise EnginesError.new "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.\n\nResult:\n#{result}"
         end
-      rescue => error
-        Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{error}"
-        raise EnginesSystemApiResponseError.new error
+      rescue => e
+        Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{e}"
+        raise e
       end
+
+      private
+
+      def system_error_message_from(e)
+        JSON.parse(e.response, symbolize_names: true)[:error_object][:error_mesg] || raise
+      rescue
+        "Failed to extract system error message from API response."
+      end
+
+
 
     end
   end

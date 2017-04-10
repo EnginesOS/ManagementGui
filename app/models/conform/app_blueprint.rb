@@ -14,7 +14,7 @@ module Conform
     end
 
     def schema1_0
-      raise BlueprintSchemaVersionError if major > 1 || ( major == 1 && minor > 0 )
+      raise EnginesError.new "Blueprint schema version error." if major > 1 || ( major == 1 && minor > 0 )
       return Schema_0_0ToSchema_1_0.new(@original_blueprint).output if major < 1
       Schema_1_0.new(@original_blueprint).output
     end

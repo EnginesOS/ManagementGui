@@ -15,7 +15,7 @@ module Services
          render 'services/control_panels/show'
        else
          flash.now[@memory.exception.flash_message_params[:type]] =
-         "Failed to update memory settings for #{@memory.service.name}. (#{@memory.exception.flash_message_params[:message]})"
+         "Failed to update memory settings for #{@memory.service.name}. #{@memory.exception.flash_message_params[:message]}"
          render 'services/control_panels/show'
        end
      else

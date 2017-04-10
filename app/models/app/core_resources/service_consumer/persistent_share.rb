@@ -12,7 +12,7 @@ class App
             parent_engine: parent_engine,
             publisher_type_path: publisher_type_path,
             service_handle: service_handle,
-            variables: variables)
+            variables: variable_values)
         end
 
         def grouped_field_params_with_values

@@ -19,7 +19,7 @@ class EnginesSystem
 
     def busy?
       system_status[:is_restarting] || system_status[:is_base_system_updating] || system_status[:is_engines_system_updating]
-    rescue EnginesSystemApiConnectionRefusedError #, EnginesSystemApiConnectionAuthenticationError
+    rescue EnginesError #, EnginesSystemApiConnectionAuthenticationError
       # return true if e.is_a? EnginesSystemApiConnectionRefusedError
       true
     end

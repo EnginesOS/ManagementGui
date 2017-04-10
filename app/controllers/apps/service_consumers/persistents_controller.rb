@@ -21,20 +21,18 @@ module Apps
       def update
         @persistent_service_consumer = @app.
                 build_persistent_service_consumer(strong_params)
-        if @persistent_service_consumer.valid?
-          if @persistent_service_consumer.save_to_system
-            flash.now[:notice] =
-              "Successfully updated #{@persistent_service_consumer.label} "\
-              "for #{@app.name}."
-          else
-            flash.now[:alert] =
-              "Failed to update #{@persistent_service_consumer.label} "\
-              "for #{@app.name}."
-          end
-          render 'show'
+        if @persistent_service_consumer.valid? && @persistent_service_consumer.save_to_system
+          flash.now[:notice] =
+            "Successfully updated #{@persistent_service_consumer.label} "\
+            "for #{@app.name}."
         else
           render 'edit'
         end
+      rescue EnginesError => e
+        flash.now[:alert] =
+          "Failed to update #{@persistent_service_consumer.label} "\
+          "for #{@app.name}. (#{@persistent_service_consumer.exception})"
+        render 'show'
       end
 
       private

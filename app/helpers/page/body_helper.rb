@@ -2,7 +2,7 @@ module Page
   module BodyHelper
 
     def page_body(body)
-      if @error || (devise_controller? && !current_user)
+      if @error || @bug_report || (devise_controller? && !current_user)
         cloud_page_body(page_object, body)
       elsif controller_name == 'portals'
         portal_page_body(page_object, body)
