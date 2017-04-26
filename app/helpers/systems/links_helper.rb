@@ -47,8 +47,6 @@ module Systems
       end
     end
 
-
-
     def up_to_system_menu_link(engines_system)
       content_tag :div, class: 'clearfix' do
         resource_link :system_menu,
@@ -58,7 +56,6 @@ module Systems
         title: "Return to #{engines_system.label} menu"
       end
     end
-
 
     def up_to_install_libraries_or_system_menu_link(engines_system)
       if @engines_system.cloud.libraries.count == 1
@@ -75,11 +72,6 @@ module Systems
       end
     end
 
-
-
-
-
-
     def up_to_system_control_panel_link(engines_system)
       content_tag :div, class: 'clearfix' do
         resource_link :system_control_panel,
@@ -89,7 +81,6 @@ module Systems
         class: 'pull_right_wide_media'
       end
     end
-
 
     def system_services_link(engines_system)
       resource_link :system_services,
@@ -114,16 +105,6 @@ module Systems
       resource_link :system_keys,
       params: {engines_system_id: engines_system.id},
       text: 'SSH key', icon: 'fa-key', title: 'Upload/download key'
-
-
-      # content_tag(:div) do
-      #   content_tag :button, title: 'Upload/download key',
-      #     class: 'btn btn-lg btn_resource', type: 'button',
-      #     'data-dismiss': :modal,
-      #     'data-toggle': :modal, 'data-target': '#system_key_menu_modal' do
-      #       icon_text 'fa-key', 'SSH keys'
-      #   end
-      # end + system_key_menu_modal(engines_system)
     end
 
     def system_installer_link(engines_system)

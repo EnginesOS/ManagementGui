@@ -1,18 +1,21 @@
 <%= modal footer_close: true, header: {text: "Actions for #{@service.name}", icon: 'fa-crosshairs'} do %>
   <%= up_to_service_control_panel_link(@service) %>
-  <%= pretty_print @service.actionators %>
-<% end %>
+
+  <% if @service.actionators.empty? %>
+    <p><i>None</i></p>
+  <% end %>
+
+  <% @service.actionators.values.each do |actionator| %>
+    <%= resource_link :new_service_actionator,
+        params: { service_id: @service.id,
+                  actionator_name: actionator[:name] },
+                  text: actionator[:label] || actionator[:name].to_s.humanize %>
+  <% end %>
 
 
-<% if false %>
-
-<% @service.actionators.values.each do |actionator| %>
-  <%= resource_link :edit_service_actionator,
-      params: { service_id: @service.id,
-                actionator_name: actionator[:name] },
-                text: actionator[:label] || actionator[:name].to_s.humanize %>
-<% end %>
-
+  <hr>
+  <p>@service.actionators</p>
+    <%= pretty_print @service.actionators %>
 
 
 <% end %>

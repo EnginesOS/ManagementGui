@@ -13,6 +13,10 @@ class Service
       build_core_resource Configurator, params
     end
 
+    def build_actionator(params = {})
+      build_core_resource Actionator, params
+    end
+
     # def build_rebuild(params = {})
     #   build_core_resource Rebuild, params
     # end

@@ -7,7 +7,11 @@
          when :markdown %>
         <%= markdown_text @actionator.api_post_result %>
       <% when :plain_text %>
-        <% @actionator.api_post_result.split('\n').map do |line| %><%= line %><br><% end %>
+        Result without splitting new lines...<br><br>
+        <%= @actionator.api_post_result %>
+        <hr>
+        Result split lines at "\n"<br><br>
+        <% @actionator.api_post_result.split("\n").map do |line| %><%= line %><br><% end %>
       <% end %>
     </div>
   </div>

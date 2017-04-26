@@ -1,11 +1,11 @@
 <%= content_tag :div, class: 'portal-col col-xs-6 col-sm-4 col-md-3 col-lg-2 col-centered' do %>
   <% if app.worker %>
-    <%= button_to app_portal_message_path(app_id: app.id), method: :get, remote: true, disabled: app.portal_worker_message.blank?,
+    <%= link_to ( app.portal_worker_message.blank? ? '#' : app_portal_message_path(app_id: app.id) ), method: :get, remote: true, disabled: app.portal_worker_message.blank?,
         class: 'btn portal_button', title: app.name do %>
       <%= render 'portals/app_button_body', app: app %>
     <% end %>
   <% else %>
-    <%= button_to app.portal_link, method: :get, disabled: app.portal_link.blank?,
+    <%= link_to ( app.portal_link.blank? ? '#' : app.portal_link ), method: :get, disabled: app.portal_link.blank?,
         form: { target: "engines_app_#{app.id}" },
         class: 'btn portal_button', title: [ app.name, app.portal_link].compact.join(' - ') do %>
       <%= render 'portals/app_button_body', app: app %>

@@ -22,6 +22,14 @@ class Field
 
   attr_accessor :field_consumer, *form_attributes
 
+  def required=(value)
+    @required = ActiveRecord::Type::Boolean.new.cast(value)
+  end
+
+  def read_only=(value)
+    @read_only = ActiveRecord::Type::Boolean.new.cast(value)
+  end
+
   def valid?
     super.tap do |result|
       unless result

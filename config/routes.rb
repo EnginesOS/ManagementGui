@@ -154,7 +154,7 @@ Rails.application.routes.draw do
     resource :configuration, only: [:show]
     resource :configurator, only: [:edit, :update]
     resource :actions, only: [:show]
-    resource :actionator, only: [:show]
+    resource :actionator, only: [:new, :create]
     resource :logs, only: [:show]
     resource :processes, only: [:show]
     resource :restart_local_gui, only: [:show]

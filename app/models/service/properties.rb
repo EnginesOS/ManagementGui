@@ -18,7 +18,11 @@ class Service
   # actions
 
   def actionators
-    @actionators ||= service_definition[:service_actionators]
+    @actionators ||= core_service.actionators
+  end
+
+  def actionator_for(actionator_name)
+    core_service.actionator_for(actionator_name)
   end
 
   # environment variables

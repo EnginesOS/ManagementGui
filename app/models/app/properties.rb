@@ -112,7 +112,7 @@ class App
   # actions
 
     def actionators
-      @actions ||= core_app.actionators
+      @actionators ||= core_app.actionators
     end
 
     def actionator_for(actionator_name)

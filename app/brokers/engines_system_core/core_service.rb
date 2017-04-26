@@ -106,12 +106,19 @@ module EnginesSystemCore
       get "containers/service/#{name}/services/non_persistent/", expect: :json
     end
 
-
     # actions
 
-    # def actionators
-    #   get "containers/service/#{name}/actions/", expect: :json
-    # end
+    def actionators
+      get "containers/service/#{name}/actions/", expect: :json
+    end
+
+    def actionator_for(actionator_name)
+      get "containers/service/#{name}/action/#{actionator_name}", expect: :json
+    end
+
+    def perform_actionator_for(actionator_name, params)
+      post "containers/service/#{name}/action/#{actionator_name}", params, expect: :string
+    end
 
     # properties
 
