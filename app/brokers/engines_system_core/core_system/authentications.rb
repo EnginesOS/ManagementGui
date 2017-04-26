@@ -3,7 +3,7 @@ module EnginesSystemCore
     module Authentications
 
       def authenticate(password)
-        get "system/login/admin/#{password}", expect: :string
+        get "system/login/admin/#{password}", expect: :plain_text
       end
 
     end

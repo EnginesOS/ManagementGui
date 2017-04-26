@@ -25,7 +25,7 @@ module EnginesSystemCore
     #  state
 
     def state
-      get "containers/service/#{name}/state", expect: :string
+      get "containers/service/#{name}/state", expect: :plain_text
     end
 
     def status
@@ -116,8 +116,8 @@ module EnginesSystemCore
       get "containers/service/#{name}/action/#{actionator_name}", expect: :json
     end
 
-    def perform_actionator_for(actionator_name, params)
-      post "containers/service/#{name}/action/#{actionator_name}", params, expect: :string
+    def perform_actionator_for(actionator_name, params, return_type)
+      post "containers/service/#{name}/action/#{actionator_name}", params: params, expect: return_type.to_sym
     end
 
     # properties
@@ -133,7 +133,7 @@ module EnginesSystemCore
     #  #resolve string
     #
     #      def resolve_string(string)
-    #        post "containers/service/#{name}/template", {template_string: string}, expect: :string
+    #        post "containers/service/#{name}/template", {template_string: string}, expect: :plain_text
     #      end
 
     # logs

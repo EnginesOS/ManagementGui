@@ -74,7 +74,7 @@ class Service
       end
 
       def save_to_system
-         @api_post_result = service.core_service.perform_actionator_for(actionator_name, perform_actionator_params)
+         @api_post_result = service.core_service.perform_actionator_for(actionator_name, perform_actionator_params, return_type)
       #  rescue => e
       #    @exception = e
       #    return false if e.is_a? EnginesError

@@ -74,7 +74,7 @@ class App
       end
 
       def save_to_system
-        @api_post_result = app.core_app.perform_actionator_for(actionator_name, perform_actionator_params)
+        @api_post_result = app.core_app.perform_actionator_for(actionator_name, perform_actionator_params, return_type)
       end
 
       def return_type

@@ -70,7 +70,7 @@ module EnginesSystemCore
           rescue
             raise EnginesError::ApiParseError.new "Failed to parse JSON.", result
           end
-        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :string
+        elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :plain_text
           if result[0] == '"' && result[-1] == '"'
             byebug if Rails.env.development?
             result[1..-2] # remove leading and trailing quotation marks

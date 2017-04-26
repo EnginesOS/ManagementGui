@@ -34,13 +34,13 @@ module EnginesSystemCore
     end
 
     def build_report
-      get "containers/engine/#{name}/build_report", expect: :string
+      get "containers/engine/#{name}/build_report", expect: :plain_text
     end
 
     # state
 
     def state
-      get "containers/engine/#{name}/state", expect: :string
+      get "containers/engine/#{name}/state", expect: :plain_text
     end
 
     def status
@@ -247,7 +247,7 @@ module EnginesSystemCore
     # resolve string
 
     def resolve_string(string)
-      post "containers/engine/#{name}/template", params: {template_string: string}, expect: :string
+      post "containers/engine/#{name}/template", params: {template_string: string}, expect: :plain_text
     end
 
     # actions
@@ -260,8 +260,8 @@ module EnginesSystemCore
       get "containers/engine/#{name}/action/#{actionator_name}", expect: :json
     end
 
-    def perform_actionator_for(actionator_name, params)
-      post "containers/engine/#{name}/action/#{actionator_name}", params: params, expect: :string
+    def perform_actionator_for(actionator_name, params, return_type)
+      post "containers/engine/#{name}/action/#{actionator_name}", params: params, expect: return_type.to_sym
     end
 
     # logs

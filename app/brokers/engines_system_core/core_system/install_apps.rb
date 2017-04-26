@@ -15,7 +15,7 @@ module EnginesSystemCore
       end
 
       def last_build_log
-        get 'engine_builder/last_build/log', expect: :string
+        get 'engine_builder/last_build/log', expect: :plain_text
       end
 
     end

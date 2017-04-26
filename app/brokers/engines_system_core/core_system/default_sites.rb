@@ -3,7 +3,7 @@ module EnginesSystemCore
     module DefaultSites
 
       def default_site
-        get 'system/config/default_site', expect: :string
+        get 'system/config/default_site', expect: :plain_text
       end
 
       # params: :default_site

@@ -7,7 +7,7 @@ module EnginesSystemCore
       end
 
       def default_domain
-        get 'system/config/default_domain', expect: :string
+        get 'system/config/default_domain', expect: :plain_text
       end
 
       # params: :default_domain

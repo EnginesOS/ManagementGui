@@ -3,7 +3,7 @@ module EnginesSystemCore
     module Versions
 
       def engines_version
-        get 'system/version/system', expect: :string
+        get 'system/version/system', expect: :plain_text
       end
 
       def base_system_version

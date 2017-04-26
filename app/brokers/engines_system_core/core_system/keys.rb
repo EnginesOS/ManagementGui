@@ -11,7 +11,7 @@ module EnginesSystemCore
       end
 
       def generate_key
-        get 'system/keys/user/engines/generate', expect: :string
+        get 'system/keys/user/engines/generate', expect: :plain_text
       end
 
     end
