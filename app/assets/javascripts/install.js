@@ -31,13 +31,11 @@ var install_process_builder_log_line = function(new_line) {
   installProgressBarWidth = installProgressBarWidth + 1;
   if ( installProgressBarWidth > 900 ) { installProgressBarWidth = 500 };
   install_update_progress_bar();
-  if ( new_line != '.' ) {
+  if ((new_line == '.') && ($("#install_builder_log").text().charAt(0) == '.')) {
+    $("#install_builder_log").prepend(new_line);
+  } else {
     var new_html = ansi_up.ansi_to_html(new_line);
-    if ((new_html == '.') && ($("#install_builder_log").text().charAt(0) == '.')) {
-      $("#install_builder_log").prepend(new_html);
-    } else {
-      $("#install_builder_log").prepend(new_html + '\n');
-    };
+    $("#install_builder_log").prepend(new_html + '\n');
   };
 };
 
