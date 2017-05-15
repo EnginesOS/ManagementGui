@@ -14,7 +14,7 @@ module Systems
             content_tag(:div, ( icon_text('fa-map-marker', 'Local system') if engines_system.is_local_system ) )
           end +
           content_tag(:span, class: 'container_menu_header_label_subtext engines_system_status') do
-            engines_system.needs.join('<br>').html_safe if engines_system.needs.present?
+            icon_text('fa-warning', engines_system.needs.join(' - ')) if engines_system.needs.any?
           end
         end +
         content_tag(:div, class: 'container_menu_header_detail pull_right_wide_media') do

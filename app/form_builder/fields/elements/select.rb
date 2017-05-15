@@ -15,7 +15,7 @@ module Fields
         collection_select(
           method,
           collection_for(opts[:collection]),
-          :first, :last, ({selected: opts[:value]} unless object.send(method).present?) || {}, { class: "form-control #{opts[:class]}" } )
+          :first, :last, opts.merge(({selected: opts[:value]} unless object.send(method).present?) || {}), { class: "form-control #{opts[:class]}" } )
       end
 
       def engines_collection_radios_field(method, opts={})
@@ -32,6 +32,7 @@ module Fields
       end
 
       def collection_for(collection)
+        return collection if collection.is_a? Hash
         array_or_string_to_array(collection).map { |element| array_or_string_to_array element }
       end
 

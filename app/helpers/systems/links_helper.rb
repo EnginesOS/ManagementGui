@@ -151,6 +151,18 @@ module Systems
       title: 'Review last app installation'
     end
 
+    def system_timezone_link(engines_system)
+      resource_link :edit_system_timezone,
+      params: {engines_system_id: engines_system.id},
+      text: 'Timezone', icon: 'fa-clock-o', title: 'Timezone settings'
+    end
+
+    def system_locale_link(engines_system)
+      resource_link :edit_system_locale,
+      params: {engines_system_id: engines_system.id},
+      text: 'Locale', icon: 'fa-map-marker', title: 'Locale settings'
+    end
+
     def system_bugs_link(engines_system)
       resource_link :edit_system_bug_reports,
       params: {engines_system_id: engines_system.id},

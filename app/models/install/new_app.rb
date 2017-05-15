@@ -20,6 +20,8 @@ class Install
                   :memory,
                   :recommended_memory,
                   :required_memory,
+                  :country,
+                  :language,
                   :deployment_type,
                   :license_label,
                   :license_sourceurl,
@@ -168,6 +170,21 @@ class Install
       @deployment_type ||= blueprint[:software][:base][:deployment_type]
     end
 
+    # locale
+
+    def locale_parameters
+      @locale_parameters ||= core_system.locale
+    end
+
+    def language
+      @language ||= locale_parameters[:lang_code]
+    end
+
+    def country
+      @country ||= locale_parameters[:country_code]
+    end
+
+
 
     # blueprint
 
@@ -266,6 +283,8 @@ class Install
         domain_name: domain_name,
         http_protocol: http_protocol.to_s,
         memory: memory,
+        country_code: country,
+        lang_code: language,
         variables: variables_install_params,
         attached_services: service_consumers_install_params,
         repository_url: repository_url,

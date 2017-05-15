@@ -150,6 +150,12 @@ module Fields
       engines_password_with_confirmation_field method, opts
     when :read_only
       engines_read_only_field method, opts
+    when :timezone
+      engines_timezone_select_field method, opts
+    when :country
+      engines_country_select_field method, opts
+    when :language
+      engines_language_select_field method, opts
     else
       opts[:value] = "Unknown type '#{data_type}' for '#{method}'"
       engines_read_only_field method, opts

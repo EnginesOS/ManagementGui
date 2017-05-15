@@ -50,6 +50,8 @@ Rails.application.routes.draw do
     resource :domain, only: [:new, :create, :edit, :update, :destroy]
     resource :last_install
     resource :bug_reports, only: [:edit, :update]
+    resource :timezone, only: [:edit, :update]
+    resource :locale, only: [:edit, :update]
     resource :admin, only: [:show]
     namespace :admin, module: :admins do
       resource :password, only: [:edit, :update]

@@ -61,6 +61,14 @@ class EnginesSystem
       build_core_resource ServiceManager, params
     end
 
+    def build_locale(params = {})
+      build_core_resource Locale, params
+    end
+
+    def build_timezone(params = {})
+      build_core_resource Timezone, params
+    end
+
     def build_bug_report(params = {})
       build_core_resource BugReport, params
     end

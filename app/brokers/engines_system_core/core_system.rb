@@ -15,6 +15,7 @@ module EnginesSystemCore
     include EventStreams
     include InstallApps
     include Keys
+    include Localization
     include Logs
     include Registries
     include Reserved
