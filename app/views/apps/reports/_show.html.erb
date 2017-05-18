@@ -62,8 +62,8 @@
       <%= content_tag :div, class: 'dl-horizontal' do %>
         <%= report_collapse_data 'Actionators', @app.core_app.actionators %>
         <%= report_collapse_data 'Available services', @app.core_app.available_services %>
-        <%= report_collapse_data 'Blueprint', @app.app_blueprint %>
-        <%= ( report_collapse_data 'Blueprint schema 1.0', @app.blueprint ) if @app.has_old_blueprint %>
+        <%= report_collapse_data 'Blueprint', @app.blueprint %>
+        <%= ( report_collapse_data 'Raw blueprint', @app.app_blueprint ) if @app.has_old_blueprint %>
         <%= report_collapse_data 'Build report', @app.core_app.build_report %>
         <%= report_collapse_data 'Container', app_container %>
         <%= report_collapse_data 'Logs', container_logs ? container_logs : 'No container.' %>

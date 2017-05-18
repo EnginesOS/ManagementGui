@@ -153,6 +153,7 @@ Rails.application.routes.draw do
     # resource :environment_group, only: [:show, :edit, :update]
     resource :report, only: [:show]
     resource :rebuild, only: [:show]
+    resource :about, only: [:show]
     resource :configuration, only: [:show]
     resource :configurator, only: [:edit, :update]
     resource :actions, only: [:show]

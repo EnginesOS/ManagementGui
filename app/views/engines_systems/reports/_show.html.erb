@@ -12,6 +12,7 @@
     <%= report_collapse_data 'Engines version', @engines_system.core_system.engines_version %>
     <%= report_collapse_data 'Exception logging', @engines_system.core_system.remote_exception_logging?.to_s %>
     <%= report_collapse_data 'Last build', @engines_system.core_system.last_build_params %>
+    <%= report_collapse_data 'Locale and timezone', { locale: @engines_system.core_system.locale, timezone: @engines_system.core_system.timezone } %>
     <%= report_collapse_data 'Network statistics', @engines_system.core_system.network_statistics %>
     <%= report_collapse_data 'Reserved container names', @engines_system.core_system.reserved_container_names %>
     <%= report_collapse_data 'Reserved FQDNs', @engines_system.core_system.reserved_fqdns %>

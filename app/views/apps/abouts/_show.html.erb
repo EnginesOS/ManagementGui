@@ -1,0 +1,13 @@
+<%= modal footer_close: true, header: {text: "About #{@app.name}", icon: 'fa-info-circle'} do %>
+  <%= up_to_app_control_panel_link(@app) %>
+  <%= @app.blueprint.dig(:metadata, :software, :display, :title) %>
+  <%= @app.blueprint.dig(:metadata, :software, :display, :version) %><br>
+  Website: <%= link_to @app.blueprint.dig(:metadata, :software, :display, :url) %><br>
+  License: <% if @app.blueprint.dig(:metadata, :license, :url).present? %>
+    <%= link_to @app.blueprint.dig(:metadata, :software, :license, :label), @app.blueprint.dig(:metadata, :license, :url) %>
+  <% else %>
+    <%= @app.blueprint.dig(:metadata, :software, :license, :label) %>
+  <% end %>
+  <hr>
+  <%= markdown_text @app.blueprint.dig(:metadata, :software, :display, :description) %>
+<% end %>

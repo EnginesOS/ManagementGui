@@ -26,7 +26,7 @@ class App < ApplicationRecord
     return existing_app if existing_app
     create(opts).tap do |app|
       app.show_on_portal = true
-      unless app.blueprint_deployment_type == :web
+      unless app.blueprint_deployment_type.to_s == 'web'
         app.worker = true
       end
       app.save
@@ -46,7 +46,7 @@ class App < ApplicationRecord
     websites.first
   # Rescue catches case when app install does not complete and system is
   # subsquently unable to supply a website url for gui app.
-  rescue EnginesError  
+  rescue EnginesError
     # EnginesSystemApiConnectionRefusedError,
     # EnginesSystemApiResourceNotFoundError
     nil

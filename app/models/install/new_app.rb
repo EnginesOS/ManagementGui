@@ -45,7 +45,7 @@ class Install
       if install_metadata[:data][:method].to_sym == :gui_library
         install_metadata[:data][:app][:label]
       else
-        blueprint[:software][:base][:name].to_s.humanize
+        blueprint.dig(:software, :base, :name).to_s.humanize
       end
     end
 
@@ -63,7 +63,7 @@ class Install
     end
 
     def install_form_comment
-      @install_form_comment ||= blueprint[:software][:base][:install_form_comment]
+      @install_form_comment ||= blueprint.dig(:software, :base, :install_form_comment)
     end
 
     def custom_install
@@ -101,7 +101,7 @@ class Install
     end
 
     def container_name
-      @container_name ||= available_name_for blueprint[:software][:base][:name]
+      @container_name ||= available_name_for blueprint.dig(:software, :base, :name)
     end
 
     def label
@@ -124,8 +124,8 @@ class Install
     def http_protocol
       @http_protocol ||=
       [:http_only, :https_only, :http_and_https, :https_and_http].
-      include?(blueprint[:software][:base][:http_protocol].to_s.to_sym) ?
-      blueprint[:software][:base][:http_protocol].to_sym : :http_and_https
+      include?(blueprint.dig(:software, :base, :http_protocol).to_s.to_sym) ?
+      blueprint.dig(:software, :base, :http_protocol).to_sym : :http_and_https
     end
 
     def protocol_select_collection
@@ -143,15 +143,15 @@ class Install
     end
 
     def memory
-      @memory ||= blueprint[:software][:base][:memory][:recommended] || blueprint[:software][:base][:memory][:required]
+      @memory ||= blueprint.dig(:software, :base, :memory, :recommended) || blueprint.dig(:software, :base, :memory, :required)
     end
 
     def recommended_memory
-      @recommended_memory ||= blueprint[:software][:base][:memory][:recommended]
+      @recommended_memory ||= blueprint.dig(:software, :base, :memory, :recommended)
     end
 
     def required_memory
-      @required_memory ||= blueprint[:software][:base][:memory][:required]
+      @required_memory ||= blueprint.dig(:software, :base, :memory, :required)
     end
 
     def memory_hint
@@ -167,7 +167,7 @@ class Install
     end
 
     def deployment_type
-      @deployment_type ||= blueprint[:software][:base][:deployment_type]
+      @deployment_type ||= blueprint.dig(:software, :base, :deployment_type)
     end
 
     # locale
@@ -197,11 +197,11 @@ class Install
     end
 
     def license_label
-      @license_label ||= blueprint[:metadata][:software][:license][:label] || 'License'
+      @license_label ||= blueprint.dig(:metadata, :software, :license, :label) || 'License'
     end
 
     def license_sourceurl
-      @license_sourceurl ||= blueprint[:metadata][:software][:license][:url]
+      @license_sourceurl ||= blueprint.dig(:metadata, :software, :license, :url)
     end
 
     def environment_variables
@@ -228,7 +228,7 @@ class Install
     end
 
     def service_consumers_build_params
-      service_consumers = blueprint[:software][:service_configurations]
+      service_consumers = blueprint.dig(:software, :service_configurations) || []
       return [] unless service_consumers.present?
       service_consumers.map do |service_consumer|
         { type_path: "#{service_consumer[:publisher_namespace]}/#{service_consumer[:type_path]}",

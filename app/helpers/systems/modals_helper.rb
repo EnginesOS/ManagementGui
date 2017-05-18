@@ -37,8 +37,8 @@ module Systems
       header: {text: "Control panel for #{engines_system.label}", icon: 'fa-cogs'},
       footer_close: true ) do
         up_to_system_menu_link(engines_system) +
-        system_timezone_link(engines_system) +
         system_locale_link(engines_system) +
+        system_timezone_link(engines_system) +
         content_tag(:hr) +
         system_domains_link(engines_system) +
         system_certificates_link(engines_system) +

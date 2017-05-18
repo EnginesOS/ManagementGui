@@ -18,7 +18,7 @@ class App
   # deployment_type
 
     def blueprint_deployment_type
-      @blueprint_deployment_type ||= blueprint[:software][:base][:deployment_type]
+      @blueprint_deployment_type ||= blueprint.dig(:software, :base, :deployment_type)
     end
 
   # websites
@@ -52,17 +52,17 @@ class App
     end
 
     def minimum_memory
-      @minimum_memory ||= blueprint[:software][:base][:memory][:required]
+      @minimum_memory ||= blueprint.dig(:software, :base, :memory, :required)
     end
 
     def recommended_memory
-      @recommended_memory ||= blueprint[:software][:base][:memory][:recommended]
+      @recommended_memory ||= blueprint.dig(:software, :base, :memory, :recommended)
     end
 
   # network
 
     def blueprint_http_protocol
-      @network_http_protocol ||= blueprint[:software][:base][:http_protocol]
+      @network_http_protocol ||= blueprint.dig(:software, :base, :http_protocol)
     end
 
     def network_http_protocol
@@ -84,7 +84,7 @@ class App
     end
 
     def resolved_first_run_url
-      @resolved_first_run_url ||= core_app.resolve_string(blueprint[:software][:base][:first_run_url]) if blueprint[:software][:base][:first_run_url].present?
+      @resolved_first_run_url ||= core_app.resolve_string(blueprint.dig(:software, :base, :first_run_url)) if blueprint.dig(:software, :base, :first_run_url).present?
     end
 
   # services
