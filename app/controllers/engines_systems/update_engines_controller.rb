@@ -5,7 +5,7 @@ module EnginesSystems
     # before_action :set_cloud
 
     def show
-      if @engines_system.core_system.update_engines
+      if !@engines_system.core_system.update_engines
         render
       else
         flash.now[:notice] = "Engines is already up to date."

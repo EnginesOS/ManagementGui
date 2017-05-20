@@ -13,25 +13,27 @@ module EnginesSystemCore
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
           RestClient.send( http_method, "#{@api_url}/v0/#{api_route}", params: params, access_token: @token, verify_ssl: true ) #, verify_ssl: false, content_type: :json )
         end
-      rescue SocketError => e # normally thrown when invalid url is provided for server address
-        raise EnginesError.new "The address for the Engines system #{@api_url} is invalid."
-      rescue OpenSSL::SSL::SSLError => e # normally throw when SSL certificate is invalid
-        raise EnginesError.new "The security certificate is invalid."
-      rescue RestClient::SSLCertificateNotVerified
-        raise EnginesError.new "The security certificate is not trusted."
-      rescue Errno::ECONNREFUSED => e # normally thrown when system is offline.
-        raise EnginesError.new "Failed to connect with the Engines system."
-      rescue Errno::ECONNRESET => e # normally thrown after system update.
-        raise EnginesError.new "The connection to the Engines system has been reset."
-      rescue RestClient::ServerBrokeConnection => e  # normally thrown when the system has been online and then goes offline (when system stopped, for example).
-        raise EnginesError.new "The connection to the Engines system has been broken."
       rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system
-        raise EnginesError.new "The URL is invalid."
+        raise EnginesError.new "Invalid URL for Engines system #{@name} at #{@api_url}."
+      rescue Errno::EHOSTUNREACH # normally thrown when the engines system is offline
+        raise EnginesError.new "Cannot establish connection to Engines system #{@name} at #{@api_url}."
+      # rescue SocketError => e # normally thrown when invalid url is provided for server address
+      #   raise EnginesError.new "The address for the Engines system #{@api_url} is invalid."
+      rescue OpenSSL::SSL::SSLError => e # normally throw when SSL certificate is invalid
+        raise EnginesError.new "The security certificate is invalid for Engines system #{@name} at #{@api_url}."
+      rescue RestClient::SSLCertificateNotVerified
+        raise EnginesError.new "The security certificate is not trusted for Engines system #{@name} at #{@api_url}."
+      rescue Errno::ECONNREFUSED => e # normally thrown when system is offline.
+        raise EnginesError.new "Connection refused to Engines system #{@name} at #{@api_url}."
+      rescue Errno::ECONNRESET => e # normally thrown after system update.
+        raise EnginesError.new "Connection has been reset to Engines system #{@name} at #{@api_url}."
+      rescue RestClient::ServerBrokeConnection => e  # normally thrown when the system has been online and then goes offline (when system stopped, for example).
+        raise EnginesError.new "Connection has been broken to Engines system #{@name} at #{@api_url} ."
       rescue RestClient::NotFound => e
-        raise EnginesError.new "Failed to find the requested resource. #{system_error_message_from(e)}"
+        raise EnginesError.new "Failed to find the requested resource on Engines system #{@name} at #{@api_url}. #{system_error_message_from(e)}"
       rescue RestClient::Exceptions::OpenTimeout, RestClient::Exceptions::ReadTimeout => e
-        raise EnginesError.new "The connection to the Engines system timed-out."
-      rescue RestClient::Forbidden => e # can't authenticate. Throwing special error so that gui knows to present authentication link
+        raise EnginesError.new "The connection has timed-out to Engines system #{@name} at #{@api_url}."
+      rescue RestClient::Forbidden => e # can't authenticate. Throwing custom error so that gui knows to present authentication link
         raise EnginesError::ApiConnectionAuthenticationError.new "Failed to authenticate the connection with the Engines system."
       rescue => e
         Rails.logger.warn \
@@ -98,8 +100,6 @@ module EnginesSystemCore
       rescue
         "Failed to extract system error message from API response."
       end
-
-
 
     end
   end

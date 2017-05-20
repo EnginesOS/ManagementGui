@@ -47,8 +47,8 @@ class App
 
   # memory
 
-    def memory
-      @memory ||= container[:memory]
+    def memory_metrics
+      @memory_metrics ||= core_app.memory_metrics
     end
 
     def minimum_memory
@@ -60,6 +60,10 @@ class App
     end
 
   # network
+
+    def network_metrics
+      @network_metrics ||= core_app.network_metrics
+    end
 
     def blueprint_http_protocol
       @network_http_protocol ||= blueprint.dig(:software, :base, :http_protocol)

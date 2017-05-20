@@ -9,23 +9,22 @@ function listen_to_engines_system_event_stream(engines_system_event_stream_url, 
   };
 };
 
+function close_engines_system_event_stream(engines_system_id){
+  if (EnginesSystemEventsListeners[engines_system_id]) {
+    console.log('Close Engines system listener ' + engines_system_id + ' ' + JSON.stringify(EnginesSystemEventsListeners[engines_system_id]) );
+    EnginesSystemEventsListeners[engines_system_id].close();
+    EnginesSystemEventsListeners[engines_system_id] = null;
+  };
+};
+
 var process_engines_system_event_error = function(engines_system_event_stream_url, engines_system_id, engines_system_label, error) {
   console.log('Events stream error from ' + engines_system_label + '(' + engines_system_event_stream_url + ') - ' + JSON.stringify(error));
   EnginesSystemEventsListeners[engines_system_id].close();
   EnginesSystemEventsListeners[engines_system_id] = null;
   alert("There was a communication error. Please reload the page. (Client event stream has closed after receiving an error from the management application server.)");
-    // error.currentTarget.close();
-    // EnginesSystemEventsListeners[engines_system_id].close();
-    // listen_to_engines_system_event_stream(engines_system_event_stream_url, engines_system_id, engines_system_label);
-
-    // $('.modal').hide();
-  // delete EnginesSystemEventsListeners[engines_system_id];
-  // alert("Events stream error from the Engines system " + engines_system_label + ". Page will reload.");
-  // location.reload();
 };
 
 var process_engines_system_event = function(engines_system_event_stream_url, engines_system_id, engines_system_label, event_string) {
-  // console.log('System ' + engines_system_id + ' event - ' + event_string);
   var event = JSON.parse(event_string);
   console.log('System ' + engines_system_id + ' event - ' + JSON.stringify(event));
   if ($("#engines_system_" + engines_system_id).length) {
@@ -37,8 +36,7 @@ var process_engines_system_event = function(engines_system_event_stream_url, eng
       case "empty":
         break;
       case "error":
-        EnginesSystemEventsListeners[engines_system_id].close();
-        EnginesSystemEventsListeners[engines_system_id] = null;
+        close_engines_system_event_stream(engines_system_id)
         alert(event.message);
         break;
       case "timeout":
@@ -56,7 +54,7 @@ var process_engines_system_event = function(engines_system_event_stream_url, eng
     };
   } else {
     console.log('No system for event. Closing event stream...');
-    EnginesSystemEventsListeners[engines_system_id].close();
+    close_engines_system_event_stream(engines_system_id);
   };
 };
 
@@ -69,6 +67,9 @@ var update_container_status_indicators = function(engines_system_id, event) {
       State changed to ' + event.state + '. \
     </div>'
   );
+
+console.log('State changed to ' + event.state);
+
   $("." + event.name + "_container_state").each(function() {
     update_container_status_indicator($(this), event.name, event.state);
   });
@@ -109,7 +110,7 @@ var resetEnginesSystemEventsListener = function(engines_system_id, sourceUrl, ev
     console.log('Existing Engines system listener ' + eventType + ' - ' + sourceUrl );
     console.log('Existing Engines system listener state: ' + EnginesSystemEventsListeners[engines_system_id].readyState );
     if (EnginesSystemEventsListeners[engines_system_id].readyState === 2) {
-      EnginesSystemEventsListeners[engines_system_id].close();
+      close_engines_system_event_stream(engines_system_id);
       EnginesSystemEventsListeners[engines_system_id] = new EventSource(sourceUrl);
       EnginesSystemEventsListeners[engines_system_id].addEventListener(eventType, func, false);
       EnginesSystemEventsListeners[engines_system_id].onerror = error_func;
@@ -129,9 +130,7 @@ var resetEnginesSystemEventsListener = function(engines_system_id, sourceUrl, ev
 
 $(window).on('beforeunload', function(){
   for (var key in EnginesSystemEventsListeners){
-    console.log('Close Engines system listener ' + key + ' ' + JSON.stringify(EnginesSystemEventsListeners[key]) );
-    if (EnginesSystemEventsListeners[key]) {
-      EnginesSystemEventsListeners[key].close();
-    };
+
+
   };
 });

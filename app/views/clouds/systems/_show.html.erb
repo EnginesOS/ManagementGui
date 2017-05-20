@@ -1,6 +1,6 @@
 <% begin %>
   <%= content_tag :div, class: "pull-right engines_system_status" do %>
-    <%= ( link_to icon_text('fa-warning', @engines_system.needs.join(' - ') ), system_update_path(engines_system_id: @engines_system.id), remote: true ) if @engines_system.needs.any? %>
+    <%= ( link_to icon_text('fa-warning', @engines_system.needs.join(' - ') ), system_menu_path(engines_system_id: @engines_system.id), remote: true ) if @engines_system.needs.any? %>
   <% end %>
   <%= system_menu_link(@engines_system, connected: true) %>
 <%#= system_reload_link(@engines_system) %>

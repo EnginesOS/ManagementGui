@@ -1,10 +1,6 @@
 module EnginesSystemCore
   class CoreService
 
-    # include Actions
-    # # include Definitions
-    # include Inspections
-    # include Properties
     include CoreApi::ApiCall
 
     def initialize(api_url, token, name)
@@ -125,16 +121,6 @@ module EnginesSystemCore
     def set_runtime_properties(params)
       post "containers/service/#{name}/properties/runtime", params: params, expect: :boolean
     end
-    #
-    #      def set_network_properties(params)
-    #        post "containers/service/#{name}/properties/network", params, expect: :boolean
-    #      end
-    #
-    #  #resolve string
-    #
-    #      def resolve_string(string)
-    #        post "containers/service/#{name}/template", {template_string: string}, expect: :plain_text
-    #      end
 
     # logs
 

@@ -270,5 +270,17 @@ module EnginesSystemCore
       get "containers/engine/#{name}/logs", expect: :json
     end
 
+    #memory
+
+    def memory_metrics
+      get "containers/engine/#{name}/metrics/memory", expect: :json
+    end
+
+    #network
+
+    def network_metrics
+      get "containers/engine/#{name}/metrics/network", expect: :json
+    end
+
   end
 end

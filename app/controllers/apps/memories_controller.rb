@@ -25,7 +25,7 @@ module Apps
 
    def strong_params
      params.require(:app_core_resources_memory).permit(
-       :memory, :minimum, :recommended)
+       :limit, :minimum, :recommended)
    end
 
  end

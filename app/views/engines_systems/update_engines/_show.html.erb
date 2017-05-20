@@ -1,3 +1,4 @@
 <%= wait_for_system_modal( @engines_system,
       { message: "#{@engines_system.label} is updating. This normally takes a minute or two.",
         icon: 'fa-refresh' }) %>
+<!-- close system event stream, otherwise comms error while system is restarting -->
