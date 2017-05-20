@@ -21,16 +21,16 @@
       return
     ), poll_period
 
-  $(document).off('ajaxError');
-  $(document).ajaxError (event, request, settings) ->
-    response = request.responseText
-    if typeof response == 'undefined' or response == ''
-      check_if_system_busy()
-    else if request.status == 401
-      window.location.replace(redirect_url)
-    else
-      alert(response)
-      location.reload()
-    return
+  # $(document).off('ajaxError');
+  # $(document).ajaxError (event, request, settings) ->
+  #   response = request.responseText
+  #   if typeof response == 'undefined' or response == ''
+  #     check_if_system_busy()
+  #   else if request.status == 401
+  #     window.location.replace(redirect_url)
+  #   else
+  #     alert(response)
+  #     location.reload()
+  #   return
 
   return
