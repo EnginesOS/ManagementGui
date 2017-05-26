@@ -10,10 +10,10 @@ module Installs
         render 'still_building'
       else
         if @engines_system.build_failed?
-          flash.now[:alert] = "The app installation failed. (Builder status from system: #{@engines_system.builder_status})"
+          flash.now[:alert] = "The installation of #{@app.name} failed."
           render 'build_failed'
         else
-          flash.now[:success] = "The installation of #{@app.name} was successful. (Builder status from system: #{@engines_system.builder_status})"
+          flash.now[:success] = "The installation of #{@app.name} was successful."
           render
         end
       end

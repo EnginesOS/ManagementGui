@@ -1,4 +1,3 @@
-remote_get("<%= cloud_system_path(engines_system_id: @app.engines_system.id) %>");
 $('.modal').modal 'hide'
 $('body').append '<%= j(render 'apps/menus/show') %>'
 $('#<%= @app.id %>_menu_modal').modal 'show'

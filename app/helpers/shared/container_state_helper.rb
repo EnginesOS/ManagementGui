@@ -21,9 +21,7 @@ module Shared
       when :running, :oom; 'fa-play'
       when :stopped; 'fa-stop'
       when :paused; 'fa-pause'
-      when :create, :installing; 'fa-circle-o-notch fa-spin'
-      else
-        'fa-question'
+      else; 'fa-circle-o-notch fa-spin'
       end
     end
 

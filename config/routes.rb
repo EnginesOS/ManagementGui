@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     resource :sign_in, only: [:new, :create]
     resource :connection_menu, only: [:show]
     resource :connection, only: [:edit, :update]
-    resource :events_stream, only: [:show]
+    # resource :events_stream, only: [:show]
     resource :menu, only: [:show]
     resource :control_panel, only: [:show]
     resource :properties, only: [:edit, :update]
@@ -139,7 +139,7 @@ Rails.application.routes.draw do
     resource :repository, only: [:new]
     resource :new_app, only: [:new, :create]
     resource :build, only: [:show]
-    resource :build_log, only: [:show]
+    # resource :build_log, only: [:show]
     resource :build_complete, only: [:show]
   end
 

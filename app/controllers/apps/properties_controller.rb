@@ -8,6 +8,7 @@ module Apps
 
    def update
      if @app.update(strong_params)
+       EnginesSystemViewUpdateJob.perform_later(@app.engines_system.id)
        flash.now[:notice] = "Successfully updated app properties."
        render
      else

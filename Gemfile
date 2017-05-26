@@ -56,9 +56,9 @@ gem 'ansi-to-html'
 
 
 
-# group :production do
-#   gem 'redis', '~> 3.0'
-# end
+group :production do
+  gem 'redis', '~> 3.0'
+end
 
 
 ## Default Rails Gems

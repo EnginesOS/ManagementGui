@@ -24,6 +24,7 @@ module Installs
       if @new_app.valid?
         if @new_app.install
           @new_app.create_app
+          EnginesSystemViewUpdateJob.perform_later(@new_app.engines_system.id)
           render
         else
           flash[:alert] = "Failed to install #{@new_app.container_name} from #{@repository.repository_url}."

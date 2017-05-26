@@ -1,9 +1,9 @@
 <% begin %>
+
   <%= content_tag :div, class: "pull-right engines_system_status" do %>
     <%= ( link_to icon_text('fa-warning', @engines_system.needs.join(' - ') ), system_menu_path(engines_system_id: @engines_system.id), remote: true ) if @engines_system.needs.any? %>
   <% end %>
   <%= system_menu_link(@engines_system, connected: true) %>
-<%#= system_reload_link(@engines_system) %>
   <%= content_tag :div, class: 'engines_containers apps' do %>
     <%= render @engines_system.installed_apps %>
   <% end %>
@@ -13,28 +13,20 @@
     <% end %>
   <% end %>
 
-
-
- <% # = Service.all.map do |s| "#{s.name} - #{s.environment_variables}" end.join("<br>".html_safe) %>
-
-
+  <script>
+    SubcribeToEnginesSystemEventsChannel(<%= @engines_system.id %>, '<%= @engines_system.label %>');
+  </script>
 
 <% rescue EnginesError::ApiConnectionAuthenticationError => e %>
+
   <%= system_connection_menu_link(@engines_system, connected: false) %>
   <%= flash_message :alert, "#{e} Please click on 'Authenticate connection' and enter the admin password." %>
   <%= system_sign_in_link(@engines_system) %>
-<% rescue EnginesError  => e %>
+
+<% rescue EnginesError => e %>
+
   <%= system_connection_menu_link(@engines_system, connected: false) %>
   <%= flash_message :alert, "#{e}\n\nThe system URL is set to '#{@engines_system.url}'. If this is incorrect, click on the system button (with the red icon above and to the left) to edit the connection." %>
   <%= system_reload_link(@engines_system) %>
-<% if false # rescue EnginesSystemError => e %>
-  <%= system_menu_link(@engines_system, connected: false) %>
-  <%= content_tag :div, id: "engines_system_#{ @engines_system.id }_flash_messages" do %>
-    <%= flash_message :alert, e.to_s %>
-  <% end %>
-  <%= system_reload_link(@engines_system) %>
-<% end %>
-
-
 
 <% end %>
