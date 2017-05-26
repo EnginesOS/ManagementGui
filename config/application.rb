@@ -25,7 +25,7 @@ module SystemGui
     config.tmp_dir = '/tmp'
 
     # ENV['RAILS_MAX_THREADS'] = '16'
-
+    
     config.bug_reports_server = ENV['BUG_REPORTS_SERVER'] # e.g. 'http://eng.example.com:3999'
     config.local_system_api_url = ENV['SYSTEM_API_URL'] # e.g. 'http://eng.example.com:2380'
     config.user_timeout_minutes = ENV['USER_TIMEOUT_MINUTES'] # default is 30
