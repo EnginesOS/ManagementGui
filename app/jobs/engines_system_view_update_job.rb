@@ -2,8 +2,9 @@ class EnginesSystemViewUpdateJob < ApplicationJob
 
   queue_as :default
 
-  def perform(engines_system_id)
-    ActionCable.server.broadcast "engines_systems_events_channel_#{engines_system_id}", {type: :reload_system}.to_json
+  def perform(engines_system)
+    html = ApplicationController.renderer.render(partial: "/clouds/systems/show", locals: {engines_system: engines_system})
+    ActionCable.server.broadcast "engines_system_view_update_channel_#{engines_system.id}", html: html
   end
 
 end

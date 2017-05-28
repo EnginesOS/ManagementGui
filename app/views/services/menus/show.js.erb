@@ -1,6 +1,6 @@
 $(".modal").modal('hide');
 $("body").append("<%= j render('services/menus/show' ) %>");
-$("#container_<%= @service.name %>_menu_modal").modal("show");
-$("#container_<%= @service.name %>_menu_modal").on("hidden.bs.modal", function(){$(this).remove();});
-$("#container_<%= @service.name %>_menu_modal_flash_messages").html("<%= j(flash_messages) %>");
-$("#container_<%= @service.name %>_menu_modal_flash_messages").hide().fadeIn();
+$("#engines_system_<%= @service.engines_system.id %>_container_<%= @service.name %>_menu_modal").modal("show");
+$("#engines_system_<%= @service.engines_system.id %>_container_<%= @service.name %>_menu_modal").on("hidden.bs.modal", function(){$(this).remove();});
+$("#engines_system_<%= @service.engines_system.id %>_container_<%= @service.name %>_menu_modal_flash_messages").html("<%= j(flash_messages) %>");
+$("#engines_system_<%= @service.engines_system.id %>_container_<%= @service.name %>_menu_modal_flash_messages").hide().fadeIn();

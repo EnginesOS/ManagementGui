@@ -4,8 +4,8 @@ fadeInSpinner = function() {
   $('#wait_for_system_response_spinner .system_response_spinner_container').hide();
   $('#wait_for_system_response_spinner').show();
   setTimeout((function() {
-    $('#wait_for_system_response_spinner .system_response_spinner_container').fadeIn(10);
-  }), 10);
+    $('#wait_for_system_response_spinner .system_response_spinner_container').fadeIn(1000);
+  }), 1000);
 };
 
 bind_show_wait_for_system_response_spinner_click_event = function() {

@@ -11,9 +11,9 @@ module Apps
       @uninstall = @app.build_uninstall(strong_params)
       if @uninstall.uninstall
         render 'create'
-        engines_system_id = @app.engines_system.id
+        engines_system = @app.engines_system
         @app.delete
-        EnginesSystemViewUpdateJob.perform_later(engines_system_id)
+        EnginesSystemViewUpdateJob.perform_later(engines_system)
       else
         if @uninstall.exception
           flash.now[@uninstall.exception.flash_message_params[:type]] =

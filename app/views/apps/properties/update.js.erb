@@ -1,5 +1,5 @@
-$(".modal").modal('hide');
-$("body").append("<%= j render('apps/menus/show') %>");
+$('.modal').modal('hide');
+$('body').append("<%= j(render 'apps/menus/show') %>");
 $('#engines_system_<%= @app.engines_system.id %>_container_<%= @app.name %>_menu_modal').modal('show');
 $('#engines_system_<%= @app.engines_system.id %>_container_<%= @app.name %>_menu_modal').on('hidden.bs.modal', function() { return $(this).remove(); });
 $("#engines_system_<%= @app.engines_system.id %>_container_<%= @app.name %>_menu_modal_flash_messages").html("<%= j(flash_messages) %>");

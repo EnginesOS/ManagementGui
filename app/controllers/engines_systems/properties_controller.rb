@@ -8,7 +8,7 @@ module EnginesSystems
 
     def update
       if @engines_system.update(strong_params)
-        EnginesSystemViewUpdateJob.perform_later(@engines_system.id)
+        EnginesSystemViewUpdateJob.perform_later(@engines_system)
         render
       else
         render 'edit'

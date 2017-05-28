@@ -1,4 +1,4 @@
-<%= modal footer_close: true, header: 'App', id: "container_#{ @app.name }_menu_modal" do %>
+<%= modal footer_close: true, header: 'App', id: "engines_system_#{ @app.engines_system.id }_container_#{ @app.name }_menu_modal" do %>
   <%= content_tag :div, class: 'container_menu_header clearfix' do %>
     <%= content_tag :div, class: 'container_menu_header_icon' do %>
       <% unless @app.icon.blank? || @app.icon.dirty? %>

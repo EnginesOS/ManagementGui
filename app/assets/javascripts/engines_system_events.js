@@ -61,7 +61,7 @@
 // };
 
 var update_container_status_indicators = function(engines_system_id, app_name, state) {
-  $('#container_' + app_name + '_menu_modal_flash_messages').html(
+  $('#engines_system_' + engines_system_id + '_container_' + app_name + '_menu_modal_flash_messages').html(
     '<div class="alert alert-info alert-dismissible"> \
       <button name="button" type="button" class="close" data-dismiss="alert"> \
         × \
@@ -69,7 +69,7 @@ var update_container_status_indicators = function(engines_system_id, app_name, s
       State changed to ' + state + '. \
     </div>'
   );
-  $("." + app_name + "_container_state").each(function() {
+  $("#engines_system_" + engines_system_id + " ." + app_name + "_container_state, #engines_system_" + engines_system_id + "_container_" + app_name + "_menu_modal").each(function() {
     $(this).find(".container_state_indicator").hide();
     $(this).find(".container_state_indicator." + state).show();
   });
