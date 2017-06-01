@@ -1,0 +1,4 @@
+
+$("#engines_system_<%= @engines_system.id %>").html('<%= j(render "show_with_authentication_error", engines_system: @engines_system, e: @e) %>');
+$("#engines_system_<%= @engines_system.id %>_flash_messages").hide();
+$("#engines_system_<%= @engines_system.id %>_flash_messages").fadeIn();

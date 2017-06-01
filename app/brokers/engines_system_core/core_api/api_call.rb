@@ -7,10 +7,10 @@ module EnginesSystemCore
       def api_call(http_method, api_route, params, file=nil)
         if http_method == :post
           post_body = file.present? ? { file: file } : {api_vars: params}.to_json
-          # Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
+          Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
           RestClient.post( "#{@api_url}/v0/#{api_route}", post_body, access_token: @token ) # , content_type: :json )
         else
-          # Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
+          Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
           RestClient.send( http_method, "#{@api_url}/v0/#{api_route}", params: params, access_token: @token, verify_ssl: true ) #, verify_ssl: false, content_type: :json )
         end
       rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system
@@ -65,7 +65,7 @@ module EnginesSystemCore
       def parse(api_call_result, expected_content)
         byebug if Rails.env.development? && !( api_call_result.net_http_res.content_type != "application/json" || api_call_result.net_http_res.content_type != "text/plain" )
         result = api_call_result.body.to_s
-        # Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
+        Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
         if api_call_result.net_http_res.content_type == "application/json" && expected_content == :json
           begin
             JSON.parse result, symbolize_names: true

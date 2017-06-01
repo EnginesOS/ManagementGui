@@ -1,0 +1,3 @@
+<%= system_connection_menu_link(engines_system, connected: false) %>
+<%= flash_message :alert, "#{e}\n\nThe system URL is set to '#{engines_system.url}'. If this is incorrect, click on the system button (with the red icon above and to the left) to edit the connection." %>
+<%= system_reload_link(engines_system) %>

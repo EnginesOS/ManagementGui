@@ -39,7 +39,7 @@
   <hr>
   <% app_state = @app.core_app.state %>
   <%= content_tag :span, class: "container_state_indicators #{@app.name}_container_state" do %>
-    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused, :kill ].each do |state| %>
+    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused, :kill, :die ].each do |state| %>
       <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if app_state.to_s != state.to_s) do %>
         <%= content_tag :div, class: "container_state_indicator_area" do %>
           <%= content_tag :div, class: "container_state_indicator_icon" do %>

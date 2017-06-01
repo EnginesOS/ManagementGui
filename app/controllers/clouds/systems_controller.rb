@@ -4,6 +4,9 @@ module Clouds
     before_action :set_cloud, only: [:new, :create]
     before_action :set_engines_system, only: [:show, :destroy]
 
+    rescue_from EnginesError::ApiConnectionAuthenticationError, with: :handle_engines_authentication_error
+    rescue_from EnginesError, with: :handle_engines_error
+
     def show
     end
 
@@ -35,7 +38,17 @@ module Clouds
       params.require(:engines_system).permit(:label, :url) #, :token)
     end
 
+    def handle_engines_authentication_error(e)
+      raise e unless action_name == 'show'
+      @e = e
+      render 'show_with_authentication_error'
+    end
 
+    def handle_engines_error(e)
+      raise e unless action_name == 'show'
+      @e = e
+      render 'show_with_error'
+    end
 
   end
 end

@@ -13,10 +13,9 @@ var SubcribeToEnginesSystemViewUpdateChannel = function(engines_system_id) {
           App.engines_system_view_update_channel_subscriptions = App.engines_system_view_update_channel_subscriptions.splice(engines_system_id,1)
           console.log('Disconnected from EnginesSystemViewUpdateChannel');
         },
-        received: function(message_string) {
-          console.log('Received on EnginesSystemViewUpdateChannel: ' + message_string);
-          var html = JSON.parse(message_string).html;
-          alert(html);
+        received: function(message_object) {
+          console.log('Received on EnginesSystemViewUpdateChannel: ' + JSON.stringify(message_object));
+          $('#engines_system_' + engines_system_id).html(message_object.html)
         }
       }
     );
