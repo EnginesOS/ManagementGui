@@ -8,10 +8,10 @@ module EnginesSystemCore
         if http_method == :post
           post_body = file.present? ? { file: file } : {api_vars: params}.to_json
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
-          RestClient.post( "#{@api_url}/v0/#{api_route}", post_body, access_token: @token ) # , content_type: :json )
+          RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: post_body, timeout: 10, open_timeout: 10, headers: { access_token: @token } ) # , content_type: :json )
         else
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
-          RestClient.send( http_method, "#{@api_url}/v0/#{api_route}", params: params, access_token: @token, verify_ssl: true ) #, verify_ssl: false, content_type: :json )
+          RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: 10, open_timeout: 10, headers: { params: params, access_token: @token } ) #, verify_ssl: false, content_type: :json )
         end
       rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system
         raise EnginesError.new "Invalid URL for Engines system #{@name} at #{@api_url}."

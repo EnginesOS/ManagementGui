@@ -22,7 +22,7 @@
                 { behavior: :remote_get,
                   url: cloud_system_path(engines_system_id: engines_system.id) } %>
             <%= content_tag :div, system_connection_menu_link(engines_system) %>
-            <%= content_tag :div, icon_text("fa-circle-o-notch fa-spin", "Loading"), class: 'engines_system_loading text-center' %>
+            <%= content_tag :div, icon_text("fa-circle-o-notch fa-spin", "Loading #{engines_system.url}"), class: 'engines_system_loading text-center' %>
           <% end %>
         <% end %>
       <% end %>

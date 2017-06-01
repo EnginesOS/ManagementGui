@@ -8,7 +8,7 @@ module Resources
       url = opts[:url] || url_for([resource])
       remote = opts[:remote] != false
       target = opts[:target]
-      spinner = opts[:spinner] != false && !remote
+      spinner = opts[:spinner] != false # && !remote
       disabled = opts[:disabled] ? "disabled" : nil
       disable_with = opts[:disable_with]
       html_class = "#{opts[:class]} btn btn-lg btn_resource"
@@ -82,7 +82,7 @@ module Resources
       button_opts = button_opts.merge({data: {confirm: confirm_text}}) unless opts[:confirm] == false
       button_to(url, button_opts) do
         # , disable_with: disable_with
-        # 
+        #
         # ,
         # 'data-confirm-title': confirm_title,
         # 'data-confirm-cancel-class': 'btn-warning pull-left',

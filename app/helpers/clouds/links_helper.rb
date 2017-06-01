@@ -62,8 +62,8 @@ module Clouds
     def new_cloud_system_link(cloud)
       resource_link :new_cloud_system,
         params: {cloud_id: cloud.id},
-        text: 'Connect system',
-        icon: 'fa-wifi',
+        text: 'New system',
+        icon: 'fa-plus',
         title: 'Connect an Engines system'
     end
 

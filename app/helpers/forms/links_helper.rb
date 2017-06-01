@@ -10,7 +10,7 @@ module Forms
       text = opts[:text] || 'Submit' unless opts[:text] == false
       icon = opts[:icon] || 'fa-check' unless opts[:icon] == false
       title = opts[:title] || "Submit #{action_name} form" unless opts[:title] == false
-      html_class = opts[:class] || 'btn btn-primary pull-right'
+      html_class = opts[:class] || 'btn btn-primary pull-right show_wait_for_system_response_spinner'
       data = opts[:data] || {}
       disabled_text = opts[:disabled_text] || 'Submitting'
       disabled_icon = opts[:disabled_icon] || 'fa-hourglass-o'
@@ -30,7 +30,7 @@ module Forms
       icon = opts[:icon] || 'fa-times' unless opts[:icon] == false
       title = opts[:title] || "Cancel #{action_name} form" unless opts[:title] == false
       remote = opts[:remote] == true
-      html_class = opts[:class] || 'btn btn-warning pull-left'
+      html_class = opts[:class] || 'btn btn-warning pull-left show_wait_for_system_response_spinner'
       data = opts[:data] || {}
       url = opts[:url]
       toggle = opts[:toggle]

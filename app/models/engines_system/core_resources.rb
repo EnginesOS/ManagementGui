@@ -33,6 +33,10 @@ class EnginesSystem
       build_core_resource Certificate::Download, params
     end
 
+    def build_certificate_delete(params = {})
+      build_core_resource Certificate::Delete, params
+    end
+
     def build_certificate_upload(params = {})
       build_core_resource Certificate::Upload, params
     end
