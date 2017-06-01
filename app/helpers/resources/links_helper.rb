@@ -12,7 +12,7 @@ module Resources
       disabled = opts[:disabled] ? "disabled" : nil
       disable_with = opts[:disable_with]
       html_class = "#{opts[:class]} btn btn-lg btn_resource"
-      html_class = html_class + ' show_wait_for_system_response_spinner' if spinner
+      html_class = html_class + ' show_waiting_spinner' if spinner
       params = opts[:params]
       method = opts[:method] || :get
       button_to(url, method: method, params: params, form: { target: target }, data: { disable_with: disable_with }, title: title, remote: remote, form_class: opts[:form_class], class: html_class, disabled: disabled) do icon_text(icon, text) end
@@ -24,10 +24,10 @@ module Resources
       title = opts[:title] || "New #{model_name.to_s.humanize}" unless opts[:title] == false
       url = opts[:url] || url_for([:new, model_name])
       remote = opts[:remote] != false
-      spinner = opts[:spinner] != false && !remote
+      spinner = opts[:spinner] != false # && !remote
       disabled = opts[:disabled] ? "disabled" : nil
       html_class = "#{opts[:class]} btn btn-lg btn_resource"
-      html_class = html_class + ' show_wait_for_system_response_spinner' if spinner
+      html_class = html_class + ' show_waiting_spinner' if spinner
       params = opts[:params]
       button_to url, method: :get, params: params,
         title: title, remote: remote, form_class: opts[:form_class], class: html_class, disabled: disabled do
@@ -41,10 +41,10 @@ module Resources
       title = opts[:title] || "Edit #{resource.to_s.humanize}" unless opts[:title] == false
       url = opts[:url] || url_for([:edit, resource])
       remote = opts[:remote] != false
-      spinner = opts[:spinner] != false && !remote
+      spinner = opts[:spinner] != false # && !remote
       disabled = opts[:disabled] ? "disabled" : nil
       html_class = "#{opts[:class]} btn btn-lg btn_resource"
-      html_class = html_class + ' show_wait_for_system_response_spinner' if spinner
+      html_class = html_class + ' show_waiting_spinner' if spinner
       button_to url, method: :get, params: opts[:params],
         title: title, remote: remote, form_class: opts[:form_class], class: html_class, disabled: disabled do
           icon_text(icon, text)
@@ -74,7 +74,7 @@ module Resources
       disabled = opts[:disabled] ? "disabled" : nil
       method = opts[:method] || :delete
       html_class = "#{opts[:class]} btn btn-lg btn_resource"
-      html_class = html_class + ' show_wait_for_system_response_spinner' if spinner
+      html_class = html_class + ' show_waiting_spinner' if spinner
       button_opts = {
         method: method, params: opts[:params],
         title: title, remote: remote, form_class: opts[:form_class],

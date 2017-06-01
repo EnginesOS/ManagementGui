@@ -10,7 +10,7 @@ module Forms
       text = opts[:text] || 'Submit' unless opts[:text] == false
       icon = opts[:icon] || 'fa-check' unless opts[:icon] == false
       title = opts[:title] || "Submit #{action_name} form" unless opts[:title] == false
-      html_class = opts[:class] || 'btn btn-primary pull-right show_wait_for_system_response_spinner'
+      html_class = opts[:class] || 'btn btn-primary pull-right show_waiting_spinner'
       data = opts[:data] || {}
       disabled_text = opts[:disabled_text] || 'Submitting'
       disabled_icon = opts[:disabled_icon] || 'fa-hourglass-o'
@@ -30,20 +30,22 @@ module Forms
       icon = opts[:icon] || 'fa-times' unless opts[:icon] == false
       title = opts[:title] || "Cancel #{action_name} form" unless opts[:title] == false
       remote = opts[:remote] == true
-      html_class = opts[:class] || 'btn btn-warning pull-left show_wait_for_system_response_spinner'
       data = opts[:data] || {}
       url = opts[:url]
-      toggle = opts[:toggle]
-      # html_opts = opts[:html_opts] || { class: 'btn btn-warning pull-left' }
+      # toggle = opts[:toggle]
+      html_class = opts[:class] || 'btn btn-warning pull-left'
       html_opts =
         { type: :button, remote: remote, class: html_class,
-          data: data.
-          merge( ( { toggle: :modal, target: toggle} if toggle ) || {} ).
-          merge( ( { dismiss: :modal } unless url ) || {} ),
-          title: title }
+          data: data, title: title }
+          # .
+          # merge( ( { toggle: :modal, target: toggle} if toggle ) || {} ).
+          # merge( ( { dismiss: :modal } unless url ) || {} ),
+          # title: title }
       if url
+        html_opts = html_opts.merge( { class: ( html_class + ' show_waiting_spinner' ) } )
         link_to(icon_text(icon, text), url, html_opts)
       else
+        html_opts = html_opts.merge( { data: data.merge( { dismiss: :modal } ) } )
         button_tag(icon_text('fa-times', 'Cancel'), html_opts)
       end
     end

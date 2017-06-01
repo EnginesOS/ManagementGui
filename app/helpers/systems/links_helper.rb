@@ -5,7 +5,7 @@ module Systems
       button_to system_menu_path(engines_system_id: engines_system.id),
       method: :get,
       title: "#{engines_system.label} menu",
-      class: 'btn btn-lg btn_resource show_wait_for_system_response_spinner', remote: true do
+      class: 'btn btn-lg btn_resource show_waiting_spinner', remote: true do
         system_connection_status(engines_system, opts) + ' ' + engines_system.label
       end
     end
@@ -14,7 +14,7 @@ module Systems
       button_to system_connection_menu_path(engines_system_id: engines_system.id),
       method: :get,
       title: "#{engines_system.label} connection menu",
-      class: 'btn btn-lg btn_resource show_wait_for_system_response_spinner', remote: true do
+      class: 'btn btn-lg btn_resource show_waiting_spinner', remote: true do
         system_connection_status(engines_system, opts) + ' ' + engines_system.label
       end
     end

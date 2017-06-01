@@ -7,7 +7,7 @@ remote_gets = function() {
 };
 
 window.remote_get = function(url) {
-  show_wait_for_system_response_spinner();
+  show_waiting_spinner();
   $.ajax({
     url: url,
     dataType: 'script'

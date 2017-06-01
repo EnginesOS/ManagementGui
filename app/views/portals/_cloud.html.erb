@@ -1,5 +1,5 @@
 <%= content_tag :div, class: 'portal-col col-xs-6 col-sm-4 col-md-3 col-lg-2 col-centered' do %>
-  <%= button_to cloud_portal_path, params: {cloud_id: cloud.id}, method: :get, class: 'btn portal_button show_wait_for_system_response_spinner', title: "Open #{cloud.label}" do %>
+  <%= button_to cloud_portal_path, params: {cloud_id: cloud.id}, method: :get, class: 'btn portal_button show_waiting_spinner', title: "Open #{cloud.label}" do %>
     <%= content_tag :div, class: 'portal_icon' do %>
       <% if cloud.icon.blank? || cloud.icon.dirty? %>
         <%= icon 'fa-cloud' %>

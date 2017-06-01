@@ -1,5 +1,5 @@
 $('.modal').modal 'hide'
-show_wait_for_system_response_spinner()
+show_waiting_spinner()
 $('body').append '<%= j render('new') %>'
 $('#wait_for_system_modal').modal 'show'
 $('#wait_for_system_modal').on 'hidden.bs.modal', -> $(this).remove()

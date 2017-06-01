@@ -1,5 +1,5 @@
 $('#wait_for_system_modal').modal 'hide'
-hide_wait_for_system_response_spinner()
+hide_waiting_spinner()
 $('body').append '<%= j(render "installs/libraries/show") %>'
 $('#remote_modal').modal 'show'
 $('#remote_modal').on 'hidden.bs.modal', -> $(this).remove()
