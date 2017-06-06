@@ -10,14 +10,20 @@ class ApplicationController < ActionController::Base
 
   def set_cloud
     @cloud = current_user.user_profile.clouds.find(params[:cloud_id])
+  rescue ActiveRecord::RecordNotFound
+    raise EnginesError.new "Failed to find cloud."
   end
 
   def set_engines_system
     @engines_system = current_user.user_profile.engines_systems.find(params[:engines_system_id])
+  rescue ActiveRecord::RecordNotFound
+    raise EnginesError.new "Failed to find Engines system."
   end
 
   def set_app
     @app = current_user.user_profile.apps.find(params[:app_id])
+  rescue ActiveRecord::RecordNotFound
+    raise EnginesError.new "Failed to find app."
   end
 
   def set_service

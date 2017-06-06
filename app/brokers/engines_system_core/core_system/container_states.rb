@@ -2,12 +2,13 @@ module EnginesSystemCore
   class CoreSystem
     module ContainerStates
 
-      def engine_states
-        get 'containers/engines/state', expect: :json
+      def engine_statuses
+        get 'containers/engines/status', expect: :json
       end
 
-      def service_states
-        get 'containers/services/state', expect: :json
+      def service_statuses
+        get 'containers/services/status', expect: :json
+        # raise EnginesError.new "wow"
       end
 
     end

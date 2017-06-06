@@ -6,7 +6,7 @@
       <% end %>
       <%= content_tag :div, class: "container_state_indicators #{service.name}_container_state" do %>
         <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused, :kill, :die ].each do |state| %>
-          <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if service.state.to_s != state.to_s) do %>
+          <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if service.state.to_sym != state) do %>
             <%= content_tag :div, class: "container_state_indicator_icon" do %>
               <%= state_indicator_for state %>
             <% end %>
@@ -14,7 +14,12 @@
         <% end %>
       <% end %>
       <%= content_tag :div, class: 'engines_container_label_text' do %>
-      <%= content_tag :div, service.name %>
+        <%= content_tag :div do %>
+          <%= service.name %>
+          <%= content_tag :span, class: 'container_needs_indicator' do %>
+            <%= icon('fa-warning') if service.needs.any? %>
+          <% end %>
+        <% end %>
         <%= content_tag :div, service.label, class: 'engines_container_label_subtext' %>
       <% end %>
     <% end %>

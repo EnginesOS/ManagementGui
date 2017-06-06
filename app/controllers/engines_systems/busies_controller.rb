@@ -9,6 +9,8 @@ module EnginesSystems
       else
         render plain: false
       end
+    rescue EnginesError::ApiRetryConnectionError
+      render plain: true
     end
 
   end

@@ -12,7 +12,7 @@ class BuildLogChannel < ApplicationCable::Channel
         ActionCable.server.broadcast "build_log_channel_#{@engines_system.id}_client_#{params[:client_id]}", {type: :log_line, line: log_line}.to_json
       end
       ActionCable.server.broadcast "build_log_channel_#{@engines_system.id}_client_#{params[:client_id]}", {type: :log_eof}.to_json
-      EnginesSystemViewUpdateJob.perform_later(@engines_system)
+      # EnginesSystemViewUpdateJob.perform_later(@engines_system)
       p "#{connection.server.connections.count}$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
     end
   end

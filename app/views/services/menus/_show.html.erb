@@ -13,16 +13,23 @@
         <%= @service.label %><br>
         <%= @service.description %>
       <% end %>
+      <%= content_tag(:div, class: "container_needs_indicator") do %>
+        <%= icon_text('fa-warning', @service.needs.join(' - ')) if @service.needs.any? %>
+      <% end %>
     <% end %>
     <%= content_tag :div, class: 'container_menu_header_detail pull_right_wide_media' do %>
       <%= icon_text('fa-map-marker', 'Local mgmt GUI') if @service.is_local_mgmt %>
     <% end %>
   <% end %>
+  <% if @service.why_stopped? %>
+    <hr>
+    <label>Why stopped?</label>
+    <%= @service.why_stopped? %>
+  <% end %>
   <hr>
-  <% service_state = @service.core_service.state %>
   <%= content_tag :span, class: "container_state_indicators #{@service.name}_container_state" do %>
     <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused ].each do |state| %>
-      <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if service_state.to_s != state.to_s) do %>
+      <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if @service.state.to_sym != state) do %>
         <%= content_tag :div, class: "container_state_indicator_area" do %>
           <%= content_tag :div, class: "container_state_indicator_icon" do %>
             <%= state_indicator_for state %>

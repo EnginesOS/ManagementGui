@@ -4,9 +4,14 @@ module Clouds
     before_action :set_cloud, only: [:new, :create]
     before_action :set_engines_system, only: [:show, :destroy]
 
-    rescue_from ActionView::Template::Error, with: :handle_engines_error
+    # rescue_from ActionView::Template::Error, with: :handle_engines_error
 
     def show
+      # if @engines_system.busy?
+        # render 'show_waiting_for_system'
+      # else
+        render
+      # end
     end
 
     def new
@@ -37,18 +42,18 @@ module Clouds
       params.require(:engines_system).permit(:label, :url) #, :token)
     end
 
-    def handle_engines_error(e)
-      @e = e.cause
-      raise @e unless action_name == 'show'
-      case @e
-      when EnginesError::ApiConnectionAuthenticationError
-        render 'show_with_authentication_error'
-      when EnginesError
-        render 'show_with_error'
-      else
-        raise @e
-      end
-    end
+    # def handle_engines_error(e)
+    #   @e = e.cause
+    #   raise @e unless action_name == 'show'
+    #   case @e
+    #   when EnginesError::ApiConnectionAuthenticationError
+    #     render 'show_with_authentication_error'
+    #   when EnginesError
+    #     render 'show_with_error'
+    #   else
+    #     raise @e
+    #   end
+    # end
 
   end
 end

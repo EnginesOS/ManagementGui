@@ -21,15 +21,15 @@ class EnginesSystem < ApplicationRecord
 
   def installed_apps
     @installed_apps ||=
-    app_states_with_installing_app.map do |name, state|
-      apps.find_or_create_by_with_defaults(name: name).tap{ |app| app.state = state }
+    app_statuses_with_installing_app.map do |name, status|
+      apps.find_or_create_by_with_defaults(name: name).tap{ |app| app.status = status }
     end.tap{|found_apps| (apps - found_apps).each(&:delete) }.sort_by &:name
   end
 
   def installed_services
     @installed_services ||=
-    service_states.map do |name, state|
-      services.find_or_create_by(name: name).tap{ |service| service.state = state }
+    service_statuses.map do |name, status|
+      services.find_or_create_by(name: name).tap{ |service| service.status = status }
     end.tap{|found_services| (services - found_services).each(&:delete) }.sort_by &:name
   end
 

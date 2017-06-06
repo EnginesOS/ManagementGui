@@ -1,4 +1,4 @@
-$('#wait_for_system_modal').modal 'hide'
+$('#wait_for_local_system_modal').modal 'hide'
 hide_waiting_spinner()
 $('body').append '<%= j(render "installs/libraries/show") %>'
 $('#remote_modal').modal 'show'

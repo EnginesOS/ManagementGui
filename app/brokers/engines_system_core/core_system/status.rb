@@ -7,7 +7,8 @@ module EnginesSystemCore
       end
 
       def system_status
-        get 'system/status', expect: :json
+        aaa = get 'system/status', expect: :json
+        # aaa.merge({:needs_engines_update=>true})
       end
 
       def system_update_status

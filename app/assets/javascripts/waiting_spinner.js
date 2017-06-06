@@ -37,4 +37,6 @@ $(document).on('turbolinks:load', function() {
   hide_waiting_spinner();
 });
 
-// $(window).unload(function() {});
+$(window).unload(function() {
+  hide_waiting_spinner();
+});

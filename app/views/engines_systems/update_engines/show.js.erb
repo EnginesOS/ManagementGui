@@ -1,0 +1,7 @@
+$('.modal').modal('hide');
+<% if @engines_system.is_local_system %>
+  $('body').append('<%= j render('show') %>');
+  $('#wait_for_local_system_modal').modal('show');
+  $('#wait_for_local_system_modal').on('hidden.bs.modal', function() { $(this).remove(); });
+  local_system_busy_polling(<%= @engines_system.id %>, '<%= system_busy_path(engines_system_id: @engines_system.id) %>', '<%= cloud_path(cloud_id: @engines_system.cloud.id) %>');
+<% end %>

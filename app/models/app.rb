@@ -11,10 +11,10 @@ class App < ApplicationRecord
   belongs_to :engines_system
   has_one :cloud, through: :engines_system
 
-  attr_writer :state
+  attr_writer :status
 
-  def state
-    @state ||= core_app.state
+  def status
+    @status ||= core_app.status
   end
 
   validates :label, length: { maximum: 32 }

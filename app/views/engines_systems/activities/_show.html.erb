@@ -142,7 +142,7 @@
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
         <%= content_tag :div, 'Network', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-        <% height = @activity.network_interfaces_count * 30 + 40 %>
+        <% height = @activity.network_interfaces_count * 30 + 50 %>
         <%= horizontal_bar_chart @activity.network_activity, {
             height: height, scales: { xAxes: [ {  scaleLabel: { display: true, labelString: 'MB' } } ] } } %>
         <% end %>

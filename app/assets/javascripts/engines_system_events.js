@@ -75,28 +75,28 @@ var update_container_status_indicators = function(engines_system_id, app_name, s
   });
 };
 
-var system_status_indicator_pulse = function(engines_system_id) {
-  animate_system_status_indicator(engines_system_id, {opacity: "0.5"});
-  setTimeout(function(){ animate_system_status_indicator(engines_system_id, {opacity: "1"}); }, 500)
-};
+// var system_status_indicator_pulse = function(engines_system_id) {
+//   animate_system_status_indicator(engines_system_id, {opacity: "0.5"});
+//   setTimeout(function(){ animate_system_status_indicator(engines_system_id, {opacity: "1"}); }, 500)
+// };
+//
+// var animate_system_status_indicator = function(engines_system_id, css) {
+//   $("#system_" + engines_system_id + "_api_connection_status").animate(css, 500);
+// };
 
-var animate_system_status_indicator = function(engines_system_id, css) {
-  $("#system_" + engines_system_id + "_api_connection_status").animate(css, 500);
-};
-
-var display_disconnected_system = function(engines_system_id, engines_system_label) {
-  if ($("#system_" + engines_system_id + "_api_connection_status").hasClass("engines_system_api_connected")) {
-    console.log("display_disconnected_system $$$$$$$$$$$$$$$$$$$$$$$$");
-    remote_get('cloud/system?engines_system_id=' + engines_system_id);
-  };
-};
-
-var display_connected_system = function(engines_system_id, engines_system_label) {
-  if (!$("#system_" + engines_system_id + "_api_connection_status").hasClass("engines_system_api_connected")) {
-    console.log("display_connected_system $$$$$$$$$$$$$$$$$$$$$$$$");
-    remote_get('cloud/system?engines_system_id=' + engines_system_id);
-  };
-};
+// var display_disconnected_system = function(engines_system_id, engines_system_label) {
+//   if ($("#system_" + engines_system_id + "_api_connection_status").hasClass("engines_system_api_connected")) {
+//     console.log("display_disconnected_system $$$$$$$$$$$$$$$$$$$$$$$$");
+//     remote_get('cloud/system?engines_system_id=' + engines_system_id);
+//   };
+// };
+//
+// var display_connected_system = function(engines_system_id, engines_system_label) {
+//   if (!$("#system_" + engines_system_id + "_api_connection_status").hasClass("engines_system_api_connected")) {
+//     console.log("display_connected_system $$$$$$$$$$$$$$$$$$$$$$$$");
+//     remote_get('cloud/system?engines_system_id=' + engines_system_id);
+//   };
+// };
 
 // var EnginesSystemEventsListeners = {};
 // var resetEnginesSystemEventsListener = function(engines_system_id, sourceUrl, eventType, func, error_func) {

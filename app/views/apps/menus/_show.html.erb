@@ -15,6 +15,9 @@
       <%= content_tag :div, class: 'container_menu_header_label_subtext' do %>
         <%= @app.title %>
       <% end %>
+      <%= content_tag(:div, class: "container_needs_indicator") do %>
+        <%= icon_text('fa-warning', @app.needs.join(' - ')) if @app.needs.any? %>
+      <% end %>
     <% end %>
     <%= content_tag :div, class: 'container_menu_header_detail pull_right_wide_media' do %>
       <%= content_tag :div, @app.worker ? icon_text('fa-cog', 'Worker') : icon_text('fa-globe', 'Web application') %>
@@ -36,11 +39,15 @@
   <%= content_tag :div, class: 'clearfix' do %>
     <%= edit_resource_link :app_properties, params: {app_id: @app.id}, text: 'Edit', icon: 'fa-edit', title: "Edit #{@app.name} properties", class: 'pull_right_wide_media' %>
   <% end %>
+  <% if @app.why_stopped? %>
+    <hr>
+    <label>Why stopped?</label>
+    <%= @app.why_stopped? %>
+  <% end %>
   <hr>
-  <% app_state = @app.core_app.state %>
   <%= content_tag :span, class: "container_state_indicators #{@app.name}_container_state" do %>
     <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused, :kill, :die ].each do |state| %>
-      <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if app_state.to_s != state.to_s) do %>
+      <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if @app.state.to_sym != state) do %>
         <%= content_tag :div, class: "container_state_indicator_area" do %>
           <%= content_tag :div, class: "container_state_indicator_icon" do %>
             <%= state_indicator_for state %>

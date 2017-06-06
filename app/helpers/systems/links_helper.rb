@@ -23,7 +23,7 @@ module Systems
       content_tag :div, class: 'clearfix text-center' do
         resource_link :new_system_sign_in,
         params: {engines_system_id: engines_system.id},
-        text: 'Authenticate connection', icon: 'fa-lock',
+        text: 'Authenticate', icon: 'fa-key',
         title: "Authenticate connection to #{engines_system.label}"
       end
     end
@@ -42,7 +42,7 @@ module Systems
         resource_link :cloud_system,
         params: {engines_system_id: engines_system.id},
         text: 'Connect', icon: 'fa-wifi',
-        disable_with: 'Connecting...',
+        disable_with: "Connecting #{engines_system.url}",
         spinner: false,
         title: "Establish connection to #{engines_system.label}"
       end

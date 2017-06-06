@@ -24,11 +24,11 @@ module EnginesSystemCore
       rescue RestClient::SSLCertificateNotVerified
         raise EnginesError.new "The security certificate is not trusted for Engines system #{@name} at #{@api_url}."
       rescue Errno::ECONNREFUSED => e # normally thrown when system is offline.
-        raise EnginesError.new "Connection refused to Engines system #{@name} at #{@api_url}."
+        raise EnginesError::ApiRetryConnectionError.new "Connection refused to Engines system #{@name} at #{@api_url}."
       rescue Errno::ECONNRESET => e # normally thrown after system update.
-        raise EnginesError.new "Connection has been reset to Engines system #{@name} at #{@api_url}."
+        raise EnginesError::ApiRetryConnectionError.new "Connection has been reset to Engines system #{@name} at #{@api_url}."
       rescue RestClient::ServerBrokeConnection => e  # normally thrown when the system has been online and then goes offline (when system stopped, for example).
-        raise EnginesError.new "Connection has been broken to Engines system #{@name} at #{@api_url} ."
+        raise EnginesError::ApiRetryConnectionError.new "Connection has been broken to Engines system #{@name} at #{@api_url} ."
       rescue RestClient::NotFound => e
         raise EnginesError.new "Failed to find the requested resource on Engines system #{@name} at #{@api_url}. #{system_error_message_from(e)}"
       rescue RestClient::Exceptions::OpenTimeout, RestClient::Exceptions::ReadTimeout => e

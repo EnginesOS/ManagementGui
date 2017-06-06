@@ -1,21 +1,18 @@
-<%= content_tag :div, class: "pull-right engines_system_status" do %>
-  <%= ( link_to icon_text('fa-warning', engines_system.needs.join(' - ') ), system_menu_path(engines_system_id: engines_system.id), remote: true ) if engines_system.needs.any? %>
-<% end %>
-<%= system_menu_link(engines_system, connected: true) %>
-<%= content_tag :div, class: 'engines_containers apps' do %>
-  <% engines_system.installed_apps.each do |app| %>
-    <%= render '/clouds/apps/app', app: app %>
-  <% end %>
-<% end %>
-<% if engines_system.cloud.show_services %>
-  <%= content_tag :div, class: 'engines_containers services' do %>
-    <% engines_system.installed_services.each do |service| %>
-      <%= render '/clouds/services/service', service: service %>
+<% if defined?(state) && state %>
+  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: state %>
+<% else %>
+  <% begin %>
+    <%= render '/clouds/systems/show/show', engines_system: engines_system %>
+  <% rescue ActionView::Template::Error => e %>
+    <% e = e.cause %>
+    <% if e.class == EnginesError::EnginesError::ApiConnectionAuthenticationError %>
+      <%= render '/clouds/systems/show/show_with_authentication_error', engines_system: engines_system, e: e %>
+    <% elsif e.class == EnginesError::EnginesError::ApiRetryConnectionError %>
+      <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Retrying connection." %>
+    <% elsif e.class == EnginesError %>
+      <%= render '/clouds/systems/show/show_with_error', engines_system: engines_system, e: e %>
+    <% else %>
+      <% raise e %>
     <% end %>
   <% end %>
 <% end %>
-
-<script>
-  SubcribeToEnginesSystemEventsChannel(<%= engines_system.id %>, '<%= engines_system.label %>');
-  SubcribeToEnginesSystemViewUpdateChannel(<%= engines_system.id %>);
-</script>

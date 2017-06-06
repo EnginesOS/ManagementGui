@@ -2,18 +2,16 @@ class Service < ApplicationRecord
 
   include CoreResources
   include Properties
-  # include Status
-
+  include Status
   include LabelData
-
-  attr_writer :state
 
   before_save :update_display_attributes
   belongs_to :engines_system
 
+  attr_writer :status
 
-  def state
-    @state ||= core_service.state
+  def status
+    @status ||= core_service.status
   end
 
   def core_service
