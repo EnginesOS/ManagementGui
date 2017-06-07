@@ -1,7 +1,7 @@
 <%= modal footer_close: true, large: true, header: { text: "System report for #{@engines_system.label}", icon: 'fa fa-stethoscope' }, id: "system_report_modal" do %>
   <%= up_to_system_control_panel_link(@engines_system) %>
   <%= content_tag :div, class: 'dl-horizontal' do %>
-    <%= report_collapse_data 'App states', @engines_system.core_system.engine_states %>
+    <%= report_collapse_data 'App statuses', @engines_system.core_system.engine_statuses %>
     <%= report_collapse_data 'Base OS version', @engines_system.core_system.base_system_version %>
     <%= report_collapse_data 'Build status', @engines_system.core_system.builder_status %>
     <%= report_collapse_data 'Containers memory', @engines_system.core_system.container_memory_statistics %>
@@ -17,7 +17,7 @@
     <%= report_collapse_data 'Reserved container names', @engines_system.core_system.reserved_container_names %>
     <%= report_collapse_data 'Reserved FQDNs', @engines_system.core_system.reserved_fqdns %>
     <%= report_collapse_data 'Reserved ports', @engines_system.core_system.reserved_ports %>
-    <%= report_collapse_data 'Service states', @engines_system.core_system.service_states %>
+    <%= report_collapse_data 'Service statuses', @engines_system.core_system.service_statuses %>
     <%= report_collapse_data 'System status', @engines_system.core_system.system_status %>
     <%= report_collapse_data 'System memory', @engines_system.core_system.system_memory_statistics %>
     <%= report_collapse_data 'Update status', @engines_system.core_system.system_update_status %>

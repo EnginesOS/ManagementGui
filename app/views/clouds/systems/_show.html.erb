@@ -1,19 +1,21 @@
 <% if defined?(message) && message %>
   <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: message %>
-<% elsif engines_system.is_rebooting? %>
-  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Restarting system." %>
-<% elsif engines_system.is_base_system_updating? %>
-  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Updating base OS." %>
-<% elsif engines_system.is_engines_system_updating? %>
-  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Engines updating." %>
 <% else %>
   <% begin %>
-    <%= render '/clouds/systems/show/show', engines_system: engines_system %>
-  <% rescue ActionView::Template::Error => e %>
-    <% e = e.cause %>
-    <% if e.class == EnginesError::EnginesError::ApiConnectionAuthenticationError %>
+    <% if engines_system.is_rebooting? %>
+      <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Restarting system." %>
+    <% elsif engines_system.is_base_system_updating? %>
+      <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Updating base OS." %>
+    <% elsif engines_system.is_engines_system_updating? %>
+      <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Engines updating." %>
+    <% else %>
+      <%= render '/clouds/systems/show/show', engines_system: engines_system %>
+    <% end %>
+  <% rescue => e %>
+    <% e = e.cause if e.is_a?(ActionView::Template::Error) %>
+    <% if e.class == EnginesError::ApiConnectionAuthenticationError %>
       <%= render '/clouds/systems/show/show_with_authentication_error', engines_system: engines_system, e: e %>
-    <% elsif e.class == EnginesError::EnginesError::ApiRetryConnectionError %>
+    <% elsif e.class == EnginesError::ApiRetryConnectionError %>
       <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Retrying connection." %>
     <% elsif e.class == EnginesError %>
       <%= render '/clouds/systems/show/show_with_error', engines_system: engines_system, e: e %>
