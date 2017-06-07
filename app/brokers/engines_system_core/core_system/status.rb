@@ -8,6 +8,7 @@ module EnginesSystemCore
 
       def system_status
         aaa = get 'system/status', expect: :json
+        # aaa.merge({is_rebooting: true})
         # aaa.merge({:needs_engines_update=>true})
       end
 

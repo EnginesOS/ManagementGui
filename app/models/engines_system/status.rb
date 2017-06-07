@@ -17,8 +17,16 @@ class EnginesSystem
       builder_status[:did_build_fail]
     end
 
-    def busy?
-      system_status[:is_rebooting] || system_status[:is_base_system_updating] || system_status[:is_engines_system_updating]
+    def is_rebooting?
+      system_status[:is_rebooting]
+    end
+
+    def is_base_system_updating?
+      system_status[:is_base_system_updating]
+    end
+
+    def is_engines_system_updating?
+      system_status[:is_engines_system_updating]
     end
 
     def needs

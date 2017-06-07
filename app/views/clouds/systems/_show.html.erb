@@ -1,5 +1,11 @@
-<% if defined?(state) && state %>
-  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: state %>
+<% if defined?(message) && message %>
+  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: message %>
+<% elsif engines_system.is_rebooting? %>
+  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Restarting system." %>
+<% elsif engines_system.is_base_system_updating? %>
+  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Updating base OS." %>
+<% elsif engines_system.is_engines_system_updating? %>
+  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Engines updating." %>
 <% else %>
   <% begin %>
     <%= render '/clouds/systems/show/show', engines_system: engines_system %>
