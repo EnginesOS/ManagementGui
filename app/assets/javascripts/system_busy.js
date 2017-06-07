@@ -1,4 +1,7 @@
-function local_system_busy_polling(engines_system_id, poll_url, redirect_url, initial_wait=10000, poll_period=5000) {
+function local_system_busy_polling(engines_system_id, poll_url, redirect_url, initial_wait, poll_period) {
+
+  initial_wait = initial_wait || 10000;
+  poll_period = poll_period || 5000;
 
   // var initial_wait = $('#wait_for_system_progress').data('initial-wait');
   // var poll_url = $('#wait_for_system_progress').data('poll-url');
@@ -48,7 +51,10 @@ function local_system_busy_polling(engines_system_id, poll_url, redirect_url, in
 //   countdown_waiting_for_system_reload_timer();
 // };
 
-function system_busy_polling(engines_system_id, poll_url, callback_url, initial_wait=10000, poll_period=5000) {
+function system_busy_polling(engines_system_id, poll_url, callback_url, initial_wait, poll_period) {
+
+  initial_wait = initial_wait || 10000;
+  poll_period = poll_period || 5000;
 
   // show_waiting_for_system_reload_timer('#waiting_for_engines_system_reload_timer_' + engines_system_id, initial_wait);
   setTimeout((function() {
