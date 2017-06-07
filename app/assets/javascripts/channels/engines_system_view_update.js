@@ -10,8 +10,6 @@ var SubcribeToEnginesSystemViewUpdateChannel = function(engines_system_id) {
           console.log('Connected to EnginesSystemViewUpdateChannel');
         },
         disconnected: function() {
-          // App.cable.subscriptions.remove(App.engines_system_view_update_channel_subscriptions[engines_system_id]);
-          // App.engines_system_view_update_channel_subscriptions = App.engines_system_view_update_channel_subscriptions.splice(engines_system_id,1)
           console.log('Disconnected from EnginesSystemViewUpdateChannel');
         },
         received: function(message_object) {
