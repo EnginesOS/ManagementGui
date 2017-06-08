@@ -10,7 +10,6 @@ class Service
         configurator_params[:label] || configurator_name.to_s.humanize
       end
 
-
       def fields_attributes=(params={})
         @fields = params.map { |i, field| Field.new field.merge({field_consumer: self}) }
       end
@@ -66,6 +65,29 @@ class Service
             required: variable[:mandatory],
             read_only: false
           }
+      end
+
+      def variable_field_type_for(v)
+        case v.to_s.to_sym
+        when :boolean
+          :boolean
+        when :collection, :select, :select_single
+          :select
+        when :int
+          :integer
+        when :hidden
+          :hidden
+        when :password
+          :password
+        when :password_with_confirmation
+          :password_with_confirmation
+        when :text, :text_area
+          :text
+        when :text_field
+          :string
+        else
+          :string
+        end
       end
 
       def fields

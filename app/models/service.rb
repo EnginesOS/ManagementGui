@@ -47,10 +47,6 @@ class Service < ApplicationRecord
     end
   end
 
-  # def publisher_namespace
-  #   @publisher_namespace ||= container[:publisher_namespace]
-  # end
-
   def publisher_type_path
     @publisher_type_path ||= "#{container[:publisher_namespace]}/#{container[:type_path]}"
   end

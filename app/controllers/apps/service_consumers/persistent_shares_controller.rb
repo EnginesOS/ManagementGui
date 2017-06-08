@@ -23,19 +23,24 @@ module Apps
       def update
         @persistent_service_consumer_share = @app.
                 build_persistent_service_consumer_share(strong_params)
-        if @persistent_service_consumer_share.valid? && @persistent_service_consumer_share.save_to_system
-          flash.now[:notice] =
-            "Successfully updated #{@persistent_service_consumer_share.label} "\
-            "for #{@app.name}."
+        if @persistent_service_consumer_share.valid?
+          if @persistent_service_consumer_share.save_to_system
+            flash.now[:notice] =
+              "Successfully updated #{@persistent_service_consumer_share.label} "\
+              "for #{@app.name}."
+          else
+            flash.now[:alert] =
+              "Failed to update #{@persistent_service_consumer_share.label}."\
+              "for #{@app.name}."
+          end
           render 'show'
         else
           render 'edit'
         end
       rescue EnginesError => e
-        flash.now[:alert] =
-          "Failed to update #{@persistent_service_consumer_share.label}."\
-          "for #{@app.name}. (#{e})"
-        render 'show'
+        raise EnginesError.new "Failed to update "\
+          "#{@persistent_service_consumer_share.label}."\
+          "for #{@app.name}.\n\n#{e}"
       end
 
       def destroy

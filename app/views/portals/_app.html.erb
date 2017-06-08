@@ -13,7 +13,7 @@
     <% end %>
   <% else %>
     <% if app.portal_link.present? %>
-      <%= link_to ( app.portal_link.blank? ? '#' : app.portal_link ), method: :get, disabled: app.portal_link.blank?,
+      <%= link_to app.portal_link, method: :get,
           form: { target: "engines_app_#{app.id}" },
           class: 'btn portal_button', title: [ app.name, app.portal_link].compact.join(' - ') do %>
         <%= render 'portals/app_button_body', app: app %>

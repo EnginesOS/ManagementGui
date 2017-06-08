@@ -11,7 +11,7 @@ module EnginesSystems
       else
         render plain: false
       end
-    rescue EnginesError::ApiRetryConnectionError
+    rescue EnginesError::ApiConnectionError
       render plain: true
     end
 

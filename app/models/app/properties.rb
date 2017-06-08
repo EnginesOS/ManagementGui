@@ -123,5 +123,11 @@ class App
       core_app.actionator_for(actionator_name)
     end
 
+    # logs
+
+    def logs
+      @logs ||= core_app.logs
+    end
+
   end
 end

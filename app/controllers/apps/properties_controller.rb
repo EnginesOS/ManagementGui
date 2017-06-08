@@ -8,7 +8,6 @@ module Apps
 
    def update
      if @app.update(strong_params)
-      #  byebug
        EnginesSystemViewUpdateJob.perform_now(@app.engines_system)
        flash.now[:notice] = "Successfully updated app properties."
        render

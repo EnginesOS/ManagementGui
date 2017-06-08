@@ -10,13 +10,6 @@ class EnginesSystem
 
       validates :domain_name, presence: true, format: { with: DOMAIN_NAME_REGEX, message: "is not valid"}
 
-      # def assign_attributes(attributes)
-      #
-      #   attributes[:domain_name] = 'local' if attributes[:local] == '1'
-      #   attributes[:local] = '1' if attributes[:domain_name] == 'local'
-      #   super attributes
-      # end
-
       def to_s
         domain_name
       end

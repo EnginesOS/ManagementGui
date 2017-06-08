@@ -1,6 +1,6 @@
 <%= content_tag :div, class: 'engines_container app' do %>
   <%= link_to app_menu_path(app_id: app.id), title: "#{app.name} menu",
-      id: "app_#{app.id}", remote: true do %>
+      id: "app_#{app.id}", class: 'show_waiting_spinner', remote: true do %>
     <%= render '/clouds/apps/show', app: app %>
   <% end %>
 <% end %>

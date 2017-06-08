@@ -1,5 +1,6 @@
 <%= content_tag :div, class: 'engines_container service' do %>
-  <%= link_to service_menu_path(service_id: service.id), remote: true do %>
+  <%= link_to service_menu_path(service_id: service.id), class: 'show_waiting_spinner',
+        remote: true do %>
     <%= content_tag :div, class: 'engines_container_label' do %>
       <%= content_tag :div, class: 'button_icon' do %>
         <!-- Empty placeholder -->

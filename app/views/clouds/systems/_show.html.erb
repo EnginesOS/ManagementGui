@@ -15,7 +15,7 @@
     <% e = e.cause if e.is_a?(ActionView::Template::Error) %>
     <% if e.class == EnginesError::ApiConnectionAuthenticationError %>
       <%= render '/clouds/systems/show/show_with_authentication_error', engines_system: engines_system, e: e %>
-    <% elsif e.class == EnginesError::ApiRetryConnectionError %>
+    <% elsif e.class == EnginesError::ApiConnectionError %>
       <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Retrying connection." %>
     <% elsif e.class == EnginesError %>
       <%= render '/clouds/systems/show/show_with_error', engines_system: engines_system, e: e %>

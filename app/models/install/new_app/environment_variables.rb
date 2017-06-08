@@ -61,6 +61,29 @@ class Install
           }
       end
 
+      def variable_field_type_for(v)
+        case v.to_s.to_sym
+        when :boolean
+          :boolean
+        when :collection, :select, :select_single
+          :select
+        when :int
+          :integer
+        when :hidden
+          :hidden
+        when :password
+          :password
+        when :password_with_confirmation
+          :password_with_confirmation
+        when :text, :text_area
+          :text
+        when :text_field
+          :string
+        else
+          :string
+        end
+      end
+
     end
   end
 end

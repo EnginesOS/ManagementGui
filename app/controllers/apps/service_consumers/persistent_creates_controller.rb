@@ -15,18 +15,22 @@ module Apps
       end
 
       def create_service_consumer
-        @persistent_service_consumer_constructor.save_to_system
-        flash.now[:notice] =
-          "Successfully created "\
-          "#{@persistent_service_consumer_constructor.label} service "\
-          "for #{@app.name}."
+        if @persistent_service_consumer_constructor.save_to_system
+          flash.now[:notice] =
+            "Successfully created "\
+            "#{@persistent_service_consumer_constructor.label} service "\
+            "for #{@app.name}."
+        else
+          flash.now[:alert] =
+            "Failed to create "\
+            "#{@persistent_service_consumer_constructor.label} service "\
+            "for #{@app.name}."
+        end
         render 'apps/service_consumers/index'
       rescue EnginesError => e
-        flash.now[:alert] =
-          "Failed to create "\
+        raise EnginesError.new "Failed to create "\
           "#{@persistent_service_consumer_constructor.label} service "\
-          "for #{@app.name}. #{e}"
-        render 'apps/service_consumers/index'
+          "for #{@app.name}.\n\n#{e}"
       end
 
       private

@@ -67,5 +67,11 @@ class EnginesSystem
       @current_build_params ||= core_system.current_build_params
     end
 
+    # logs
+
+    def logs
+      @logs ||= core_system.logs
+    end
+
   end
 end

@@ -7,9 +7,5 @@ module EnginesSystems
       @services = @engines_system.services
     end
 
-    # def show
-    #   @service = Service.find(params[:id])
-    # end
-
   end
 end

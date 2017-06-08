@@ -60,10 +60,6 @@ class ApplicationController < ActionController::Base
 
   # Error handling
 
-  # def handle_invalid_authenticity_token
-  #   raise EnginesInvalidAuthenticityTokenError
-  # end
-
   def handle_exception(error)
     Rails.logger.warn "Handling exception (#{error.class})..."
     if request.format == "text/event-stream"
@@ -98,8 +94,6 @@ class ApplicationController < ActionController::Base
       format.js{ render 'exceptions/engines_errors/show', status: 200 }
       format.html{ render 'exceptions/engines_errors/show', status: 200, layout: false }
     end
-  # rescue => e
-  #   handle_fatal_error(EnginesErrorError.new e)
   end
 
   def handle_fatal_error(error)

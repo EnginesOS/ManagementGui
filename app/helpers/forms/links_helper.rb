@@ -32,15 +32,10 @@ module Forms
       remote = opts[:remote] == true
       data = opts[:data] || {}
       url = opts[:url]
-      # toggle = opts[:toggle]
       html_class = opts[:class] || 'btn btn-warning pull-left'
       html_opts =
         { type: :button, remote: remote, class: html_class,
           data: data, title: title }
-          # .
-          # merge( ( { toggle: :modal, target: toggle} if toggle ) || {} ).
-          # merge( ( { dismiss: :modal } unless url ) || {} ),
-          # title: title }
       if url
         html_opts = html_opts.merge( { class: ( html_class + ' show_waiting_spinner' ) } )
         link_to(icon_text(icon, text), url, html_opts)

@@ -27,10 +27,14 @@ module Services
     def process_service_action
       @actionator.save_to_system
       if @actionator.return_type == 'file'
-        send_data @actionator.api_post_result,  :filename => "#{@service.name}_#{@actionator.actionator_name}"
+        send_data @actionator.api_post_result,
+          filename: "#{@service.name}__#{@actionator.actionator_name}__#{Time.now.utc}"
       else
         render 'result'
       end
+    rescue EnginesError => e
+      raise EnginesError.new "Failed to perform action "\
+        "#{@actionator.to_label} for #{@service.name}.\n\n#{e}"
     end
 
     def strong_params

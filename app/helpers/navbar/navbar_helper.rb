@@ -19,12 +19,6 @@ module Navbar
         cloud_admin_banner(@cloud) +
         cloud_navbar(@cloud)
       end
-      #  +
-      # if current_user
-      #   user_menu_modal
-      # else
-      #   ''.html_safe # user_sign_in_modal
-      # end
     end
 
     def navbar_left_links

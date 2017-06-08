@@ -13,7 +13,6 @@ module UserProfiles
         content_tag(:hr) +
         user_profile_portal_link +
         user_profile_clouds_menu_link +
-        # user_profile_link +
         resource_link(:edit_user_modals_password, text: 'Password', icon: 'fa-lock') +
         resource_link(:edit_user_modals_email, text: 'Email', icon: 'fa-envelope-o') +
         user_sign_out_link

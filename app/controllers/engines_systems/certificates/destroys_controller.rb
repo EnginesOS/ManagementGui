@@ -14,13 +14,6 @@ module EnginesSystems
           render 'engines_systems/certificates/index'
         end
       end
-      #
-      # private
-      #
-      # def strong_params
-      #   params.require(:engines_system_core_resources_certificate_upload_detail).
-      #   permit(:certificate_for, :key, :host_domain, :tmp_filename, :cname)
-      # end
 
     end
   end

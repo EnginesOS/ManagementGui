@@ -55,9 +55,31 @@ class App
           }
       end
 
+      def variable_field_type_for(v)
+        case v.to_s.to_sym
+        when :boolean
+          :boolean
+        when :collection, :select, :select_single
+          :select
+        when :int
+          :integer
+        when :hidden
+          :hidden
+        when :password
+          :password
+        when :password_with_confirmation
+          :password_with_confirmation
+        when :text, :text_area
+          :text
+        when :text_field
+          :string
+        else
+          :string
+        end
+      end
+
       def fields
         @fields ||= form_params.map { |field| Field.new field }
-        # @fields ||= {}.tap{|result| form_params.each_with_index { |field, index| result[index] = Field.new field } }
       end
 
       def persisted?
@@ -78,7 +100,15 @@ class App
       end
 
       def return_type
-        @return_type ||= actionator_params[:return_type]
+        @return_type ||= return_type_for actionator_params[:return_type]
+      end
+
+      def return_type_for(raw_return_type)
+        # mutate return types that have been incorrectly specified
+        case raw_return_type
+        when 'text/plain'; 'plain_text'
+        else; raw_return_type
+        end
       end
 
       def perform_actionator_params

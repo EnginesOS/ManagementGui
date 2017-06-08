@@ -12,14 +12,15 @@ module Apps
      if @network.valid?
        if @network.save_to_system
          flash.now[:notice] = "Network settings for #{@network.app.name} were successfully updated."
-         render 'apps/control_panels/show'
        else
          flash.now[:alert] = "Failed to update network settings for #{@network.app.name}."
-         render 'apps/control_panels/show'
        end
+       render 'apps/control_panels/show'
      else
        render 'edit'
      end
+   rescue EnginesError => e
+     raise EnginesError.new "Failed to update network settings for #{@app.name}.\n\n#{e}"
    end
 
    private

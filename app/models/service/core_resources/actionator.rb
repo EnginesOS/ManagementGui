@@ -4,7 +4,7 @@ class Service
 
       include ActiveModel::Model
 
-      attr_accessor :service, :actionator_name, :api_post_result, :exception
+      attr_accessor :service, :actionator_name, :api_post_result
 
       validate :fields_valid
 
@@ -13,19 +13,19 @@ class Service
       end
 
       def actionator_params
-        service.actionator_for(actionator_name)
+        @actionator_params ||= service.actionator_for(actionator_name)
       end
 
       def field_params
-        ( actionator_params[:params] || {} ).values
+        @field_params ||= ( actionator_params[:params] || {} ).values
       end
 
       def field_params_with_values
-        field_params # this is here in case need to template values
+        field_params # this is here in case need to template values in future versions
       end
 
       def form_params
-        field_params_with_values.map do |variable|
+        @form_params ||= field_params_with_values.map do |variable|
           field_attributes_for(variable)
         end
       end
@@ -55,9 +55,31 @@ class Service
           }
       end
 
+      def variable_field_type_for(v)
+        case v.to_s.to_sym
+        when :boolean
+          :boolean
+        when :collection, :select, :select_single
+          :select
+        when :int
+          :integer
+        when :hidden
+          :hidden
+        when :password
+          :password
+        when :password_with_confirmation
+          :password_with_confirmation
+        when :text, :text_area
+          :text
+        when :text_field
+          :string
+        else
+          :string
+        end
+      end
+
       def fields
         @fields ||= form_params.map { |field| Field.new field }
-        # @fields ||= {}.tap{|result| form_params.each_with_index { |field, index| result[index] = Field.new field } }
       end
 
       def persisted?
@@ -74,15 +96,19 @@ class Service
       end
 
       def save_to_system
-         @api_post_result = service.core_service.perform_actionator_for(actionator_name, perform_actionator_params, return_type)
-      #  rescue => e
-      #    @exception = e
-      #    return false if e.is_a? EnginesError
-      # true
+        @api_post_result = service.core_service.perform_actionator_for(actionator_name, perform_actionator_params, return_type)
       end
 
       def return_type
-        @return_type ||= actionator_params[:return_type]
+        @return_type ||= return_type_for actionator_params[:return_type]
+      end
+
+      def return_type_for(raw_return_type)
+        # mutate return types that have been incorrectly specified
+        case raw_return_type
+        when 'text/plain'; 'plain_text'
+        else; raw_return_type
+        end
       end
 
       def perform_actionator_params
@@ -92,7 +118,6 @@ class Service
           end if @fields
         end
       end
-
 
     end
   end

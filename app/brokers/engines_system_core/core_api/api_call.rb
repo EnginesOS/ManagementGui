@@ -24,11 +24,11 @@ module EnginesSystemCore
       rescue RestClient::SSLCertificateNotVerified
         raise EnginesError.new "The security certificate is not trusted for Engines system #{@name} at #{@api_url}."
       rescue Errno::ECONNREFUSED => e # normally thrown when system is offline.
-        raise EnginesError::ApiRetryConnectionError.new "Connection refused to Engines system #{@name} at #{@api_url}."
+        raise EnginesError::ApiConnectionError.new "Connection refused to Engines system #{@name} at #{@api_url}."
       rescue Errno::ECONNRESET => e # normally thrown after system update.
-        raise EnginesError::ApiRetryConnectionError.new "Connection has been reset to Engines system #{@name} at #{@api_url}."
+        raise EnginesError::ApiConnectionError.new "Connection has been reset to Engines system #{@name} at #{@api_url}."
       rescue RestClient::ServerBrokeConnection => e  # normally thrown when the system has been online and then goes offline (when system stopped, for example).
-        raise EnginesError::ApiRetryConnectionError.new "Connection has been broken to Engines system #{@name} at #{@api_url} ."
+        raise EnginesError::ApiConnectionError.new "Connection has been broken to Engines system #{@name} at #{@api_url} ."
       rescue RestClient::NotFound => e
         raise EnginesError.new "Failed to find the requested resource on Engines system #{@name} at #{@api_url}. #{system_error_message_from(e)}"
       rescue RestClient::Exceptions::OpenTimeout, RestClient::Exceptions::ReadTimeout => e
@@ -81,12 +81,10 @@ module EnginesSystemCore
           end
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :boolean
           result == 'true'
-        # elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :file
-        #   result text/plain
         elsif ( api_call_result.net_http_res.content_type == "text/plain" || api_call_result.net_http_res.content_type == "application/octet-stream" ) && expected_content == :file
           result
         else
-          raise EnginesError::ApiParseError.new "Invalid content type. Expected #{expected_content} but received #{api_call_result.net_http_res.content_type}.", result
+          raise EnginesError::ApiParseError.new "Invalid content type. Expected #{expected_content} #{expected_content.class} but received #{api_call_result.net_http_res.content_type} #{api_call_result.net_http_res.content_type.class}.", result
         end
       rescue => e
         Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{e}"

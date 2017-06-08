@@ -17,11 +17,4 @@ module Buttons
     end
   end
 
-  # protected
-  #
-  # def default_cancel_path
-  #   return url_for(object.class) if object.new_record?
-  #   url_for(object)
-  # end
-
 end

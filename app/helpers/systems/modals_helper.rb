@@ -51,10 +51,10 @@ module Systems
         system_last_install_link(engines_system) +
         installer_side_load_link(engines_system) +
         content_tag(:hr) +
+        system_registry_link(engines_system) +
         system_service_manager_link(engines_system) +
         content_tag(:hr) +
         system_activity_link(engines_system) +
-        system_registry_link(engines_system) +
         system_logs_link(engines_system) +
         system_bugs_link(engines_system) +
         system_report_link(engines_system) +

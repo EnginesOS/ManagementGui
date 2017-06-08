@@ -21,13 +21,6 @@ class App
           end
         end
 
-        # def field_values
-        #   @field_values ||=
-        #   app.core_app.non_persistent_services_for_publisher_type_path( publisher_type_path ).find do |service|
-        #     service[:service_handle] == service_handle
-        #   end[:variables]
-        # end
-
         def parent_service_definition
           @parent_service_definition ||=
             app.engines_system.core_system.

@@ -80,17 +80,6 @@ class Install
         selected_service_consumer.split('#').last
       end
 
-
-
-      # validates :create_type, inclusion: { in: create_type_collection.map(&:first) }
-
-
-      # def initialize(opts)
-      #   @publisher_namespace = opts[:publisher_namespace]
-      #   @type_path = opts[:type_path]
-      #   @create_type = opts[:create_type]
-      # end
-
     end
   end
 end

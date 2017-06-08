@@ -1,0 +1,16 @@
+<%= modal footer_close: true, large: true, header: {text: "Logs for #{@engines_system.label}", icon: 'fa-file-text-o'} do %>
+<%= up_to_system_control_panel_link(@engines_system) %>
+  <%= resource_link :system_logs, params: {engines_system_id: @engines_system.id}, text: 'Refresh', icon: 'fa-repeat', title: "Refresh logs for #{@engines_system.label}" %>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#log_out" data-toggle="tab">Out</a></li>
+    <li><a href="#log_errors" data-toggle="tab">Error</a></li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="log_out">
+      <pre><%= @engines_system.logs[:stdout] %></pre>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="log_errors">
+      <pre><%= @engines_system.logs[:stderr] %></pre>
+    </div>
+  </div>
+<% end %>

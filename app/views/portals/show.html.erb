@@ -1,7 +1,6 @@
 <% @clouds.each do |cloud| %>
   <%= render 'portals/cloud', cloud: cloud %>
 <% end if @clouds %>
-<% # = render 'portals/user_portal' if current_user && controller_path == 'clouds/portals' %>
 <% @apps.each do |app| %>
   <%= render 'portals/app', app: app %>
 <% end if @apps %>

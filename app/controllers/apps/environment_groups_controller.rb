@@ -16,17 +16,15 @@ module Apps
       if @environment_group.valid?
         if @environment_group.save_to_system
           flash.now[:notice] = "Successfully updated environment variables for #{@app.name}."
-          render 'apps/environment_groups/show'
         else
-          if @environment_group.exception
-            flash.now[@environment_group.exception.flash_message_params[:type]] =
-            "Failed to update environment variables. #{@environment_group.exception}"
-          end
-          render 'apps/environment_groups/show'
+          flash.now[:alert] = "Failed to update environment variables for #{@app.name}."
         end
+        render 'apps/environment_groups/show'
       else
         render 'edit'
       end
+    rescue EnginesError => e
+      raise EnginesError.new "Failed to update environment variables for #{@app.name}.\n\n#{e}"
     end
 
     private

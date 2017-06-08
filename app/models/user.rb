@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :rememberable, :registerable and :omniauthable
+
   devise :database_authenticatable,
          :recoverable,
          :trackable,
@@ -11,20 +10,7 @@ class User < ApplicationRecord
   has_one :user_profile
   after_create :create_user_profile
 
-  attr_accessor :current_password #, :password_confirmation
-
-  # def after_database_authentication
-  #   self.update_attribute(:invite_code, nil)
-  # end
-
-  # Warden::Manager.after_set_user do |user,auth,opts|
-  #   auth.cookies[:signed_in] = 1
-  # end
-  #
-  # Warden::Manager.before_logout do |user,auth,opts|
-  #   auth.cookies.delete :signed_in
-  # end
-
+  attr_accessor :current_password
 
   def update_password(params)
     if valid_password? params[:current_password]
@@ -47,10 +33,6 @@ class User < ApplicationRecord
       false
     end
   end
-
-  # def portal
-  #   super || Environment.default_portal
-  # end
 
   def email_required?
     !is_admin?

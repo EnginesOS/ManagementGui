@@ -12,14 +12,6 @@ class App
         group_type.to_label
       end
 
-      # def variable_params
-      #   group_type.variable_params
-      # end
-
-      # def field_params
-      #   group_type.field_params
-      # end
-
       def field_params_with_values
         group_type.field_params_with_values
       end
@@ -90,7 +82,6 @@ class App
 
       def fields
         @fields ||= form_params.map { |field| Field.new field }
-        # @fields ||= {}.tap{|result| form_params.each_with_index { |field, index| result[index] = Field.new field } }
       end
 
       def persisted?
@@ -116,7 +107,6 @@ class App
           end
         end
       end
-
 
     end
   end

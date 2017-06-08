@@ -3,9 +3,8 @@ var SubcribeToBuildLogChannel = function(engines_system_id, app_name) {
     if ( typeof App.build_log_channel_subscription !== 'undefined') {
       App.cable.subscriptions.remove(App.build_log_channel_subscription);
     };
-    var client_id = (new Date()).getTime();
     App.build_log_channel_subscription = App.cable.subscriptions.create(
-      { channel: "BuildLogChannel", engines_system_id: engines_system_id, client_id: client_id },
+      { channel: "BuildLogChannel", engines_system_id: engines_system_id },
       {
         connected: function() {
         },

@@ -19,7 +19,7 @@
         <%= content_tag :div, class: 'modal-content' do %>
           <%= content_tag :div, id: "engines_system_#{engines_system.id}", class: 'engines_system clearfix modal-body' do %>
             <%= content_tag :div, system_connection_menu_link(engines_system) %>
-            <%= content_tag :div, "Connecting #{engines_system.url}", class: 'engines_system_loading text-center' %>
+            <%= content_tag :div, "Connecting #{engines_system.url}", class: 'engines_system_connecting_message text-center' %>
           <% end %>
         <% end %>
       <% end %>

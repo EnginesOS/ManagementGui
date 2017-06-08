@@ -122,7 +122,6 @@ Rails.application.routes.draw do
     resource :environment_group, only: [:show, :edit, :update]
     resource :reinstall, only: [:show]
     resource :uninstall, only: [:new, :create]
-    # resource :first_run, only: [:show]
     resource :installation_report, only: [:show]
     resource :installation_report_popup, only: [:show]
     resource :actions, only: [:show]
@@ -139,7 +138,6 @@ Rails.application.routes.draw do
     resource :repository, only: [:new]
     resource :new_app, only: [:new, :create]
     resource :build, only: [:show]
-    # resource :build_log, only: [:show]
     resource :build_complete, only: [:show]
   end
 
@@ -148,7 +146,6 @@ Rails.application.routes.draw do
     resource :control_panel, only: [:show]
     resource :instruction, only: [:show]
     resource :memory, only: [:edit, :update]
-    # resource :variables, only: [:edit, :update]
     resource :environment, only: [:show]
     # resource :environment_group, only: [:show, :edit, :update]
     resource :report, only: [:show]

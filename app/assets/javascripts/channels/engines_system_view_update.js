@@ -14,7 +14,8 @@ var SubcribeToEnginesSystemViewUpdateChannel = function(engines_system_id) {
         },
         received: function(message_object) {
           console.log('Received on EnginesSystemViewUpdateChannel: ' + JSON.stringify(message_object));
-          $('#engines_system_' + engines_system_id).html(message_object.html)
+          $('#engines_system_' + engines_system_id).html(message_object.html);
+          bind_show_waiting_spinner_click_event();
         }
       }
     );

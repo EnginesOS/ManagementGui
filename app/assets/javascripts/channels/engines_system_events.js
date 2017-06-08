@@ -3,9 +3,8 @@ App.engines_system_events_channel_subscriptions = [];
 var SubcribeToEnginesSystemEventsChannel = function(engines_system_id, engines_system_label) {
 
   if ( typeof App.engines_system_events_channel_subscriptions[engines_system_id] === 'undefined') {
-    var client_id = (new Date()).getTime();
     App.engines_system_events_channel_subscriptions[engines_system_id] = App.cable.subscriptions.create(
-      { channel: "EnginesSystemEventsChannel", engines_system_id: engines_system_id, client_id: client_id },
+      { channel: "EnginesSystemEventsChannel", engines_system_id: engines_system_id },
       {
         connected: function() {
           console.log('Connected to EnginesSystemEventsChannel' + engines_system_id);

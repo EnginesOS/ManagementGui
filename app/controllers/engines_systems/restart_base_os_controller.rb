@@ -10,7 +10,7 @@ module EnginesSystems
       else
         render 'fail'
       end
-    rescue EnginesError::ApiRetryConnectionError
+    rescue EnginesError::ApiConnectionError
       # rescue because system may restart immediately, before returning, which throws error
       EnginesSystemViewUpdateJob.perform_now(@engines_system, 'Restart system.')
       render

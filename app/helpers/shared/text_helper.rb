@@ -18,7 +18,6 @@ module Shared
         end
       end
     end
-    # alias pp pretty_print
 
     def time_ago(time)
       distance_of_time_in_words(time, DateTime.now) + ' ago'
