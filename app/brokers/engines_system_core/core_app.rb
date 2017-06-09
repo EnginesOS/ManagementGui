@@ -69,7 +69,7 @@ module EnginesSystemCore
     end
 
     def restart
-      get "containers/engine/#{name}/restart", expect: :boolean
+      get "containers/engine/#{name}/restart", expect: :boolean, timeout: 30
     end
 
     def create
