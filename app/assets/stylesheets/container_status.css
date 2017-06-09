@@ -8,3 +8,7 @@
 .container_state_unbuilt i.fa { color: #666; }
 .container_state_create i.fa { color: #4b4; }
 .container_state_oom i.fa { color: #f00; }
+
+.container_needs_indicator { color: #d9534f; font-size: 12px; }
+.ran_out_of_memory_message { color: #d9534f; padding: 10px 16px; }
+.why_container_stopped_message { padding: 10px 16px; }

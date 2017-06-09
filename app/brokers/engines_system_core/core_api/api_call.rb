@@ -4,35 +4,34 @@ module EnginesSystemCore
 
       private
 
-      def api_call(http_method, api_route, params, file=nil)
+      def api_call(http_method, api_route, params, opts={})
+        timeout = ( opts[:timeout] || 10 )
         if http_method == :post
-          post_body = file.present? ? { file: file } : {api_vars: params}.to_json
+          post_body = {api_vars: params}.to_json
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
-          RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: post_body, timeout: 10, open_timeout: 10, headers: { access_token: @token } ) # , content_type: :json )
+          RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: post_body, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
         else
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
-          RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: 10, open_timeout: 10, headers: { params: params, access_token: @token } ) #, verify_ssl: false, content_type: :json )
+          RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, headers: { params: params, access_token: @token } ) #, verify_ssl: false, content_type: :json )
         end
-      rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system
+      rescue RestClient::NotFound => e
+        raise EnginesError.new "Failed to load the requested resource on Engines system #{@name} at #{@api_url}.\n\n#{system_error_message_from(e)}"
+      rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system.
         raise EnginesError.new "Invalid URL for Engines system #{@name} at #{@api_url}."
-      rescue Errno::EHOSTUNREACH # normally thrown when the engines system is offline
-        raise EnginesError.new "Cannot establish connection to Engines system #{@name} at #{@api_url}."
-      # rescue SocketError => e # normally thrown when invalid url is provided for server address
-      #   raise EnginesError.new "The address for the Engines system #{@api_url} is invalid."
-      rescue OpenSSL::SSL::SSLError => e # normally throw when SSL certificate is invalid
+      rescue OpenSSL::SSL::SSLError => e # normally throw when SSL certificate is invalid.
         raise EnginesError.new "The security certificate is invalid for Engines system #{@name} at #{@api_url}."
       rescue RestClient::SSLCertificateNotVerified
         raise EnginesError.new "The security certificate is not trusted for Engines system #{@name} at #{@api_url}."
+      rescue Errno::EHOSTUNREACH, Errno::ENETUNREACH # normally thrown when there is a routing or network problem.
+        raise EnginesError::ApiConnectionError.new "Cannot establish connection to Engines system #{@name} at #{@api_url}."
       rescue Errno::ECONNREFUSED => e # normally thrown when system is offline.
         raise EnginesError::ApiConnectionError.new "Connection refused to Engines system #{@name} at #{@api_url}."
       rescue Errno::ECONNRESET => e # normally thrown after system update.
         raise EnginesError::ApiConnectionError.new "Connection has been reset to Engines system #{@name} at #{@api_url}."
       rescue RestClient::ServerBrokeConnection => e  # normally thrown when the system has been online and then goes offline (when system stopped, for example).
         raise EnginesError::ApiConnectionError.new "Connection has been broken to Engines system #{@name} at #{@api_url} ."
-      rescue RestClient::NotFound => e
-        raise EnginesError.new "Failed to find the requested resource on Engines system #{@name} at #{@api_url}. #{system_error_message_from(e)}"
       rescue RestClient::Exceptions::OpenTimeout, RestClient::Exceptions::ReadTimeout => e
-        raise EnginesError.new "The connection has timed-out to Engines system #{@name} at #{@api_url}."
+        raise EnginesError::ApiConnectionError.new "The connection has timed-out to Engines system #{@name} at #{@api_url}."
       rescue RestClient::Forbidden => e # can't authenticate. Throwing custom error so that gui knows to present authentication link
         raise EnginesError::ApiConnectionAuthenticationError.new "Failed to authenticate the connection with the Engines system."
       rescue => e
@@ -49,17 +48,20 @@ module EnginesSystemCore
 
       def get(api_route, opts)
         params = opts[:params] || {}
-        parse api_call( :get, api_route, params ), opts[:expect]
+        api_call_opts = { timeout: opts[:timeout] }
+        parse api_call( :get, api_route, params, api_call_opts ), opts[:expect]
       end
 
-      def post(api_route, opts, file=nil)
+      def post(api_route, opts)
         params = opts[:params] || {}
-        parse api_call( :post, api_route, params, file ), opts[:expect]
+        api_call_opts = { timeout: opts[:timeout] }
+        parse api_call( :post, api_route, params, api_call_opts ), opts[:expect]
       end
 
       def delete(api_route, opts)
         params = opts[:params] || {}
-        parse api_call( :delete, api_route, params ), opts[:expect]
+        api_call_opts = { timeout: opts[:timeout] }
+        parse api_call( :delete, api_route, params, api_call_opts ), opts[:expect]
       end
 
       def parse(api_call_result, expected_content)

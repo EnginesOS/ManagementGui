@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     Rails.logger.warn "Handling exception (#{error.class})..."
     if request.format == "text/event-stream"
       handle_event_stream_error(error)
-    elsif error.is_a?(EnginesError)
+    elsif error.is_a?(EnginesError) || error.is_a?(EnginesError::ApiConnectionError)
       handle_engines_error(error)
     elsif error.is_a?(ActionView::Template::Error)
       if error.cause.is_a?(EnginesError)

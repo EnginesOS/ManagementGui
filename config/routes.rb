@@ -128,6 +128,7 @@ Rails.application.routes.draw do
     resource :actionator, only: [:new, :create]
     resource :logs, only: [:show]
     resource :portal_message, only: [:show]
+    resource :clear_had_oom, only: [:show]
   end
 
   namespace :install, module: :installs do
@@ -158,6 +159,7 @@ Rails.application.routes.draw do
     resource :logs, only: [:show]
     resource :processes, only: [:show]
     resource :restart_local_gui, only: [:show]
+    resource :clear_had_oom, only: [:show]
   end
 
   resource :help, only: [:show]

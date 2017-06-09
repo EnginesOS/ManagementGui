@@ -39,6 +39,10 @@ module EnginesSystemCore
       get "containers/engine/#{name}/status", expect: :json
     end
 
+    def clear_had_oom
+      get "containers/engine/#{name}/clear_error", expect: :boolean
+    end
+
     # websites
 
     def websites
@@ -49,7 +53,7 @@ module EnginesSystemCore
     # instructions
 
     def stop
-      get "containers/engine/#{name}/stop", expect: :boolean
+      get "containers/engine/#{name}/stop", expect: :boolean, timeout: 30
     end
 
     def start

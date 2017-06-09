@@ -14,8 +14,13 @@ class Service
     end
 
     def needs
+      # Service don't have any needs...yet...maybe in future.
       @needs ||=
-        [ ( 'Ran out of memory' if status[:had_oom] ) ].compact
+        [ ].compact
+    end
+
+    def had_oom?
+      status[:had_oom]
     end
 
   end

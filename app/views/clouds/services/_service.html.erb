@@ -18,7 +18,7 @@
         <%= content_tag :div do %>
           <%= service.name %>
           <%= content_tag :span, class: 'container_needs_indicator' do %>
-            <%= icon('fa-warning') if service.needs.any? %>
+            <%= icon('fa-warning') if (service.needs.any? || service.had_oom? ) %>
           <% end %>
         <% end %>
         <%= content_tag :div, service.label, class: 'engines_container_label_subtext' %>

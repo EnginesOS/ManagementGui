@@ -21,12 +21,21 @@
       <%= icon_text('fa-map-marker', 'Local mgmt GUI') if @service.is_local_mgmt %>
     <% end %>
   <% end %>
-  <% if @service.why_stopped? %>
-    <hr>
-    <label>Why stopped?</label>
-    <%= @service.why_stopped? %>
-  <% end %>
   <hr>
+  <% if @service.why_stopped? %>
+    <div class='why_container_stopped_message'>
+      <label>Why stopped?</label>
+      <%= @service.why_stopped? %>
+    </div>
+    <hr>
+  <% end %>
+  <% if @service.had_oom? %>
+    <div class='clearfix'>
+      <div class='ran_out_of_memory_message pull-left'><%= icon_text('fa-warning', 'Ran out of memory') %></div>
+      <%= resource_link :app_clear_had_oom, params: {app_id: @service.id}, text: 'Clear', icon: 'fa-times', title: "Clear out-of-memory flag for #{@service.name}", class: 'pull_right_wide_media' %>
+    </div>
+    <hr>
+  <% end %>
   <%= content_tag :span, class: "container_state_indicators #{@service.name}_container_state" do %>
     <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused ].each do |state| %>
       <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if @service.state.to_sym != state) do %>

@@ -15,8 +15,11 @@ class App
 
     def needs
       @needs ||=
-        [ ( 'Ran out of memory' if status[:had_oom] ),
-          ( 'Restart' if status[:restart_required] ) ].compact
+        [ ( 'Restart' if status[:restart_required] ) ].compact
+    end
+
+    def had_oom?
+      status[:had_oom]
     end
 
   end

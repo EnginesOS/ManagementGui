@@ -28,7 +28,7 @@
         <% end %>
       <%end %>
       <%= content_tag :span, class: 'container_needs_indicator' do %>
-        <%= icon('fa-warning') if app.needs.any? %>
+        <%= icon('fa-warning') if ( app.needs.any? || app.had_oom? ) %>
       <% end %>
     <% end %>
     <%= content_tag :div, (app.label.present? ? app.label : '&nbsp;'.html_safe), class: 'engines_container_label_subtext' %>
