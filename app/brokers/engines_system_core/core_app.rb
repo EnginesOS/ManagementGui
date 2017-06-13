@@ -89,7 +89,7 @@ module EnginesSystemCore
     end
 
     def uninstall(params={})
-      delete "containers/engine/#{name}/delete/#{params[:remove_data] ? 'all' : 'none'}", expect: :boolean
+      delete "containers/engine/#{name}/delete/#{params[:remove_data] ? 'all' : 'none'}", expect: :boolean, timeout: 30
     end
 
     # properties

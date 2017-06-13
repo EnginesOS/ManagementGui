@@ -32,7 +32,7 @@
   <% if @service.had_oom? %>
     <div class='clearfix'>
       <div class='ran_out_of_memory_message pull-left'><%= icon_text('fa-warning', 'Ran out of memory') %></div>
-      <%= resource_link :app_clear_had_oom, params: {app_id: @service.id}, text: 'Clear', icon: 'fa-times', title: "Clear out-of-memory flag for #{@service.name}", class: 'pull_right_wide_media' %>
+      <%= resource_link :service_clear_had_oom, params: {service_id: @service.id}, text: 'Clear', icon: 'fa-times', title: "Clear out-of-memory flag for #{@service.name}", class: 'pull_right_wide_media' %>
     </div>
     <hr>
   <% end %>
