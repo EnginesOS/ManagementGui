@@ -198,8 +198,7 @@ module EnginesSystemCore
     end
 
     def persistent_service_consumer_import(params)
-      post "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/#{params[:write]}",
-        { expect: :boolean }, params[:data_file]
+      post_file "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/#{params[:write]}", file: params[:data_file], expect: :boolean
     end
 
     # resolve string

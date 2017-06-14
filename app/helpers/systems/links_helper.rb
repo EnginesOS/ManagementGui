@@ -193,8 +193,8 @@ module Systems
     def system_default_domain_link(engines_system)
       resource_link :edit_system_default_domain,
       params: {engines_system_id: engines_system.id},
-      text: 'Default',
-      icon: 'fa-star-o',
+      text: 'Edit',
+      icon: 'fa-edit',
       title: 'Set the default domain',
       form_class: 'display_inline pull_right_wide_media'
     end

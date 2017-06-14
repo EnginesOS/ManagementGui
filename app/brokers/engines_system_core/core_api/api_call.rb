@@ -4,16 +4,24 @@ module EnginesSystemCore
 
       private
 
-      def api_call(http_method, api_route, params, opts={})
+      def api_call(http_method, api_route, opts={})
         timeout = ( opts[:timeout] || 10 )
         if http_method == :post
-          Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
-          post_body = {api_vars: params}.to_json
-          RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: post_body, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
+          payload = opts[:payload]
+          content_type = opts[:content_type]
+          Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload #{payload.class}: #{payload}, access_token: #{@token}"
+          result = RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
+        # elsif http_method == :post_file
+        #   Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload: #{payload}, access_token: #{@token}"
+        #   RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
         else
-          Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
-          RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, headers: { params: params, access_token: @token } ) #, verify_ssl: false, content_type: :json )
-        end.tap { |result| Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}\nresult:\n#{result}" }
+          Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, access_token: #{@token}"
+          # RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, headers: { params: payload, access_token: @token } ) #, verify_ssl: false, content_type: :json )
+          result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) #, verify_ssl: false, content_type: :json )
+        end
+        # .tap { |result| Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}\nresult:\n#{result}" }
+        Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}\nresult:\n#{result}"
+        result
       rescue RestClient::NotFound => e
         raise EnginesError.new "Failed to load the requested resource on Engines system #{@name} at #{@api_url}.\n\n#{system_error_message_from(e)}"
       rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system.
@@ -38,7 +46,7 @@ module EnginesSystemCore
         Rails.logger.warn \
         "++++++++\n"\
         "UNHANDLED ENGINES API ERROR in EnginesSystemCore::CoreApi::ApiCall.api_call\n"\
-        "api call: #{http_method} #{api_route} #{params}\n"\
+        "api call: #{http_method} #{api_route} #{payload}\n"\
         ">>>>> e.class: #{e.class}\n"\
         ">>>>> e.response: #{e.try(:response) || 'n/a'}\n"\
         ">>>>> e.inspect: #{e.inspect}\n"\
@@ -49,27 +57,35 @@ module EnginesSystemCore
       end
 
       def get(api_route, opts)
-        params = opts[:params] || {}
+        # params = opts[:params] || {}
         api_call_opts = { timeout: opts[:timeout] }
-        parse api_call( :get, api_route, params, api_call_opts ), opts[:expect]
+        parse api_call( :get, api_route, api_call_opts ), opts[:expect]
       end
 
       def post(api_route, opts)
-        params = opts[:params] || {}
-        api_call_opts = { timeout: opts[:timeout] }
-        parse api_call( :post, api_route, params, api_call_opts ), opts[:expect]
+        api_call_opts = { timeout: opts[:timeout],
+                          payload: { api_vars: opts[:params] }.to_json,
+                          content_type: 'application/json' }
+        parse api_call( :post, api_route, api_call_opts ), opts[:expect]
+      end
+
+      def post_file(api_route, opts)
+        api_call_opts = { timeout: opts[:timeout],
+                          payload: opts[:file],
+                          content_type: 'application/octet-stream' }
+        parse api_call( :post, api_route, api_call_opts ), opts[:expect]
       end
 
       def delete(api_route, opts)
-        params = opts[:params] || {}
+        # params = opts[:params] || {}
         api_call_opts = { timeout: opts[:timeout] }
-        parse api_call( :delete, api_route, params, api_call_opts ), opts[:expect]
+        parse api_call( :delete, api_route, api_call_opts ), opts[:expect]
       end
 
       def parse(api_call_result, expected_content)
         # byebug if Rails.env.development? && !( api_call_result.net_http_res.content_type != "application/json" || api_call_result.net_http_res.content_type != "text/plain" )
         result = api_call_result.body.to_s
-        Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
+        # Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
         if api_call_result.net_http_res.content_type == "application/json" && expected_content == :json
           begin
             JSON.parse result, symbolize_names: true

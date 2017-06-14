@@ -4,6 +4,10 @@ module Systems
     def system_menu_modal(engines_system)
       modal(header: {text: "System", icon: 'fa-hdd-o'}, footer_close: true) do
           system_menu_system_details(engines_system) +
+          (content_tag :hr if engines_system.needs.any?) +
+          content_tag(:span, class: 'engines_system_status') do
+            icon_text('fa-warning', engines_system.needs.join(' - ')) if engines_system.needs.any?
+          end +
           content_tag(:hr) +
           system_update_link(engines_system) +
           system_install_link(engines_system) +
