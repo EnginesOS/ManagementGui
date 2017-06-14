@@ -4,8 +4,8 @@ module Services
    before_action :set_service
 
    def show
-     @service.perform_instruction(:restart)
      render
+     Thread.new { @service.perform_instruction(:restart) }
    end
 
  end
