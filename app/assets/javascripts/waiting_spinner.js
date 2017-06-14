@@ -21,9 +21,12 @@ window.hide_waiting_spinner = function() {
   $('#waiting_spinner').fadeOut();
 };
 
-$(document).ajaxComplete(function() {
+$(document).ajaxComplete(function(event, request, settings) {
+  path = settings.url.split('?',1)[0];
+  if ( !( path == '/cloud/system' || path == '/system/busy' ) ) {
+    hide_waiting_spinner();
+  };
   bind_show_waiting_spinner_click_event();
-  hide_waiting_spinner();
 });
 
 $(document).on('turbolinks:load', function() {

@@ -45,7 +45,7 @@ var install_process_builder_log_line = function(new_line) {
 };
 
 var install_process_builder_log_eof = function(engines_system_id, app_name) {
-  remote_get('install/build_complete?engines_system_id=' + engines_system_id + '&app_name=' + app_name);
+  remote_get('install/build_complete?engines_system_id=' + engines_system_id + '&app_name=' + app_name, true);
 };
 
 var install_update_progress_bar = function() {

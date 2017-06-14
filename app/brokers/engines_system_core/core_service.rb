@@ -19,7 +19,7 @@ module EnginesSystemCore
     end
 
     def clear_had_oom
-      get "containers/engine/#{name}/clear_error", expect: :boolean
+      get "containers/service/#{name}/clear_error", expect: :boolean
     end
 
     #  state

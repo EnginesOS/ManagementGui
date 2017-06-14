@@ -7,13 +7,13 @@ module EnginesSystemCore
       def api_call(http_method, api_route, params, opts={})
         timeout = ( opts[:timeout] || 10 )
         if http_method == :post
-          post_body = {api_vars: params}.to_json
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, post_body_api_vars: #{params}, access_token: #{@token}"
+          post_body = {api_vars: params}.to_json
           RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: post_body, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
         else
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, query_string_params: #{params}, access_token: #{@token}"
           RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, headers: { params: params, access_token: @token } ) #, verify_ssl: false, content_type: :json )
-        end
+        end.tap { |result| Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}\nresult:\n#{result}" }
       rescue RestClient::NotFound => e
         raise EnginesError.new "Failed to load the requested resource on Engines system #{@name} at #{@api_url}.\n\n#{system_error_message_from(e)}"
       rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system.
@@ -44,6 +44,8 @@ module EnginesSystemCore
         ">>>>> e.inspect: #{e.inspect}\n"\
         "++++++++"
         raise
+      ensure
+        Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route} - done"
       end
 
       def get(api_route, opts)
@@ -65,7 +67,7 @@ module EnginesSystemCore
       end
 
       def parse(api_call_result, expected_content)
-        byebug if Rails.env.development? && !( api_call_result.net_http_res.content_type != "application/json" || api_call_result.net_http_res.content_type != "text/plain" )
+        # byebug if Rails.env.development? && !( api_call_result.net_http_res.content_type != "application/json" || api_call_result.net_http_res.content_type != "text/plain" )
         result = api_call_result.body.to_s
         Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
         if api_call_result.net_http_res.content_type == "application/json" && expected_content == :json
@@ -75,12 +77,12 @@ module EnginesSystemCore
             raise EnginesError::ApiParseError.new "Failed to parse JSON.", result
           end
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :plain_text
-          if result[0] == '"' && result[-1] == '"'
-            byebug if Rails.env.development?
-            result[1..-2] # remove leading and trailing quotation marks
-          else
+          # if result[0] == '"' && result[-1] == '"'
+          #   byebug if Rails.env.development?
+          #   result[1..-2] # remove leading and trailing quotation marks
+          # else
             result
-          end
+          # end
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :boolean
           result == 'true'
         elsif ( api_call_result.net_http_res.content_type == "text/plain" || api_call_result.net_http_res.content_type == "application/octet-stream" ) && expected_content == :file
