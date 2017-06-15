@@ -10,14 +10,14 @@ module EnginesSystemCore
           payload = opts[:payload]
           content_type = opts[:content_type]
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload #{payload.class}: #{payload}, access_token: #{@token}"
-          result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { content_type: content_type, access_token: @token } ) # , content_type: :json )
+          result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, verify_ssl: false, headers: { content_type: content_type, access_token: @token } ) # , content_type: :json )
         # elsif http_method == :post_file
         #   Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload: #{payload}, access_token: #{@token}"
         #   RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
         else
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, access_token: #{@token}"
           # RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, headers: { params: payload, access_token: @token } ) #, verify_ssl: false, content_type: :json )
-          result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) #, verify_ssl: false, content_type: :json )
+          result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, verify_ssl: false, headers: { access_token: @token } ) #, verify_ssl: false, content_type: :json )
         end
         # .tap { |result| Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}\nresult:\n#{result}" }
         Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}\nresult:\n#{result}"
