@@ -10,7 +10,7 @@ module EnginesSystemCore
           payload = opts[:payload]
           content_type = opts[:content_type]
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload #{payload.class}: #{payload}, access_token: #{@token}"
-          result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
+          result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { content_type: content_type, access_token: @token } ) # , content_type: :json )
         # elsif http_method == :post_file
         #   Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload: #{payload}, access_token: #{@token}"
         #   RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
@@ -69,7 +69,7 @@ module EnginesSystemCore
         parse api_call( :post, api_route, api_call_opts ), opts[:expect]
       end
 
-      def post_file(api_route, opts)
+      def put_file(api_route, opts)
         api_call_opts = { timeout: opts[:timeout],
                           payload: opts[:file],
                           content_type: 'application/octet-stream' }
