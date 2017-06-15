@@ -6,11 +6,11 @@ module EnginesSystemCore
 
       def api_call(http_method, api_route, opts={})
         timeout = ( opts[:timeout] || 10 )
-        if http_method == :post
+        if http_method == :post || http_method == :put
           payload = opts[:payload]
           content_type = opts[:content_type]
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload #{payload.class}: #{payload}, access_token: #{@token}"
-          result = RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
+          result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
         # elsif http_method == :post_file
         #   Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload: #{payload}, access_token: #{@token}"
         #   RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
@@ -73,7 +73,7 @@ module EnginesSystemCore
         api_call_opts = { timeout: opts[:timeout],
                           payload: opts[:file],
                           content_type: 'application/octet-stream' }
-        parse api_call( :post, api_route, api_call_opts ), opts[:expect]
+        parse api_call( :put, api_route, api_call_opts ), opts[:expect]
       end
 
       def delete(api_route, opts)
