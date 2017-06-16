@@ -14,17 +14,23 @@ class EnginesSystem
 
       def orphan_service_consumers
         @orphan_services ||=
-          core_system.orphan_service_consumers[:children].
-          map{|child| child[:children]}.flatten.
-          map{|child| child[:children]}.flatten.
-          map{|child| child[:children]}.flatten.
-          map{|child| child[:children]}.flatten.
-          map{|child| child[:children]}.flatten.
-          map{|child| child[:content]}
+          content_for_descendants_of core_system.orphan_service_consumers
       end
 
       def delete_orphan_service_consumer(params)
         core_system.delete_orphan_service_consumer(params)
+      end
+
+      def content_for_descendants_of(node)
+        if node[:children].any?
+          [].tap do |result|
+            node[:children].each do |child_node|
+              result << content_for_descendants_of(child_node)
+            end
+          end.flatten
+        else
+          node[:content]
+        end
       end
 
     end

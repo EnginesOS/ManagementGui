@@ -15,7 +15,7 @@ class Install
         end
       end
 
-      def existing_services_collection=json
+      def existing_services_collection=(json)
         @existing_services_collection ||= JSON.parse(json)
       end
 
@@ -30,14 +30,18 @@ class Install
         end
       end
 
-      def orphan_services_collection=json
+      def orphan_services_collection=(json)
         @orphan_services_collection ||= JSON.parse(json)
       end
 
       def orphan_services_collection
         @orphan_services_collection ||=
         engines_system.orphan_service_connections_for(type_path).map do |service_consumer|
-          ["#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}", service_consumer[:parent_engine]]
+          ["#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}",
+          (service_consumer[:parent_engine] +
+          ( service_consumer[:parent_engine] ==
+                      service_consumer[:service_handle] ?
+                      '' : " - (#{service_consumer[:service_handle]})" ) ) ]
         end
       end
 

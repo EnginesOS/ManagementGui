@@ -54,12 +54,13 @@
                   var memory_peak_data = data.datasets[1].data[tooltipItem.index];
                   var memory_current = ( memory_current_data * memory_total ).toFixed(2);
                   var memory_peak = ( ( memory_current_data + memory_peak_data ) * memory_total ).toFixed(2);
+                  var memory_headroom = ( memory_total - memory_peak ).toFixed(2);
                   if (tooltipItem.datasetIndex == 0) {
                       return "Current: " + memory_current + "MB";
                     } else if (tooltipItem.datasetIndex == 1) {
                       return "Peak: " + memory_peak + "MB";
                     } else {
-                      return "Allocated: " + memory_total + "MB";
+                      return "Allocated: " + memory_total + "MB, Headroom: " + memory_headroom + "MB";
                     };
                    }' } },
                 scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>
@@ -82,12 +83,13 @@
                 var memory_peak_data = data.datasets[1].data[tooltipItem.index];
                 var memory_current = ( memory_current_data * memory_total ).toFixed(2);
                 var memory_peak = ( ( memory_current_data + memory_peak_data ) * memory_total ).toFixed(2);
+                var memory_headroom = ( memory_total - memory_peak ).toFixed(2);
                 if (tooltipItem.datasetIndex == 0) {
                     return "Current: " + memory_current + "MB";
                   } else if (tooltipItem.datasetIndex == 1) {
                     return "Peak: " + memory_peak + "MB";
                   } else {
-                    return "Allocated: " + memory_total + "MB";
+                    return "Allocated: " + memory_total + "MB, Headroom: " + memory_headroom + "MB";
                   };
                  }' } },
               scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>
@@ -106,12 +108,13 @@
               var memory_peak_data = data.datasets[1].data[tooltipItem.index];
               var memory_current = ( memory_current_data * memory_total ).toFixed(2);
               var memory_peak = ( ( memory_current_data + memory_peak_data ) * memory_total ).toFixed(2);
+              var memory_headroom = ( memory_total - memory_peak ).toFixed(2);
               if (tooltipItem.datasetIndex == 0) {
                   return "Current: " + memory_current + "MB";
                 } else if (tooltipItem.datasetIndex == 1) {
                   return "Peak: " + memory_peak + "MB";
                 } else {
-                  return "Allocated: " + memory_total + "MB";
+                  return "Allocated: " + memory_total + "MB, Headroom: " + memory_headroom + "MB";
                 };
                }' } },
             scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>

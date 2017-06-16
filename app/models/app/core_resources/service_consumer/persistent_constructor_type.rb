@@ -46,7 +46,11 @@ class App
         def orphan_services_collection
           @orphan_services_collection ||=
           engines_system.orphan_service_connections_for(publisher_type_path).map do |service_consumer|
-            ["#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}", service_consumer[:parent_engine]]
+            ["#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}",
+            (service_consumer[:parent_engine] +
+            ( service_consumer[:parent_engine] ==
+                        service_consumer[:service_handle] ?
+                        '' : " - (#{service_consumer[:service_handle]})" ) ) ]
           end
         end
 
