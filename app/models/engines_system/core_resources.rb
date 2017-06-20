@@ -33,6 +33,10 @@ class EnginesSystem
       build_core_resource Certificate::Download, params
     end
 
+    def build_certificate_delete(params = {})
+      build_core_resource Certificate::Delete, params
+    end
+
     def build_certificate_upload(params = {})
       build_core_resource Certificate::Upload, params
     end
@@ -59,6 +63,14 @@ class EnginesSystem
 
     def build_service_manager(params = {})
       build_core_resource ServiceManager, params
+    end
+
+    def build_locale(params = {})
+      build_core_resource Locale, params
+    end
+
+    def build_timezone(params = {})
+      build_core_resource Timezone, params
     end
 
     def build_bug_report(params = {})

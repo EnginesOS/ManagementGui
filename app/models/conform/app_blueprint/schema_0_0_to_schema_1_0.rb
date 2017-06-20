@@ -462,16 +462,8 @@ module Conform
         # when String
         #   vsc.split ' '
         # else
-        #   vsc
-        # #
-        # #    || {}
-
-        
-
-        vsc
-
-
-
+          vsc
+        # end
       end
 
       def variable_field_type_for(v)

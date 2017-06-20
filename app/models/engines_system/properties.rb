@@ -40,21 +40,21 @@ class EnginesSystem
 
     # container states
 
-    def app_states
-      @app_states ||= core_system.engine_states
+    def app_statuses
+      @app_statuses ||= core_system.engine_statuses
     end
 
-    def app_states_with_installing_app
-      @app_states_with_installing_app ||= app_states.
-      tap do |app_states|
+    def app_statuses_with_installing_app
+      @app_statuses_with_installing_app ||= app_statuses.
+      tap do |app_statuses|
         if building? && current_build_app_name.present?
-          app_states[current_build_app_name.to_sym] = 'installing'
+          app_statuses[current_build_app_name.to_sym] = { state: 'installing' }
         end
       end
     end
 
-    def service_states
-      @service_states ||= core_system.service_states
+    def service_statuses
+      @service_statuses ||= core_system.service_statuses
     end
 
     # builder
@@ -65,6 +65,12 @@ class EnginesSystem
 
     def current_build_params
       @current_build_params ||= core_system.current_build_params
+    end
+
+    # logs
+
+    def logs
+      @logs ||= core_system.logs
     end
 
   end

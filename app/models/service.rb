@@ -2,18 +2,16 @@ class Service < ApplicationRecord
 
   include CoreResources
   include Properties
-  # include Status
-
+  include Status
   include LabelData
-
-  attr_writer :state
 
   before_save :update_display_attributes
   belongs_to :engines_system
 
+  attr_writer :status
 
-  def state
-    @state ||= core_service.state
+  def status
+    @status ||= core_service.status
   end
 
   def core_service
@@ -48,10 +46,6 @@ class Service < ApplicationRecord
       { type: :error, message: "Failed to send #{action} instruction." }
     end
   end
-
-  # def publisher_namespace
-  #   @publisher_namespace ||= container[:publisher_namespace]
-  # end
 
   def publisher_type_path
     @publisher_type_path ||= "#{container[:publisher_namespace]}/#{container[:type_path]}"

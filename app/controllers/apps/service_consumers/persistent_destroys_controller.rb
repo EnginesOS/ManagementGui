@@ -14,16 +14,20 @@ module Apps
       def create
         @persistent_service_consumer_remove = @app.
                 build_persistent_service_consumer_remove(strong_params)
-        @persistent_service_consumer_remove.remove_from_system
-        flash.now[:notice] =
-          "Successfully deleted #{@persistent_service_consumer_remove.label} "\
-          "for #{@app.name}."
+        if @persistent_service_consumer_remove.remove_from_system
+          flash.now[:notice] =
+            "Successfully deleted #{@persistent_service_consumer_remove.label} "\
+            "for #{@app.name}."
+        else
+          flash.now[:alert] =
+            "Failed to delete #{@persistent_service_consumer_remove.label} "\
+            "for #{@app.name}."
+        end
         render 'apps/service_consumers/index'
       rescue EnginesError => e
-        flash.now[:alert] =
-          "Failed to delete #{@persistent_service_consumer_remove.label} "\
-          "for #{@app.name}. (#{@persistent_service_consumer_remove.exception})"
-        render 'show'
+        raise EnginesError.new "Failed to delete "\
+          "#{@persistent_service_consumer_remove.label} "\
+          "for #{@app.name}.\n\n#{e}"
       end
 
       private

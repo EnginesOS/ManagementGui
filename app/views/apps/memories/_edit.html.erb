@@ -1,4 +1,10 @@
 <%= modal header: {text: "Memory settings for #{@memory.app.name}", icon: 'fa-pie-chart'}, id: "remote_modal" do %>
+
+  <%= content_tag :div, class: 'dl-horizontal' do %>
+    <%= data_list_text 'Current', "#{@app.memory_metrics[:current].to_i/1024/1024} MB" %>
+    <%= data_list_text 'Maximum', "#{@app.memory_metrics[:maximum].to_i/1024/1024} MB" %>
+  <% end %>
+  <hr>
   <% if true || @app.state == 'stopped'%>
     <%= render 'form' %>
   <% else %>

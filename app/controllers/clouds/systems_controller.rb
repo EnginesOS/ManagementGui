@@ -5,6 +5,7 @@ module Clouds
     before_action :set_engines_system, only: [:show, :destroy]
 
     def show
+      render
     end
 
     def new
@@ -21,7 +22,6 @@ module Clouds
     end
 
     def destroy
-      # @cloud = @engines_system.cloud
       if @engines_system.destroy
         redirect_to cloud_path(cloud_id: @engines_system.cloud.id)
       else
@@ -34,8 +34,6 @@ module Clouds
     def strong_params
       params.require(:engines_system).permit(:label, :url) #, :token)
     end
-
-
 
   end
 end

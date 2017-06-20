@@ -19,18 +19,5 @@ module Installers
       end
     end
 
-
-    #
-    # def installer_build_log_modal(engines_system)
-    #   modal(header: {text: "Install build log", icon: 'fa-file-text-o'},
-    #     footer_close: true, large: true, id: "installer_build_log_modal") do
-    #     content_tag :div, data:
-    #       { behavior: :stream_build_log,
-    #         build_log_url: installer_build_log_path(engines_system_id: engines_system.id) } do
-    #       content_tag :pre, nil, id: 'installer_builder_log'
-    #     end
-    #   end
-    # end
-
   end
 end

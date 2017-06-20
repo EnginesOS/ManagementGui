@@ -2,8 +2,8 @@ module Page
   module WaitForSystemSpinnerHelper
 
     def wait_for_system_spinner
-      content_tag :div, id: 'wait_for_system_response_spinner', title: "Please wait...", style: "display: none;" do
-        content_tag :div, class: 'system_response_spinner_container',
+      content_tag :div, id: 'waiting_spinner', title: "Please wait...", style: "display: none;" do
+        content_tag :div, class: 'waiting_spinner_container',
         style: "-webkit-box-shadow: 0px 0px 100px 100px #{ page_object.text_color };
                 -moz-box-shadow: 0px 0px 100px 100px #{ page_object.text_color };
                 box-shadow: 0px 0px 100px 100px #{ page_object.text_color };

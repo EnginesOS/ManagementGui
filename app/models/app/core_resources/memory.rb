@@ -4,13 +4,13 @@ class App
 
       include ActiveModel::Model
 
-      attr_accessor :app, :memory, :minimum, :recommended
+      attr_accessor :app, :limit, :minimum, :recommended
 
-      validates :memory, presence: true
-      validate :memory_meets_minimum
+      validates :limit, presence: true
+      validate :limit_meets_minimum
 
-      def memory
-        @memory ||= app.memory
+      def limit
+        @limit ||= app.memory_metrics[:limit].to_i/1024/1024
       end
 
       def minimum
@@ -22,11 +22,11 @@ class App
       end
 
       def update_system
-        @app.core_app.set_runtime_properties(memory: memory)
+        @app.core_app.set_runtime_properties(memory: limit)
       end
 
-      def memory_meets_minimum
-        errors.add(:memory, "must be at least #{@minimum}") if memory.to_i < minimum.to_i
+      def limit_meets_minimum
+        errors.add(:limit, "must be at least #{@minimum}") if limit.to_i < minimum.to_i
       end
 
     end

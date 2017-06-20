@@ -10,14 +10,20 @@ class ApplicationController < ActionController::Base
 
   def set_cloud
     @cloud = current_user.user_profile.clouds.find(params[:cloud_id])
+  rescue ActiveRecord::RecordNotFound
+    raise EnginesError.new "Failed to find cloud."
   end
 
   def set_engines_system
     @engines_system = current_user.user_profile.engines_systems.find(params[:engines_system_id])
+  rescue ActiveRecord::RecordNotFound
+    raise EnginesError.new "Failed to find Engines system."
   end
 
   def set_app
     @app = current_user.user_profile.apps.find(params[:app_id])
+  rescue ActiveRecord::RecordNotFound
+    raise EnginesError.new "Failed to find app."
   end
 
   def set_service
@@ -54,61 +60,58 @@ class ApplicationController < ActionController::Base
 
   # Error handling
 
-  # def handle_invalid_authenticity_token
-  #   raise EnginesInvalidAuthenticityTokenError
-  # end
-
   def handle_exception(error)
     Rails.logger.warn "Handling exception (#{error.class})..."
-    if request.format == "text/event-stream"
-      handle_event_stream_error(error)
-    elsif error.is_a?(EnginesError)
-      handle_engines_error(error)
-    elsif error.is_a?(ActionView::Template::Error)
-      if error.cause.is_a?(EnginesError)
-        handle_engines_error(error.cause)
-      else
-        handle_fatal_error(error.cause)
-      end
-    else
-      handle_fatal_error(error)
-    end
+    return handle_event_stream_error(error) if request.format == "text/event-stream"
+    error = error.cause if error.is_a?(ActionView::Template::Error)
+    return handle_engines_error(error) if error.is_a?(EnginesError) || error.is_a?(EnginesError::ApiConnectionError)
+    handle_fatal_error(error)
   end
 
   def handle_event_stream_error(error)
     Rails.logger.warn "Engines event stream error"
     Rails.logger.warn error.class
     Rails.logger.warn error.to_s
-    output_error_backtrace_for(error)
+    log_error_backtrace_for(error)
     render plain: {type: "error"}.to_json, status: 200
   end
 
   def handle_engines_error(error)
-    Rails.logger.debug "Engines error"
-    Rails.logger.debug error.class
-    Rails.logger.debug error.to_s
+    Rails.logger.warn "Engines error"
+    Rails.logger.warn error.class
+    Rails.logger.warn error.to_s
     @error = error
     respond_to do |format|
-      format.js{ render 'exceptions/engines_errors/show', status: 200 }
-      format.html{ render 'exceptions/engines_errors/show', status: 200, layout: false }
+      format.js{ error_render error, 'exceptions/engines_errors/show', status: 200 }
+      format.html{ error_render error, 'exceptions/engines_errors/show', status: 200, layout: false }
     end
-  # rescue => e
-  #   handle_fatal_error(EnginesErrorError.new e)
   end
 
   def handle_fatal_error(error)
     Rails.logger.warn "Fatal error"
     Rails.logger.warn error.class
     Rails.logger.warn error.to_s
-    output_error_backtrace_for(error)
+    log_error_backtrace_for(error)
     @bug_report = BugReport.new self, error
     respond_to do |format|
-      format.js{ render 'exceptions/fatal_errors/show', status: 200 }
-      format.html{ render 'exceptions/fatal_errors/show', status: 200 }
+      format.js{ error_render error, 'exceptions/fatal_errors/show', status: 200 }
+      format.html{ error_render error, 'exceptions/fatal_errors/show', status: 200 }
     end
   end
 
-  def output_error_backtrace_for(error)
+  def error_render(error, partial, opts)
+    p "RENDER ERROR ****************************************************************************"
+    if response_body
+      Rails.logger.warn "============================\n#{partial}\n#{opts}\n#{status}\n#{error}\nresponse body #{response_body}\n=============================================="
+      status = opts[:status]
+      response_body = [ ( render_to_string partial, layout: opts[:layout] ) ]
+    else
+      status = opts[:status]
+      render partial, opts
+    end
+  end
+
+  def log_error_backtrace_for(error)
     error.backtrace.each { |line| Rails.logger.warn line }
   end
 

@@ -17,11 +17,16 @@ class EnginesSystem
       builder_status[:did_build_fail]
     end
 
-    def busy?
-      system_status[:is_restarting] || system_status[:is_base_system_updating] || system_status[:is_engines_system_updating]
-    rescue EnginesError #, EnginesSystemApiConnectionAuthenticationError
-      # return true if e.is_a? EnginesSystemApiConnectionRefusedError
-      true
+    def is_rebooting?
+      system_status[:is_rebooting]
+    end
+
+    def is_base_system_updating?
+      system_status[:is_base_system_updating]
+    end
+
+    def is_engines_system_updating?
+      system_status[:is_engines_system_updating]
     end
 
     def needs

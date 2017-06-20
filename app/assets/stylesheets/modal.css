@@ -1,6 +1,7 @@
 /*body { min-height: 100vh; } /*Workaround for WebKit bug #150715*/
 .modal { color: #333; }
 .modal-body { overflow-x: auto; }
+.modal-body .panel-body { overflow-x: auto; }
 .modal_close_dismiss_footer { cursor: pointer; color: rgba(0, 0, 0, 0.2); }
 .modal_close_dismiss_footer:hover { color: rgba(0, 0, 0, 0.5); }
 .modal-backdrop.in { background-color: transparent;}

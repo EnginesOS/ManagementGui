@@ -1,3 +1,3 @@
 $('.modal').modal 'hide'
-show_wait_for_system_response_spinner();
+show_waiting_spinner();
 location.reload();

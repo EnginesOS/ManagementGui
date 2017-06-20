@@ -14,9 +14,9 @@
           <% end %>
         <% else %>
           <%= link_to icon_text('fa-times', 'No thanks'),:back,
-            class: "btn btn-warning show_wait_for_system_response_spinner" %>
+            class: "btn btn-warning show_waiting_spinner" %>
         <% end %>
-    		<%= button_tag type: 'submit', id: "submit_bug_report_button", class: "btn btn-primary show_wait_for_system_response_spinner" do %>
+    		<%= button_tag type: 'submit', id: "submit_bug_report_button", class: "btn btn-primary show_waiting_spinner" do %>
     	    <%= icon_text('fa-send', 'Send bug report') %>
     	  <% end %>
       </div>

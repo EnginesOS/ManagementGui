@@ -1,4 +1,11 @@
 Rails.application.configure do
+
+
+  config.action_cable.url = ENV['ACTION_CABLE_URL']
+  config.action_cable.allowed_request_origins = [ENV['ACTION_CABLE_ALLOWED_REQUEST_ORIGINS']]
+
+
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

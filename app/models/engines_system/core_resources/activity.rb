@@ -93,7 +93,7 @@ class EnginesSystem
           labels = labels[0..16] << "#{labels[17..-1].count} #{"other".pluralize(labels[17..-1].count)} #{data[17..-1].sum} MB"
           data = data[0..16] << data[17..-1].sum
         end
-        
+
         { labels: labels, datasets: [ { data: data, backgroundColor: colors(data.length) }] }
       end
 
@@ -109,24 +109,27 @@ class EnginesSystem
         app_names = []
         currents = []
         peaks = []
-        allocations = []
+        headrooms = []
+        limits = []
         container_memory_statistics[:containers][engine_type].
         sort_by { |app_name, data| app_name }.to_h.
         each do |app_name, data|
           current = data[:current]
           maximum = data[:maximum]
           limit = data[:limit]
-          app_names << app_name
+          limits << limit/1048576
+          app_names << "#{app_name} #{limit/1048576}MB"
           currents << current.to_f/limit
           peaks << (maximum - current).to_f/limit
-          allocations << (limit - maximum).to_f/limit
+          headrooms << (limit - maximum).to_f/limit
         end
         {
           labels: app_names,
+          memoryLimits: limits,
           datasets:
             [ {label: 'Current', data: currents, backgroundColor: '#3071A9' },
               {label: 'Peak', data: peaks, backgroundColor: '#F0AD4E' },
-              {label: 'Allocated', data: allocations, backgroundColor: '#89bf06' } ]
+              {label: 'Allocated', data: headrooms, backgroundColor: '#89bf06' } ]
         }
       end
 
@@ -152,24 +155,27 @@ class EnginesSystem
         labels = []
         currents = []
         peaks = []
-        allocations = []
+        headrooms = []
+        limits = []
         container_memory_statistics[:containers][:totals].
         each do |group_name, data|
           label = group_name == :applications ? 'Apps' : 'Services'
           current = data[:in_use]
           maximum = data[:peak_sum]
           limit = data[:allocated]
-          labels << label
+          limits << limit/1048576
+          labels << "#{label} #{limit/1048576}MB"
           currents << current.to_f/limit
           peaks << (maximum - current).to_f/limit
-          allocations << (limit - maximum).to_f/limit
+          headrooms << (limit - maximum).to_f/limit
         end
         {
           labels: labels,
+          memoryLimits: limits,
           datasets:
             [ {label: 'Current', data: currents, backgroundColor: '#3071A9' },
               {label: 'Peak', data: peaks, backgroundColor: '#F0AD4E' },
-              {label: 'Allocated', data: allocations, backgroundColor: '#89bf06' } ]
+              {label: 'Allocated', data: headrooms, backgroundColor: '#89bf06' } ]
         }
       end
 
@@ -221,12 +227,16 @@ class EnginesSystem
         labels = []
         data_free = []
         data_used = []
+        data_totals = []
         disk_space_lookup.map do |label, space|
           labels << label
-          data_free << space[:free]
-          data_used << space[:used]
+          data_totals << space[:total]
+          data_free << space[:free]/space[:total]
+          data_used << space[:used]/space[:total]
         end
-        { labels: labels, datasets: [ { label: 'Used', data: data_used, backgroundColor: '#F0AD4E' }, { label: 'Free', data: data_free, backgroundColor: '#3071A9' } ] }
+        { labels: labels,
+          diskSizes: data_totals,
+          datasets: [ { label: 'Used', data: data_used, backgroundColor: '#F0AD4E' }, { label: 'Free', data: data_free, backgroundColor: '#3071A9' } ] }
       end
 
       def disk_space_lookup
@@ -236,14 +246,15 @@ class EnginesSystem
             disk_size = disk[:blocks].to_f / 2097152
             disk_free = disk[:available].to_f / 2097152
             disk_label = "#{label} #{disk[:type]} #{disk[:mount]} #{disk_size.to_i} GB"
-            result[disk_label] = { free: disk_free/disk_size,
-                                  used: (disk_size - disk_free)/disk_size }
+            result[disk_label] = { total: disk_size,
+                                   free: disk_free,
+                                   used: (disk_size - disk_free) }
           end
         end
       end
 
       def network_interfaces_count
-        
+
         network_activity_lookup.count
       end
 

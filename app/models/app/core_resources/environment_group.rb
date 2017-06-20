@@ -12,14 +12,6 @@ class App
         group_type.to_label
       end
 
-      # def variable_params
-      #   group_type.variable_params
-      # end
-
-      # def field_params
-      #   group_type.field_params
-      # end
-
       def field_params_with_values
         group_type.field_params_with_values
       end
@@ -53,7 +45,8 @@ class App
             label: variable.dig(:input, :label) || variable.dig(:label),
             as: variable.dig(:input, :type) || variable_field_type_for( variable.dig(:as) || variable.dig(:field_type) ),
             title: variable.dig(:input, :title) || variable.dig(:title),
-            collection: variable.dig(:input, :collection) || variable.dig(:collection) || variable.dig(:select_collection),
+            collection: variable.dig(:input, :collection, :items) || variable.dig(:collection) || variable.dig(:select_collection),
+            collection_include_blank: variable.dig(:input, :collection, :include_blank),
             tooltip: variable.dig(:input, :tooltip) || variable.dig(:tooltip),
             hint: variable.dig(:input, :hint) || variable.dig(:hint),
             placeholder: variable.dig(:input, :placeholder) || variable.dig(:placeholder),
@@ -90,7 +83,6 @@ class App
 
       def fields
         @fields ||= form_params.map { |field| Field.new field }
-        # @fields ||= {}.tap{|result| form_params.each_with_index { |field, index| result[index] = Field.new field } }
       end
 
       def persisted?
@@ -116,7 +108,6 @@ class App
           end
         end
       end
-
 
     end
   end

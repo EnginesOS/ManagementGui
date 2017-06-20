@@ -1,0 +1,8 @@
+<%= system_connection_menu_link(engines_system, connected: false) %>
+<div class='flash_messages'>
+  <%= flash_message :notice, message %>
+</div>
+<%= content_tag :div, "Connecting #{engines_system.url}", class: 'engines_system_connecting_message text-center' %>
+<script>
+system_busy_polling(<%= engines_system.id %>, '<%= system_busy_path(engines_system_id: engines_system.id) %>', '<%= cloud_system_path(engines_system_id: engines_system.id) %>');
+</script>

@@ -16,7 +16,6 @@ module EnginesSystemCore
         read_stream(
         "#{@api_url}/v0/engine_builder/follow_stream", @token) do |chunk|
           begin
-            p "Build log chunk: #{chunk}"
             chunk.split("\n").each do |line|
               yield line
             end

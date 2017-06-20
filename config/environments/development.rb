@@ -4,11 +4,12 @@ Rails.application.configure do
   config.bug_reports_server = 'http://127.0.0.1:3999'
   config.local_system_api_url = 'http://127.0.0.1:2380'
 
-  config.run_event_stream = false # when true: js event streaming is enabled; files are eager loaded and cached (so need to restart server after code changes).
-  config.cache_classes = config.run_event_stream
-  config.eager_load = config.run_event_stream
-
   # config.user_timeout_minutes = 0.1
+
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
 
 ## Rails defaults
 
@@ -20,7 +21,7 @@ Rails.application.configure do
   # config.cache_classes = false
 
   # Do not eager load code on boot.
-  # config.eager_load = false
+  config.eager_load = false
 
   # Show full error reports.
   config.consider_all_requests_local = true

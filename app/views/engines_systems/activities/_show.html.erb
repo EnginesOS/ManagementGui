@@ -24,7 +24,6 @@
         <%= content_tag :div, class: 'panel-body' do %>
           <% if @activity.app_count > 0 %>
             <%= doughnut_chart( @activity.apps_memory, { legend: { display: true, position: 'right' } } ) %>
-            <%#= pie_chart @activity.apps_memory, {} %>
           <% else %>
             <p>No apps in memory</p>
           <% end %>
@@ -44,9 +43,26 @@
         <%= content_tag :div, 'App memory headroom', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
           <% if @activity.app_count > 0 %>
-            <% height = @activity.app_count * 15 + 30 %>
+            <% height = @activity.app_count * 15 + 50 %>
             <%= horizontal_bar_chart @activity.apps_memory_ranges, {
                 height: height,
+                tooltips: { callbacks: { label: 'function(tooltipItem, data) {
+                  console.log(tooltipItem);
+                  console.log(data);
+                  var memory_total = data.memoryLimits[tooltipItem.index];
+                  var memory_current_data = data.datasets[0].data[tooltipItem.index];
+                  var memory_peak_data = data.datasets[1].data[tooltipItem.index];
+                  var memory_current = ( memory_current_data * memory_total ).toFixed(2);
+                  var memory_peak = ( ( memory_current_data + memory_peak_data ) * memory_total ).toFixed(2);
+                  var memory_headroom = ( memory_total - memory_peak ).toFixed(2);
+                  if (tooltipItem.datasetIndex == 0) {
+                      return "Current: " + memory_current + "MB";
+                    } else if (tooltipItem.datasetIndex == 1) {
+                      return "Peak: " + memory_peak + "MB";
+                    } else {
+                      return "Allocated: " + memory_total + "MB, Headroom: " + memory_headroom + "MB";
+                    };
+                   }' } },
                 scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>
           <% else %>
             <p>No apps in memory</p>
@@ -58,9 +74,24 @@
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
         <%= content_tag :div, 'Services memory headroom', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-          <% height = @activity.services_count * 15 + 30 %>
+          <% height = @activity.services_count * 15 + 50 %>
           <%= horizontal_bar_chart @activity.services_memory_ranges, {
               height: height,
+              tooltips: { callbacks: { label: 'function(tooltipItem, data) {
+                var memory_total = data.memoryLimits[tooltipItem.index];
+                var memory_current_data = data.datasets[0].data[tooltipItem.index];
+                var memory_peak_data = data.datasets[1].data[tooltipItem.index];
+                var memory_current = ( memory_current_data * memory_total ).toFixed(2);
+                var memory_peak = ( ( memory_current_data + memory_peak_data ) * memory_total ).toFixed(2);
+                var memory_headroom = ( memory_total - memory_peak ).toFixed(2);
+                if (tooltipItem.datasetIndex == 0) {
+                    return "Current: " + memory_current + "MB";
+                  } else if (tooltipItem.datasetIndex == 1) {
+                    return "Peak: " + memory_peak + "MB";
+                  } else {
+                    return "Allocated: " + memory_total + "MB, Headroom: " + memory_headroom + "MB";
+                  };
+                 }' } },
               scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>
         <% end %>
       <% end %>
@@ -71,6 +102,21 @@
         <%= content_tag :div, class: 'panel-body' do %>
         <%= horizontal_bar_chart @activity.containers_memory_ranges, {
             height: 160,
+            tooltips: { callbacks: { label: 'function(tooltipItem, data) {
+              var memory_total = data.memoryLimits[tooltipItem.index];
+              var memory_current_data = data.datasets[0].data[tooltipItem.index];
+              var memory_peak_data = data.datasets[1].data[tooltipItem.index];
+              var memory_current = ( memory_current_data * memory_total ).toFixed(2);
+              var memory_peak = ( ( memory_current_data + memory_peak_data ) * memory_total ).toFixed(2);
+              var memory_headroom = ( memory_total - memory_peak ).toFixed(2);
+              if (tooltipItem.datasetIndex == 0) {
+                  return "Current: " + memory_current + "MB";
+                } else if (tooltipItem.datasetIndex == 1) {
+                  return "Peak: " + memory_peak + "MB";
+                } else {
+                  return "Allocated: " + memory_total + "MB, Headroom: " + memory_headroom + "MB";
+                };
+               }' } },
             scales: { xAxes: [ { stacked: true, ticks: { callback: 'function(value) { return Math.round(value * 100) + "%" }' } } ], yAxes: [ { stacked: true } ] } } %>
         <% end %>
       <% end %>
@@ -99,7 +145,7 @@
       <%= content_tag :div, class: 'panel dashboard_panel' do %>
         <%= content_tag :div, 'Network', class: 'panel-heading' %>
         <%= content_tag :div, class: 'panel-body' do %>
-        <% height = @activity.network_interfaces_count * 30 + 40 %>
+        <% height = @activity.network_interfaces_count * 30 + 50 %>
         <%= horizontal_bar_chart @activity.network_activity, {
             height: height, scales: { xAxes: [ {  scaleLabel: { display: true, labelString: 'MB' } } ] } } %>
         <% end %>
@@ -112,6 +158,14 @@
           <% height = @activity.disks_count * 15 + 20 %>
           <%= horizontal_bar_chart @activity.disks_usage, {
               height: height,
+              tooltips: { callbacks: { label: 'function(tooltipItem, data) {
+                var disk_size = data.diskSizes[tooltipItem.index];
+                if (tooltipItem.datasetIndex == 0) {
+                    return "Used: " + ( data.datasets[0].data[tooltipItem.index] * disk_size ).toFixed(2) + "GB";
+                  } else {
+                    return "Free: " + ( data.datasets[1].data[tooltipItem.index] * disk_size ).toFixed(2) + "GB";
+                  };
+                 }' } },
               scales: { xAxes: [ { display: false, stacked: true } ], yAxes: [ { stacked: true } ] } } %>
         <% end %>
       <% end %>

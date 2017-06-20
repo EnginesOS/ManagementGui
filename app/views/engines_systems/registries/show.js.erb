@@ -2,3 +2,4 @@ $(".modal").modal('hide');
 $("body").append("<%= j render 'show' %>");
 $("#remote_modal").modal("show");
 $("#remote_modal").on("hidden.bs.modal", function(){$(this).remove();});
+setup_tree_expand_and_collapse();

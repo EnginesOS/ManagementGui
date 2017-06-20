@@ -1,3 +1,0 @@
-module SystemsHelper
-
-end

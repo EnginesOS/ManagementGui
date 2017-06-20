@@ -4,7 +4,7 @@ module UserProfiles
     def user_sign_out_link
       button_to destroy_user_session_path,
         title: 'Sign out',
-        class: 'btn btn-lg btn_resource show_wait_for_system_response_spinner',
+        class: 'btn btn-lg btn_resource show_waiting_spinner',
         method: :delete do
           icon_text 'fa-sign-out', 'Sign out'
         end
@@ -35,7 +35,7 @@ module UserProfiles
     # def user_sign_out_link
 		# 	button_to destroy_user_session_path,
     #     title: 'Sign out',
-    #     class: 'btn btn-lg btn_resource show_wait_for_system_response_spinner',
+    #     class: 'btn btn-lg btn_resource show_waiting_spinner',
 		# 		method: :delete do
     #       icon_text('fa-sign-out', 'Sign out')
     #     end
@@ -46,7 +46,7 @@ module UserProfiles
     # def user_profile_link
 		# 	button_to user_profile_path,
     #     title: "User profile for #{current_user.username}",
-    #     class: 'btn btn-lg btn_resource show_wait_for_system_response_spinner' do
+    #     class: 'btn btn-lg btn_resource show_waiting_spinner' do
     #       icon_text('fa-info', 'Profile')
     #     end
     # end

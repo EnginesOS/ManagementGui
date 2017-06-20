@@ -7,10 +7,6 @@ module Users
 
     def new
       redirect_to root_path(sign_in: true)
-      # self.resource = resource_class.new(sign_in_params)
-      # clean_up_passwords(resource)
-      # yield resource if block_given?
-      # render 'show_modal_sign_in', layout: false
     end
 
     private

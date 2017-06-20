@@ -21,19 +21,24 @@ module Apps
       def update
         @non_persistent_service_consumer = @app.
                 build_non_persistent_service_consumer(strong_params)
-        if @non_persistent_service_consumer.valid? && @non_persistent_service_consumer.save_to_system
-          flash.now[:notice] =
-            "Successfully updated #{@non_persistent_service_consumer.label} "\
-            "for #{@app.name}."
+        if @non_persistent_service_consumer.valid?
+          if @non_persistent_service_consumer.save_to_system
+            flash.now[:notice] =
+              "Successfully updated #{@non_persistent_service_consumer.label} "\
+              "for #{@app.name}."
+          else
+            flash.now[:alert] =
+              "Failed to update #{@non_persistent_service_consumer.label} "\
+              "for #{@app.name}."
+          end
           render 'apps/service_consumers/non_persistents/show'
         else
           render 'apps/service_consumers/non_persistents/edit'
         end
       rescue EnginesError => e
-        flash.now[:alert] =
-          "Failed to update #{@non_persistent_service_consumer.label} "\
-          "for #{@app.name}. #{e}"
-        render 'apps/service_consumers/non_persistents/show'
+        raise EnginesError.new "Failed to update "\
+          "#{@non_persistent_service_consumer.label} "\
+          "for #{@app.name}.\n\n#{e}"
       end
 
       private

@@ -11,10 +11,10 @@ class App < ApplicationRecord
   belongs_to :engines_system
   has_one :cloud, through: :engines_system
 
-  attr_writer :state
+  attr_writer :status
 
-  def state
-    @state ||= core_app.state
+  def status
+    @status ||= core_app.status
   end
 
   validates :label, length: { maximum: 32 }
@@ -26,7 +26,7 @@ class App < ApplicationRecord
     return existing_app if existing_app
     create(opts).tap do |app|
       app.show_on_portal = true
-      unless app.blueprint_deployment_type == :web
+      unless app.blueprint_deployment_type.to_s == 'web'
         app.worker = true
       end
       app.save
@@ -44,11 +44,11 @@ class App < ApplicationRecord
 
   def default_website
     websites.first
-  # Rescue catches case when app install does not complete and system is
-  # subsquently unable to supply a website url for gui app.
-  rescue EnginesError  
-    # EnginesSystemApiConnectionRefusedError,
-    # EnginesSystemApiResourceNotFoundError
+  # Rescue catches:
+  # 1. when app install does not complete and system is
+  # subsquently unable to supply a website url for the app.
+  # 2. when showing newly installed app on portal, but system not connecting
+  rescue EnginesError, EnginesError::ApiConnectionError
     nil
   end
 

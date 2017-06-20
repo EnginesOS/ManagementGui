@@ -1,7 +1,7 @@
 class ApplicationRecord
   module CustomAttributeLabels
 
-    def human_attribute_name(attribute_key_name)
+    def human_attribute_name(attribute_key_name, options = {})
       if @custom_attribute_labels.present? && @custom_attribute_labels[attribute_key_name.to_sym].present?
         @custom_attribute_labels[attribute_key_name.to_sym]
       else

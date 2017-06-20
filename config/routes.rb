@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     resource :sign_in, only: [:new, :create]
     resource :connection_menu, only: [:show]
     resource :connection, only: [:edit, :update]
-    resource :events_stream, only: [:show]
+    # resource :events_stream, only: [:show]
     resource :menu, only: [:show]
     resource :control_panel, only: [:show]
     resource :properties, only: [:edit, :update]
@@ -50,6 +50,8 @@ Rails.application.routes.draw do
     resource :domain, only: [:new, :create, :edit, :update, :destroy]
     resource :last_install
     resource :bug_reports, only: [:edit, :update]
+    resource :timezone, only: [:edit, :update]
+    resource :locale, only: [:edit, :update]
     resource :admin, only: [:show]
     namespace :admin, module: :admins do
       resource :password, only: [:edit, :update]
@@ -120,13 +122,13 @@ Rails.application.routes.draw do
     resource :environment_group, only: [:show, :edit, :update]
     resource :reinstall, only: [:show]
     resource :uninstall, only: [:new, :create]
-    # resource :first_run, only: [:show]
     resource :installation_report, only: [:show]
     resource :installation_report_popup, only: [:show]
     resource :actions, only: [:show]
     resource :actionator, only: [:new, :create]
     resource :logs, only: [:show]
     resource :portal_message, only: [:show]
+    resource :clear_had_oom, only: [:show]
   end
 
   namespace :install, module: :installs do
@@ -137,7 +139,6 @@ Rails.application.routes.draw do
     resource :repository, only: [:new]
     resource :new_app, only: [:new, :create]
     resource :build, only: [:show]
-    resource :build_log, only: [:show]
     resource :build_complete, only: [:show]
   end
 
@@ -146,18 +147,19 @@ Rails.application.routes.draw do
     resource :control_panel, only: [:show]
     resource :instruction, only: [:show]
     resource :memory, only: [:edit, :update]
-    # resource :variables, only: [:edit, :update]
     resource :environment, only: [:show]
     # resource :environment_group, only: [:show, :edit, :update]
     resource :report, only: [:show]
     resource :rebuild, only: [:show]
+    resource :about, only: [:show]
     resource :configuration, only: [:show]
     resource :configurator, only: [:edit, :update]
     resource :actions, only: [:show]
-    resource :actionator, only: [:show]
+    resource :actionator, only: [:new, :create]
     resource :logs, only: [:show]
     resource :processes, only: [:show]
     resource :restart_local_gui, only: [:show]
+    resource :clear_had_oom, only: [:show]
   end
 
   resource :help, only: [:show]

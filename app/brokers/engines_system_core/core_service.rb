@@ -1,10 +1,6 @@
 module EnginesSystemCore
   class CoreService
 
-    # include Actions
-    # # include Definitions
-    # include Inspections
-    # include Properties
     include CoreApi::ApiCall
 
     def initialize(api_url, token, name)
@@ -22,10 +18,14 @@ module EnginesSystemCore
       get "containers/service/#{name}/ps", expect: :json
     end
 
+    def clear_had_oom
+      get "containers/service/#{name}/clear_error", expect: :boolean
+    end
+
     #  state
 
     def state
-      get "containers/service/#{name}/state", expect: :string
+      get "containers/service/#{name}/state", expect: :plain_text
     end
 
     def status
@@ -41,7 +41,7 @@ module EnginesSystemCore
     #  instructions
 
     def stop
-      get "containers/service/#{name}/stop", expect: :boolean
+      get "containers/service/#{name}/stop", expect: :boolean, timeout: 30
     end
 
     def start
@@ -57,7 +57,7 @@ module EnginesSystemCore
     end
 
     def restart
-      get "containers/service/#{name}/restart", expect: :boolean
+      get "containers/service/#{name}/restart", expect: :boolean, timeout: 30
     end
 
     def create
@@ -106,28 +106,25 @@ module EnginesSystemCore
       get "containers/service/#{name}/services/non_persistent/", expect: :json
     end
 
-
     # actions
 
-    # def actionators
-    #   get "containers/service/#{name}/actions/", expect: :json
-    # end
+    def actionators
+      get "containers/service/#{name}/actions/", expect: :json
+    end
+
+    def actionator_for(actionator_name)
+      get "containers/service/#{name}/action/#{actionator_name}", expect: :json
+    end
+
+    def perform_actionator_for(actionator_name, params, return_type)
+      post "containers/service/#{name}/action/#{actionator_name}", params: params, expect: return_type.to_sym
+    end
 
     # properties
 
     def set_runtime_properties(params)
       post "containers/service/#{name}/properties/runtime", params: params, expect: :boolean
     end
-    #
-    #      def set_network_properties(params)
-    #        post "containers/service/#{name}/properties/network", params, expect: :boolean
-    #      end
-    #
-    #  #resolve string
-    #
-    #      def resolve_string(string)
-    #        post "containers/service/#{name}/template", {template_string: string}, expect: :string
-    #      end
 
     # logs
 

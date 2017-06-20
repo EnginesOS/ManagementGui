@@ -50,10 +50,6 @@ module Domains
       method: :post,
       form_class: 'display_inline pull_right_wide_media',
       text: 'Enable', icon: 'fa-toggle-off', title: "Enable Avahi zeroconf"
-
-# "engines_system_core_resources_domain"=>{"domain_name"=>"local", "internal_only"=>"0", "self_hosted"=>"0"}, "button"=>"", "engines_system_id"=>"32"}
-
-
     end
 
   end

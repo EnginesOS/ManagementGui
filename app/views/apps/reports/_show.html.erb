@@ -26,7 +26,13 @@
         <%= data_list_text 'State', @app.core_app.state %>
         <%= data_list_text 'Set state', app_container[:setState] %>
         <hr>
-        <%= data_list_text 'Memory', "#{app_container[:memory]} MB" %>
+        <%= content_tag :label, "Memory MB" %><br>
+        <%= data_list_text 'Current', @app.memory_metrics[:current].to_i/1024/1024 %>
+        <%= data_list_text 'Maximum', @app.memory_metrics[:maximum].to_i/1024/1024 %>
+        <%= data_list_text 'Limit', @app.memory_metrics[:limit].to_i/1024/1024 %>
+        <hr>
+        <%= content_tag :label, "Network" %><br>
+        <% #= pretty_print @app.network_metrics %>
         <hr>
         <%= data_list_text 'Container ID', "#{app_container[:container_id]}" %>
         <%= data_list_text 'Container name', "#{app_container[:container_name]}" %>
@@ -62,12 +68,14 @@
       <%= content_tag :div, class: 'dl-horizontal' do %>
         <%= report_collapse_data 'Actionators', @app.core_app.actionators %>
         <%= report_collapse_data 'Available services', @app.core_app.available_services %>
-        <%= report_collapse_data 'Blueprint', @app.app_blueprint %>
-        <%= ( report_collapse_data 'Blueprint schema 1.0', @app.blueprint ) if @app.has_old_blueprint %>
+        <%= report_collapse_data 'Blueprint', @app.blueprint %>
+        <%= ( report_collapse_data 'Raw blueprint', @app.app_blueprint ) if @app.has_old_blueprint %>
         <%= report_collapse_data 'Build report', @app.core_app.build_report %>
         <%= report_collapse_data 'Container', app_container %>
         <%= report_collapse_data 'Logs', container_logs ? container_logs : 'No container.' %>
+        <% #= report_collapse_data 'Network', @app.core_app.network_metrics %>
         <%= report_collapse_data 'Non-persistent services', @app.core_app.non_persistent_services %>
+        <%= report_collapse_data 'Memory', @app.core_app.memory_metrics %>
         <%= report_collapse_data 'Persistent services', @app.core_app.persistent_services %>
         <%= report_collapse_data 'Processes', container_processes %>
         <%= report_collapse_data 'Status', @app.core_app.status %>

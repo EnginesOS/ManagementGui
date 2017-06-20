@@ -2,10 +2,10 @@ module EnginesSystems
   class MenusController < ApplicationController
 
     before_action :set_engines_system
-    # before_action :set_cloud
 
     def show
-      # render js: "alert('hi');"
+      EnginesSystemViewUpdateJob.perform_later(@engines_system)
+      render
     end
 
   end

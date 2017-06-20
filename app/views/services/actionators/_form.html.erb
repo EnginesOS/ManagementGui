@@ -1,0 +1,7 @@
+<%= custom_form_for @actionator, url: service_actionator_path(service_id: @service.id), method: :post do |f| %>
+  <%= f.hidden_field :actionator_name %>
+  <%= f.fields_for :fields do |ff| %>
+    <%= ff.engines_field_builder %>
+  <% end %>
+  <%= f.engines_cancel_submit url: service_actions_path(service_id: @service.id), remote: true %>
+<% end %>

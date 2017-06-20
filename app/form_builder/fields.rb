@@ -15,6 +15,7 @@ module Fields
     opts[:width] = object.width.present? ? object.width.to_i : nil
     opts[:right] = object.right.present? ? object.right.to_i : nil
     opts[:collection] = object.collection || []
+    opts[:include_blank] = object.collection_include_blank.to_s == 'true'
     opts[:tooltip] = object.tooltip
     opts[:hint] = object.hint
     opts[:placeholder] = object.placeholder
@@ -39,7 +40,8 @@ module Fields
     hidden_field(:left) +
     hidden_field(:width) +
     hidden_field(:right) +
-    hidden_field(:collection) +
+    hidden_field(:collection, value: object.collection.to_json) +
+    hidden_field(:collection_include_blank) +
     hidden_field(:tooltip) +
     hidden_field(:hint) +
     hidden_field(:placeholder) +
@@ -150,6 +152,12 @@ module Fields
       engines_password_with_confirmation_field method, opts
     when :read_only
       engines_read_only_field method, opts
+    when :timezone
+      engines_timezone_select_field method, opts
+    when :country
+      engines_country_select_field method, opts
+    when :language
+      engines_language_select_field method, opts
     else
       opts[:value] = "Unknown type '#{data_type}' for '#{method}'"
       engines_read_only_field method, opts
