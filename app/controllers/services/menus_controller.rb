@@ -4,7 +4,7 @@ module Services
    before_action :set_service
 
    def show
-     EnginesSystemViewUpdateJob.perform_later(@service.engines_system)
+     EnginesSystemViewUpdateJob.perform_now(@service.engines_system)
    end
 
  end

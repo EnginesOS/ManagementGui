@@ -5,7 +5,7 @@ module Services
 
     def show
       @service.core_service.clear_had_oom
-      EnginesSystemViewUpdateJob.perform_later(@service.engines_system)
+      EnginesSystemViewUpdateJob.perform_now(@service.engines_system)
       render '/services/menus/show'
     end
 

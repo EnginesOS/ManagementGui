@@ -132,11 +132,10 @@ module EnginesSystemCore
     def create_persistent_service_consumer_subservice_consumer(params)
       publisher_namespace, type_path = params[:publisher_type_path].split('/', 2)
       post "containers/service/#{params[:service_name]}/sub_services/#{name}/#{params[:parent_service_handle]}",
-        { publisher_namespace: publisher_namespace,
+        params: { publisher_namespace: publisher_namespace,
           type_path: type_path,
           variables: params[:variables] }, expect: :boolean
     end
-
 
     def update_persistent_service_consumer(params)
       post "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}", params: { variables: params[:variables] }, expect: :boolean

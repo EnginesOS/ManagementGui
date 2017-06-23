@@ -9,7 +9,7 @@ module Installs
         flash.now[:notice] = "Communication with the system was interrupted. The build log has been reloaded."
         render 'still_building'
       else
-        EnginesSystemViewUpdateJob.perform_later(@engines_system)
+        EnginesSystemViewUpdateJob.perform_now(@engines_system)
         if @engines_system.build_failed?
           flash.now[:alert] = "The installation of #{params[:app_name]} failed."
           render 'build_failed'

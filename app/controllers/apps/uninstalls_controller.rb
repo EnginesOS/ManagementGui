@@ -13,7 +13,7 @@ module Apps
         render 'create'
         engines_system = @app.engines_system
         @app.delete
-        EnginesSystemViewUpdateJob.perform_later(engines_system)
+        EnginesSystemViewUpdateJob.perform_now(engines_system)
       else
         flash.now[:alert] =
           "Failed to uninstall #{ @uninstall.app.name }."

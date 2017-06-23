@@ -4,7 +4,7 @@ module EnginesSystems
     before_action :set_engines_system
 
     def show
-      EnginesSystemViewUpdateJob.perform_later(@engines_system)
+      EnginesSystemViewUpdateJob.perform_now(@engines_system)
       render
     end
 
