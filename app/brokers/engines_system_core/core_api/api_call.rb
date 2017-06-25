@@ -4,6 +4,31 @@ module EnginesSystemCore
 
       private
 
+      def get(api_route, opts)
+        # params = opts[:params] || {}
+        api_call_opts = { timeout: opts[:timeout] }
+        parse api_call( :get, api_route, api_call_opts ), opts[:expect]
+      end
+
+      def post(api_route, opts)
+        api_call_opts = { timeout: opts[:timeout],
+                          payload: { api_vars: opts[:params] }.to_json,
+                          content_type: 'application/json' }
+        parse api_call( :post, api_route, api_call_opts ), opts[:expect]
+      end
+
+      def put_file(api_route, opts)
+        api_call_opts = { timeout: opts[:timeout],
+                          payload: opts[:file],
+                          content_type: 'application/octet-stream' }
+        parse api_call( :put, api_route, api_call_opts ), opts[:expect]
+      end
+
+      def delete(api_route, opts)
+        api_call_opts = { timeout: opts[:timeout] }
+        parse api_call( :delete, api_route, api_call_opts ), opts[:expect]
+      end
+
       def api_call(http_method, api_route, opts={})
         timeout = ( opts[:timeout] || 10 )
         if http_method == :post || http_method == :put
@@ -11,9 +36,6 @@ module EnginesSystemCore
           content_type = opts[:content_type]
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload #{payload.class}: #{payload}, access_token: #{@token}"
           result = RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, verify_ssl: false, headers: { content_type: content_type, access_token: @token } ) # , content_type: :json )
-        # elsif http_method == :post_file
-        #   Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, payload: #{payload}, access_token: #{@token}"
-        #   RestClient::Request.execute(method: :post, url: "#{@api_url}/v0/#{api_route}", payload: payload, timeout: timeout, open_timeout: timeout, headers: { access_token: @token } ) # , content_type: :json )
         else
           Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route}, access_token: #{@token}"
           # RestClient::Request.execute(method: http_method, url: "#{@api_url}/v0/#{api_route}", timeout: timeout, open_timeout: timeout, headers: { params: payload, access_token: @token } ) #, verify_ssl: false, content_type: :json )
@@ -56,36 +78,8 @@ module EnginesSystemCore
         Rails.logger.debug "#{http_method} api_route: #{@api_url}/v0/#{api_route} - done"
       end
 
-      def get(api_route, opts)
-        # params = opts[:params] || {}
-        api_call_opts = { timeout: opts[:timeout] }
-        parse api_call( :get, api_route, api_call_opts ), opts[:expect]
-      end
-
-      def post(api_route, opts)
-        api_call_opts = { timeout: opts[:timeout],
-                          payload: { api_vars: opts[:params] }.to_json,
-                          content_type: 'application/json' }
-        parse api_call( :post, api_route, api_call_opts ), opts[:expect]
-      end
-
-      def put_file(api_route, opts)
-        api_call_opts = { timeout: opts[:timeout],
-                          payload: opts[:file],
-                          content_type: 'application/octet-stream' }
-        parse api_call( :put, api_route, api_call_opts ), opts[:expect]
-      end
-
-      def delete(api_route, opts)
-        # params = opts[:params] || {}
-        api_call_opts = { timeout: opts[:timeout] }
-        parse api_call( :delete, api_route, api_call_opts ), opts[:expect]
-      end
-
       def parse(api_call_result, expected_content)
-        # byebug if Rails.env.development? && !( api_call_result.net_http_res.content_type != "application/json" || api_call_result.net_http_res.content_type != "text/plain" )
         result = api_call_result.body.to_s
-        # Rails.logger.info "Engines System API result: #{result}  result_class: #{result.class}"
         if api_call_result.net_http_res.content_type == "application/json" && expected_content == :json
           begin
             JSON.parse result, symbolize_names: true
@@ -93,12 +87,7 @@ module EnginesSystemCore
             raise EnginesError::ApiParseError.new "Failed to parse JSON.", result
           end
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :plain_text
-          # if result[0] == '"' && result[-1] == '"'
-          #   byebug if Rails.env.development?
-          #   result[1..-2] # remove leading and trailing quotation marks
-          # else
-            result
-          # end
+          result
         elsif api_call_result.net_http_res.content_type == "text/plain" && expected_content == :boolean
           result == 'true'
         elsif ( api_call_result.net_http_res.content_type == "text/plain" || api_call_result.net_http_res.content_type == "application/octet-stream" ) && expected_content == :file
@@ -110,8 +99,6 @@ module EnginesSystemCore
         Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{e}"
         raise e
       end
-
-      private
 
       def system_error_message_from(e)
         JSON.parse(e.response, symbolize_names: true)[:error_object][:error_mesg] || raise

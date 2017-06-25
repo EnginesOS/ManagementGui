@@ -14,17 +14,24 @@ module EnginesSystemCore
     # admin
 
     def update_password(params)
-      post "system/control/engines_system/update/password", params: params, expect: :boolean
+      return false
+      # post "system/users/", params: params.merge({ user_name: 'admin', token: @token }), expect: :boolean
     end
 
     def update_email(params)
-      post "system/control/engines_system/update/email", params: params, expect: :boolean
+      return false
+      # post "system/users/", params: { email: params[:email], current_password: params[:password], user_name: 'admin', token: @token }, expect: :boolean
+    end
+
+    def admin_user
+      return {email: "call GET /v0/system/users/ when James says it's ready"}
+      # get "system/users/", params: { user_name: 'admin', token: @token }, expect: :json
     end
 
     # authentication
 
     def authenticate(password)
-      get "system/login/admin/#{password}", expect: :plain_text
+      post "system/login", params: { user_name: 'admin', password: password }, expect: :plain_text
     end
 
     # certificates
