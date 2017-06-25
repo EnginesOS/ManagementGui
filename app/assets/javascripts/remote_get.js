@@ -1,11 +1,3 @@
-// var remote_gets;
-//
-// remote_gets = function() {
-//   $('[data-behavior~=remote_get]').each(function() {
-//     remote_get($(this).attr('data-url'));
-//   });
-// };
-
 window.remote_get = function(url, show_spinner) {
   if (show_spinner) {
     show_waiting_spinner();
@@ -15,11 +7,3 @@ window.remote_get = function(url, show_spinner) {
     dataType: 'script'
   });
 };
-
-// $(document).ready(function() {
-//   remote_gets();
-// });
-//
-// $(document).on('turbolinks:render', function() {
-//   remote_gets();
-// });

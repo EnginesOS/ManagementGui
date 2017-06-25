@@ -1,5 +1,5 @@
 <%= modal(header: {text: "Service manager for #{@engines_system.label}", icon: 'fa-compass'},
-    footer_close: true, large: true) do %>
+    footer_close: true, large: false) do %>
   <%= up_to_system_control_panel_link(@engines_system) %>
   <p><label>Orphans</label></p>
   <% @service_manager.orphan_service_consumers.each do |orphan_service_consumer| %>

@@ -5,7 +5,6 @@ module Clouds
     before_action :set_engines_system, only: [:show, :destroy]
 
     def show
-      render
     end
 
     def new
@@ -32,7 +31,7 @@ module Clouds
     private
 
     def strong_params
-      params.require(:engines_system).permit(:label, :url) #, :token)
+      params.require(:engines_system).permit(:label, :url)
     end
 
   end

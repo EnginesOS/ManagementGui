@@ -15,8 +15,14 @@ class EnginesSystem < ApplicationRecord
 
   custom_attribute_labels url: 'URL', password: "Admin password"
 
+  before_save :cleanup_url
+
   def core_system
     @core_system ||= EnginesSystemCore::CoreSystem.new(url, token, label)
+  end
+
+  def cleanup_url
+    assign_attributes(url: clean_url)
   end
 
   def installed_apps
@@ -39,6 +45,16 @@ class EnginesSystem < ApplicationRecord
 
   def is_local_system
     url == Rails.application.config.local_system_api_url
+  end
+
+  def clean_url
+    ( ['http', 'https'].include?(url.split('://').first) ? '' : 'https://' ) +
+    + url +
+    ( is_integer?(url.split(':').last) ? '' : ':2380' )
+  end
+
+  def is_integer?(obj)
+    obj.to_s == obj.to_i.to_s
   end
 
 end

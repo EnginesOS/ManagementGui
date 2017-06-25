@@ -3,7 +3,6 @@ module EnginesSystems
     class GeneratesController < ApplicationController
 
       before_action :set_engines_system
-      # before_action :set_cloud
 
       def show
         @key = @engines_system.build_key

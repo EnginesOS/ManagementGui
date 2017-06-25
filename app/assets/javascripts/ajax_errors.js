@@ -1,3 +1,7 @@
+$.ajaxSetup({
+    timeout: 45000 // 45 second timeout -- note that application server has up to 30 second timeouts on some system api calls.
+});
+
 $(document).ajaxError(function(event, request, settings, error) {
   var remotipart_submitted, response;
   response = request.responseText;
