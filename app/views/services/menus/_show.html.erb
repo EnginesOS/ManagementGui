@@ -55,28 +55,17 @@
                 title: 'Restart local mgmt', form_class: 'display_inline' %>
           <% else %>
             <%= service_instruction_link(@service, :start, icon: 'fa-play') if [ :stopped ].include?(state) %>
-            <%= service_instruction_link(@service, :stop, icon: 'fa-stop') if [ :running ].include?(state) %>
-            <%= service_instruction_link(@service, :pause, icon: 'fa-pause') if [ :running ].include?(state) %>
+            <%= service_instruction_link(@service, :stop, icon: 'fa-stop') if [ :running, :oom ].include?(state) %>
+            <%= service_instruction_link(@service, :pause, icon: 'fa-pause') if [ :running, :oom ].include?(state) %>
             <%= service_instruction_link(@service, :unpause, icon: 'fa-pause-circle') if [ :paused ].include?(state) %>
-            <%= service_instruction_link(@service, :restart, icon: 'fa-repeat') if [ :running ].include?(state) %>
+            <%= service_instruction_link(@service, :restart, icon: 'fa-repeat') if [ :running, :oom ].include?(state) %>
             <%= service_instruction_link(@service, :create, icon: 'fa-wrench') if [ :nocontainer ].include?(state) %>
-            <%= service_instruction_link(@service, :recreate, icon: 'fa-refresh') if [ :nocontainer, :stopped ].include?(state) %>
+            <%= service_instruction_link(@service, :recreate, icon: 'fa-refresh') if [ :stopped ].include?(state) %>
             <%= service_instruction_link(@service, :destroy, icon: 'fa-bomb') if [ :stopped ].include?(state) %>
           <% end %>
         <% end %>
       <% end %>
     <% end %>
-  <% end %>
-  <%= content_tag(:div, style: "display: none;") do %>
-    <hr>
-    <%= service_instruction_link @service, :start, icon: 'fa-play' %>
-    <%= service_instruction_link @service, :stop, icon: 'fa-stop' %>
-    <%= service_instruction_link @service, :pause, icon: 'fa-pause' %>
-    <%= service_instruction_link @service, :unpause, icon: 'fa-pause-circle' %>
-    <%= service_instruction_link @service, :restart, icon: 'fa-repeat' %>
-    <%= service_instruction_link @service, :create, icon: 'fa-wrench' %>
-    <%= service_instruction_link @service, :recreate, icon: 'fa-refresh' %>
-    <%= service_instruction_link @service, :destroy, icon: 'fa-bomb' %>
   <% end %>
   <% if @service.websites.present? %>
     <hr>

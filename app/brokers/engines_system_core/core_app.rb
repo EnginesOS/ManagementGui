@@ -3,8 +3,8 @@ module EnginesSystemCore
 
     include CoreApi::ApiCall
 
-    def initialize(api_url, token, name)
-      @api_url = api_url
+    def initialize(system_url, token, name)
+      @system_url = system_url
       @token = token
       @name = name
     end

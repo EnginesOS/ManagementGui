@@ -5,7 +5,7 @@ module EnginesSystems
 
     def show
       if @engines_system.core_system.update_engines
-        EnginesSystemViewUpdateJob.perform_now(@engines_system, 'Updating Engines.')
+        EnginesSystemViewUpdateJob.perform_later(@engines_system, 'Updating Engines.')
         render
       else
         flash.now[:notice] = "Engines is already up to date."
