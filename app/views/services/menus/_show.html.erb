@@ -37,7 +37,7 @@
     <hr>
   <% end %>
   <%= content_tag :span, class: "container_state_indicators #{@service.name}_container_state" do %>
-    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused ].each do |state| %>
+    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused, :kill, :die ].each do |state| %>
       <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if @service.state.to_sym != state) do %>
         <%= content_tag :div, class: "container_state_indicator_area" do %>
           <%= content_tag :div, class: "container_state_indicator_icon" do %>
