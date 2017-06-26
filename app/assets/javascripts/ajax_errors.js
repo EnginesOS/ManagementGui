@@ -33,7 +33,7 @@ $(document).ajaxError(function(event, request, settings, error) {
       };
     } else {
       console.log('Undefined communication error. Data constructor: ' + settings.data.constructor.name);
-      alert("There was a communication error. (Client failed to connect to the management application server.)");
+      alert("There was a communication error. (Browser client failed to connect to the management application server.)");
     };
   } else {
     if (request.status === 200) {

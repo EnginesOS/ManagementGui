@@ -43,7 +43,7 @@ class EnginesSystem < ApplicationRecord
     apps.select(&:show_on_portal)
   end
 
-  def is_local_system
+  def is_local_system?
     url == Rails.application.config.local_system_api_url
   end
 

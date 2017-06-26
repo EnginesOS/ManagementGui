@@ -63,7 +63,7 @@ class Service < ApplicationRecord
 
   # Test for local mgmt GUI
   def is_local_mgmt
-    name.to_s == 'mgmt' && engines_system.is_local_system
+    name.to_s == 'mgmt' && engines_system.is_local_system?
   end
 
   private

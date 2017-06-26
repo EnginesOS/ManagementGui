@@ -5,6 +5,7 @@ production:
 
 development:
   adapter: async
+  timeout: 30
 
 test:
   adapter: async

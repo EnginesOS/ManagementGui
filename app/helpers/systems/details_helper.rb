@@ -11,7 +11,7 @@ module Systems
           end +
           content_tag(:div, class: 'container_menu_header_label_subtext') do
             content_tag(:div, engines_system.url) +
-            content_tag(:div, ( icon_text('fa-map-marker', 'Local system') if engines_system.is_local_system ) )
+            content_tag(:div, ( icon_text('fa-map-marker', 'Local system') if engines_system.is_local_system? ) )
           end
         end +
         content_tag(:div, class: 'container_menu_header_detail pull_right_wide_media') do
