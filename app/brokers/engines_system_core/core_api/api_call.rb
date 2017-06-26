@@ -48,6 +48,8 @@ module EnginesSystemCore
         raise EnginesError.new "Failed to load the requested resource on Engines system #{@name} at #{@system_url}.\n\n#{system_error_message_from(e)}"
       rescue URI::InvalidURIError # normally thrown when user enters an invalid url for an engines system.
         raise EnginesError.new "Invalid URL for Engines system #{@name} at #{@system_url}."
+      rescue SocketError # normally thrown when user enters an invalid url for an engines system.
+        raise EnginesError.new "There was an error connecting to the Engines system #{@name} at #{@system_url}. Please check system URL."
       rescue OpenSSL::SSL::SSLError => e # normally throw when SSL certificate is invalid.
         raise EnginesError.new "The security certificate is invalid for Engines system #{@name} at #{@system_url}."
       rescue RestClient::SSLCertificateNotVerified

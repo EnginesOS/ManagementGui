@@ -2,22 +2,6 @@ module EnginesSystemCore
   module CoreApi
     module ApiStream
 
-      # def uri_object
-      #   @uri_object ||=
-      # end
-      #
-      # def scheme
-      #   uri_object.scheme
-      # end
-      #
-      # def host
-      #   uri_object.host
-      # end
-      #
-      # def port
-      #   uri_object.port
-      # end
-
       def read_stream(api_path)
         Rails.logger.debug "API events from #{@system_url} - build get"
         uri = URI @system_url

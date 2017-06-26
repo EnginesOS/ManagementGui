@@ -2,7 +2,7 @@ Rails.application.configure do
 
 ## Engines GUI settings
   config.bug_reports_server = 'http://127.0.0.1:3999'
-  config.local_system_api_url = 'http://127.0.0.1:2380'
+  config.local_system_api_url = 'https://127.0.0.1:2380'
 
   # config.user_timeout_minutes = 0.1
 
