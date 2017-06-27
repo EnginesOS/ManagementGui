@@ -114,7 +114,7 @@ module EnginesSystemCore
     end
 
     def add_domain(params)
-      post 'system/domains/domain_name', params: params, expect: :boolean
+      post 'system/domains/', params: params, expect: :boolean
     end
 
     def remove_domain(domain_name)

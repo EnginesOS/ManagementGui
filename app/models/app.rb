@@ -13,10 +13,6 @@ class App < ApplicationRecord
 
   attr_writer :status
 
-  def status
-    @status ||= core_app.status
-  end
-
   validates :label, length: { maximum: 32 }
 
   custom_attribute_labels portal_link: 'Link'

@@ -67,7 +67,7 @@
         <% end %>
         <%= content_tag(:div) do %>
           <%= app_instruction_link(@app, :start, icon: 'fa-play') if [ :stopped ].include?(state) %>
-          <%= app_instruction_link(@app, :stop, icon: 'fa-stop') if [ :running,:oom ].include?(state) %>
+          <%= app_instruction_link(@app, :stop, icon: 'fa-stop') if [ :running, :oom ].include?(state) || ( state == :stopped && !@app.in_set_state? ) %>
           <%= app_instruction_link(@app, :pause, icon: 'fa-pause') if [ :running,:oom ].include?(state) %>
           <%= app_instruction_link(@app, :unpause, icon: 'fa-pause-circle') if [ :paused ].include?(state) %>
           <%= app_instruction_link(@app, :restart, icon: 'fa-repeat') if [ :running,:oom ].include?(state) %>

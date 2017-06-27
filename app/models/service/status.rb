@@ -1,6 +1,14 @@
 class Service
   module Status
 
+    def status
+      @status ||= core_service.status
+    end
+
+    def in_set_state?
+      status[:state] == status[:set_state]
+    end
+
     def running?
       state.to_sym == :running
     end

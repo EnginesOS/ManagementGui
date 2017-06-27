@@ -10,10 +10,6 @@ class Service < ApplicationRecord
 
   attr_writer :status
 
-  def status
-    @status ||= core_service.status
-  end
-
   def core_service
     @core_service ||= EnginesSystemCore::CoreService.new(engines_system.url, engines_system.token, name)
   end
