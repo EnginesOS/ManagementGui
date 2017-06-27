@@ -15,11 +15,11 @@ class EnginesSystem
       end
 
       def email
-        @email ||= engines_system.core_system.admin_user[:email]
+        @email ||= engines_system.admin_email
       end
 
       def update_params
-        { password: password,
+        { current_password: password,
           email: email }
       end
 

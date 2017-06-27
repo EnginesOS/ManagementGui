@@ -2,7 +2,7 @@ module UserProfiles
   module ModalsHelper
 
     def user_menu_modal
-      modal(header: {text: current_user.username, icon: 'fa-user'},
+      modal(header: {text: "GUI admin user", icon: 'fa-user'},
       footer_close: true) do
         content_tag(:div, class: 'dl-horizontal') do
           data_list_text('Email', @user.email) +

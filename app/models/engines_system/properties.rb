@@ -73,5 +73,11 @@ class EnginesSystem
       @logs ||= core_system.logs
     end
 
+    # admin
+
+    def admin_email
+      @admin_email ||= core_system.admin_user[:email]
+    end
+
   end
 end

@@ -1,0 +1,4 @@
+$('.modal').modal('hide');
+alert('<%= j flash[:notice] %>');
+show_waiting_spinner();
+remote_get('cloud/system?engines_system_id=' + <%= @engines_system.id %>);

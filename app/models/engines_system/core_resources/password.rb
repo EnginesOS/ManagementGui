@@ -15,8 +15,8 @@ class EnginesSystem
 
       def update_params
         { user: :admin,
-          current_password: @current_password,
-          new_password: @new_password }
+          current_password: current_password,
+          new_password: new_password }
       end
 
       def core_system

@@ -208,7 +208,7 @@ module Systems
     def system_admin_link(engines_system)
       resource_link :system_admin,
       params: {engines_system_id: engines_system.id},
-      text: 'Admin', icon: 'fa-user', title: 'Admin user profile'
+      text: 'System admin', icon: 'fa-user', title: 'Admin user profile'
     end
 
     def system_key_generate_link(engines_system)

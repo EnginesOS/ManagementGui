@@ -15,7 +15,7 @@ $(document).ajaxError(function(event, request, settings, error) {
       alert(response);
       location.reload();
     } else {
-      alert(error + ". " + response);
+      alert_modal('Application error', error + ". " + response);
     };
   } else if ((typeof settings.data !== 'undefined') && (settings.data !== null) && (request.status === 0)) {
     if (settings.data.constructor.name === 'Array') {
@@ -33,13 +33,13 @@ $(document).ajaxError(function(event, request, settings, error) {
       };
     } else {
       console.log('Undefined communication error. Data constructor: ' + settings.data.constructor.name);
-      alert("There was a communication error. (Browser client failed to connect to the management application server.)");
+      alert_modal('Network error', "There was a communication error. (Browser client failed to connect to the management application server.)");
     };
   } else {
     if (request.status === 200) {
       console.log('Ajax error thrown on 200 status.');
     } else {
-    console.log("Unhandled ajax error.\nRequest status: " + request.status + "\nRequest: " + JSON.stringify(request) + "\nSettings: " + JSON.stringify(settings) + "\nError: " + error);
+    console.log("Unhandled application error", "Request status: " + request.status + "\nRequest: " + JSON.stringify(request) + "\nSettings: " + JSON.stringify(settings) + "\nError: " + error);
     };
   };
 });
