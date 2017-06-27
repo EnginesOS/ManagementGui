@@ -106,11 +106,11 @@ module EnginesSystemCore
     end
 
     def load_domain(params)
-      get "system/domains/#{params[:domain_name]}", expect: :json
+      get "system/domain/#{params[:domain_name]}", expect: :json
     end
 
     def update_domain(params)
-      post "system/domains/#{params[:domain_name]}", params: params, expect: :boolean
+      post "system/domain/#{params[:domain_name]}", params: params, expect: :boolean
     end
 
     def add_domain(params)
