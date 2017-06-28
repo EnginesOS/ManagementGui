@@ -15,8 +15,6 @@ module EnginesSystems
         flash.now[:alert] = 'Failed to authenticate connection.'
         render 'engines_systems/sign_ins/new'
       end
-    # rescue EnginesSystemApiConnectionRefusedError
-    #   render 'clouds/systems/show'
     end
 
     private

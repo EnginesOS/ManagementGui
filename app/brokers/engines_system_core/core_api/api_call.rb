@@ -75,7 +75,9 @@ module EnginesSystemCore
         ">>>>> e.response: #{e.try(:response) || 'n/a'}\n"\
         ">>>>> e.inspect: #{e.inspect}\n"\
         "++++++++"
-        raise
+# revert to plain raise when James fixes api 401 problem
+        raise EnginesError::ApiConnectionAuthenticationError.new "Failed to authenticate the connection with the Engines system."
+        # raise
       ensure
         Rails.logger.debug "#{http_method} api_route: #{@system_url}/v0/#{api_route} - done"
       end
