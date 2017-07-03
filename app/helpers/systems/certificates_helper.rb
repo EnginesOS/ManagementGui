@@ -2,6 +2,7 @@ module Systems
   module CertificatesHelper
 
     def system_domain_certificate_links(engines_system)
+      engines_system.certificates.to_s.html_safe +
       engines_system.certificates.map do |certificate_domain_name|
         content_tag(:hr) +
         content_tag(:div, class: 'dl-horizontal')do

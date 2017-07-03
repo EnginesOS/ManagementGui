@@ -10,10 +10,10 @@ module UserProfiles
         end
     end
 
-    def user_profile_link
-      resource_link :user_profile, remote: false,
-        title: "#{current_user.username} user profile", icon: 'fa-info', text: 'Profile'
-    end
+    # def user_profile_link
+    #   resource_link :user_profile, remote: false,
+    #     title: "#{current_user.username} user profile", icon: 'fa-info', text: 'Profile'
+    # end
 
     def user_profile_portal_link
       resource_link :user_profile_portal,

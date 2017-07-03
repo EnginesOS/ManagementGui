@@ -83,12 +83,12 @@ module Systems
       end
     end
 
-    def system_services_link(engines_system)
-      resource_link :system_services,
-      params: {engines_system_id: engines_system.id},
-      text: 'Services', icon: 'fa-compass', remote: false,
-      title: 'System services'
-    end
+    # def system_services_link(engines_system)
+    #   resource_link :system_services,
+    #   params: {engines_system_id: engines_system.id},
+    #   text: 'Services', icon: 'fa-compass', remote: false,
+    #   title: 'System services'
+    # end
 
     def system_update_link(engines_system)
       resource_link :system_update,

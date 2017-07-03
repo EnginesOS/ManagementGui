@@ -7,10 +7,15 @@
   <% end %>
 
   <% @app.actionators.values.each do |actionator| %>
+    <% browser_save_file_dialog = actionator[:return_type] == 'file' %>
     <%= resource_link :new_app_actionator,
+        remote: !browser_save_file_dialog,
+        spinner: !browser_save_file_dialog,
         params: { app_id: @app.id,
                   actionator_name: actionator[:name] },
                   text: actionator[:label] || actionator[:name].to_s.humanize %>
   <% end %>
+
+
 
 <% end %>
