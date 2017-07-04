@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
     @error = error
     respond_to do |format|
       format.js{ error_render error, 'exceptions/engines_errors/show', status: 200 }
-      format.html{ error_render error, 'exceptions/engines_errors/show', status: 200, layout: false }
+      format.html{ error_render error, 'exceptions/engines_errors/show', status: 200, layout: true }
     end
   end
 

@@ -57,7 +57,7 @@ class Install
             # depend_on_value: variable.dig(:depend_on_value),
             # depend_on_property: variable.dig(:depend_on_property),
             # depend_on_display: variable.dig(:depend_on_display),
-            required: variable.dig(:mandatory),
+            required: true, # variable.dig(:mandatory),
             read_only: false #variable.dig(:immutable) || variable.dig(:build_time_only)
           }
       end

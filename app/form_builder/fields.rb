@@ -20,6 +20,7 @@ module Fields
     opts[:hint] = object.hint
     opts[:placeholder] = object.placeholder
     opts[:comment] = object.comment
+    opts[:required] = object.required.to_s == 'true'
     opts[:validate_regex] = object.validate_regex
     opts[:validate_invalid_message] = object.validate_invalid_message
     opts[:depend_on] = { input: object.depend_on_input,
@@ -46,6 +47,7 @@ module Fields
     hidden_field(:hint) +
     hidden_field(:placeholder) +
     hidden_field(:comment) +
+    hidden_field(:required) +
     hidden_field(:validate_regex) +
     hidden_field(:validate_invalid_message) +
     hidden_field(:depend_on_input) +
