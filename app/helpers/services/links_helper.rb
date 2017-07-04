@@ -17,5 +17,13 @@ module Services
       end
     end
 
+    def up_to_service_actions_link(service)
+      content_tag :div, class: 'clearfix' do
+        resource_link :service_actions, params: { service_id: @service.id },
+          class: 'btn btn-lg btn_resource pull_right_wide_media',
+          text: false, icon: 'fa-arrow-up', title: "Return to #{service.name} actions"
+      end
+    end
+
   end
 end

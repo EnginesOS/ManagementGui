@@ -16,7 +16,7 @@ class App
         end
 
         def field_params
-          group.app.blueprint[:software][:environment_variables] || []
+          group.app.blueprint.dig(:software, :environment_variables) || []
         end
 
         def field_params_with_values

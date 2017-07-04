@@ -16,13 +16,21 @@ class BugReport
         class: @error.class,
         message: error_message,
         backtrace: application_backtrace,
-        detail: { params: @context.params.inspect,
+        detail: { params: params_detail,
                   system_response: system_response }
       }
     }
   end
 
   private
+
+  def params_detail
+    if Rails.env.development?
+      @context.params.inspect
+    else
+      @context.params.to_h
+    end
+  end
 
   def error_message
     @error.to_s.encode('UTF-8').sub(Rails.root.to_s, '')

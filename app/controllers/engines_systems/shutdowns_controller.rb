@@ -10,6 +10,7 @@ module EnginesSystems
     def create
       @shutdown = @engines_system.build_shutdown(strong_params)
       if @shutdown.shutdown
+        EnginesSystemViewUpdateJob.perform_later(@engines_system, 'Shutdown.')
         render
       else
         flash.now[:alert] = 'Failed to shutdown system.'

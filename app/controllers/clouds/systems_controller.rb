@@ -21,7 +21,6 @@ module Clouds
     end
 
     def destroy
-      # @cloud = @engines_system.cloud
       if @engines_system.destroy
         redirect_to cloud_path(cloud_id: @engines_system.cloud.id)
       else
@@ -32,10 +31,8 @@ module Clouds
     private
 
     def strong_params
-      params.require(:engines_system).permit(:label, :url) #, :token)
+      params.require(:engines_system).permit(:label, :url)
     end
-
-
 
   end
 end

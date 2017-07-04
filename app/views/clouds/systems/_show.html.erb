@@ -1,40 +1,26 @@
-<% begin %>
-  <%= content_tag :div, class: "pull-right engines_system_status" do %>
-    <%= icon_text('fa-warning', @engines_system.needs.join(' - ') ) if @engines_system.needs.present? %>
-  <% end %>
-  <%= system_menu_link(@engines_system, connected: true) %>
-<%#= system_reload_link(@engines_system) %>
-  <%= content_tag :div, class: 'engines_containers apps' do %>
-    <%= render @engines_system.installed_apps %>
-  <% end %>
-  <% if @engines_system.cloud.show_services %>
-    <%= content_tag :div, class: 'engines_containers services' do %>
-      <%= render @engines_system.installed_services %>
+<% if defined?(message) && message %>
+  <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: message %>
+<% else %>
+  <% begin %>
+    <% if engines_system.is_rebooting? %>
+      <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Restarting system." %>
+    <% elsif engines_system.is_base_system_updating? %>
+      <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Updating base OS." %>
+    <% elsif engines_system.is_engines_system_updating? %>
+      <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Engines updating." %>
+    <% else %>
+      <%= render '/clouds/systems/show/show', engines_system: engines_system %>
+    <% end %>
+  <% rescue => e %>
+    <% e = e.cause if e.is_a?(ActionView::Template::Error) %>
+    <% if e.class == EnginesError::ApiConnectionAuthenticationError %>
+      <%= render '/clouds/systems/show/show_with_authentication_error', engines_system: engines_system, e: e %>
+    <% elsif e.class == EnginesError::ApiConnectionError %>
+      <%= render '/clouds/systems/show/show_waiting_for_system', engines_system: engines_system, message: "Retrying connection." %>
+    <% elsif e.class == EnginesError %>
+      <%= render '/clouds/systems/show/show_with_error', engines_system: engines_system, e: e %>
+    <% else %>
+      <% raise e %>
     <% end %>
   <% end %>
-
-
-
- <% # = Service.all.map do |s| "#{s.name} - #{s.environment_variables}" end.join("<br>".html_safe) %>
-
-
-
-<% rescue EnginesError::ApiConnectionAuthenticationError => e %>
-  <%= system_connection_menu_link(@engines_system, connected: false) %>
-  <%= flash_message :alert, "#{e} Please click on 'Authenticate connection' and enter the admin password." %>
-  <%= system_sign_in_link(@engines_system) %>
-<% rescue EnginesError  => e %>
-  <%= system_connection_menu_link(@engines_system, connected: false) %>
-  <%= flash_message :alert, "#{e}\n\nThe system URL is set to '#{@engines_system.url}'. If this is incorrect, click on the system button (with the red icon above and to the left) to edit the connection." %>
-  <%= system_reload_link(@engines_system) %>
-<% if false # rescue EnginesSystemError => e %>
-  <%= system_menu_link(@engines_system, connected: false) %>
-  <%= content_tag :div, id: "engines_system_#{ @engines_system.id }_flash_messages" do %>
-    <%= flash_message :alert, e.to_s %>
-  <% end %>
-  <%= system_reload_link(@engines_system) %>
-<% end %>
-
-
-
 <% end %>

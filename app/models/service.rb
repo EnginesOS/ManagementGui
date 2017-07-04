@@ -2,19 +2,13 @@ class Service < ApplicationRecord
 
   include CoreResources
   include Properties
-  # include Status
-
+  include Status
   include LabelData
-
-  attr_writer :state
 
   before_save :update_display_attributes
   belongs_to :engines_system
 
-
-  def state
-    @state ||= core_service.state
-  end
+  attr_writer :status
 
   def core_service
     @core_service ||= EnginesSystemCore::CoreService.new(engines_system.url, engines_system.token, name)
@@ -49,10 +43,6 @@ class Service < ApplicationRecord
     end
   end
 
-  # def publisher_namespace
-  #   @publisher_namespace ||= container[:publisher_namespace]
-  # end
-
   def publisher_type_path
     @publisher_type_path ||= "#{container[:publisher_namespace]}/#{container[:type_path]}"
   end
@@ -69,7 +59,7 @@ class Service < ApplicationRecord
 
   # Test for local mgmt GUI
   def is_local_mgmt
-    name.to_s == 'mgmt' && engines_system.is_local_system
+    name.to_s == 'mgmt' && engines_system.is_local_system?
   end
 
   private

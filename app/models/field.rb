@@ -12,7 +12,7 @@ class Field
       :label, :title,
       :horizontal, :compact,
       :left, :width, :right,
-      :collection,
+      :collection, :collection_include_blank,
       :placeholder, :comment, :tooltip, :hint,
       :validate_regex, :validate_invalid_message,
       :depend_on_input, :depend_on_regex,
@@ -21,6 +21,14 @@ class Field
   end
 
   attr_accessor :field_consumer, *form_attributes
+
+  def required=(value)
+    @required = ActiveRecord::Type::Boolean.new.cast(value)
+  end
+
+  def read_only=(value)
+    @read_only = ActiveRecord::Type::Boolean.new.cast(value)
+  end
 
   def valid?
     super.tap do |result|

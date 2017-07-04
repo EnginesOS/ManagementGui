@@ -4,7 +4,7 @@ module EnginesSystemCore
 
       def container_event_stream
         read_stream(
-        "#{@api_url}/v0/containers/events/stream", @token) do |chunk|
+        "containers/events/stream") do |chunk|
           chunk.split("\n").each do |line|
             Rails.logger.debug "Stream event from #{@api_url}: #{line.class} #{line}"
             yield line
@@ -14,9 +14,8 @@ module EnginesSystemCore
 
       def builder_log_stream
         read_stream(
-        "#{@api_url}/v0/engine_builder/follow_stream", @token) do |chunk|
+        "engine_builder/follow_stream") do |chunk|
           begin
-            p "Build log chunk: #{chunk}"
             chunk.split("\n").each do |line|
               yield line
             end

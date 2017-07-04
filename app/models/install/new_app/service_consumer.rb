@@ -15,7 +15,7 @@ class Install
         end
       end
 
-      def existing_services_collection=json
+      def existing_services_collection=(json)
         @existing_services_collection ||= JSON.parse(json)
       end
 
@@ -30,14 +30,18 @@ class Install
         end
       end
 
-      def orphan_services_collection=json
+      def orphan_services_collection=(json)
         @orphan_services_collection ||= JSON.parse(json)
       end
 
       def orphan_services_collection
         @orphan_services_collection ||=
         engines_system.orphan_service_connections_for(type_path).map do |service_consumer|
-          ["#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}", service_consumer[:parent_engine]]
+          ["#{service_consumer[:parent_engine]}##{service_consumer[:service_handle]}",
+          (service_consumer[:parent_engine] +
+          ( service_consumer[:parent_engine] ==
+                      service_consumer[:service_handle] ?
+                      '' : " - (#{service_consumer[:service_handle]})" ) ) ]
         end
       end
 
@@ -79,17 +83,6 @@ class Install
       def service_handle_for_selected
         selected_service_consumer.split('#').last
       end
-
-
-
-      # validates :create_type, inclusion: { in: create_type_collection.map(&:first) }
-
-
-      # def initialize(opts)
-      #   @publisher_namespace = opts[:publisher_namespace]
-      #   @type_path = opts[:type_path]
-      #   @create_type = opts[:create_type]
-      # end
 
     end
   end

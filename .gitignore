@@ -7,6 +7,9 @@
 # Ingore attachment files created by paperclip
 /public/system
 
+# Ingore precompiled assets
+/public/assets
+
 # Ignore bundler config.
 /.bundle
 

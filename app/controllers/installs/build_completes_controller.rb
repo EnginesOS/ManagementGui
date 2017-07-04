@@ -6,14 +6,15 @@ module Installs
 
     def show
       if @engines_system.building?
-        flash.now[:notice] = "Comminucation with the system was interrupted so the build log has been reloaded."
+        flash.now[:notice] = "Communication with the system was interrupted. The build log has been reloaded."
         render 'still_building'
       else
+        EnginesSystemViewUpdateJob.perform_later(@engines_system)
         if @engines_system.build_failed?
-          flash.now[:alert] = "The installation of #{@app.name} failed."
+          flash.now[:alert] = "The installation of #{params[:app_name]} failed."
           render 'build_failed'
         else
-          flash.now[:success] = "The installation of #{@app.name} was successful."
+          flash.now[:success] = "The installation of #{params[:app_name]} was successful."
           render
         end
       end

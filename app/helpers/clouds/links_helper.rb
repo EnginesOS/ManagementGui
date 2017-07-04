@@ -22,19 +22,6 @@ module Clouds
         icon: 'fa-cloud', text: 'Clouds'
     end
 
-    # def clouds_menu_link
-    #   content_tag(:button, title: 'Cloud selection menu', class: 'btn_navbar',
-    #   'data-toggle': :modal, 'data-target': "#clouds_menu_modal") do
-    #     icon 'fa-cloud'
-    #   end
-    # end
-
-    # def clouds_menu_link(cloud)
-    #   resource_link :user_profile_clouds_menu, params: {cloud_id: (cloud.id if cloud)},
-    #     title: "Clouds manager",
-    #     icon: 'fa-cloud', text: 'Clouds'
-    # end
-
     def cloud_selection_link(target_cloud, current_cloud)
       resource_link :cloud,
       params: {cloud_id: target_cloud.id},
@@ -43,17 +30,6 @@ module Clouds
       icon: ( target_cloud == current_cloud ? 'fa-caret-right' : 'fa-angle-right' ),
       remote: false, title: "Administer #{target_cloud.label}"
     end
-
-    # def up_to_cloud_menu_link(cloud)
-    #   content_tag :div, class: 'clearfix' do
-    #     content_tag :button, title: 'Return to cloud menu',
-    #       class: 'btn btn-lg btn_resource pull_right_wide_media',
-    #       'data-dismiss': :modal,
-    #       'data-toggle': :modal, 'data-target': "#cloud_#{cloud.id}_menu_modal" do
-    #       icon 'fa-arrow-up'
-    #     end
-    #   end
-    # end
 
     def return_to_cloud_link(cloud)
       resource_link :cloud, params: {cloud_id: cloud.id}, remote: false, class: 'btn-lg',
@@ -67,32 +43,6 @@ module Clouds
       icon: 'fa-compass',
       remote: false
     end
-
-
-
-    # navbar_brand(
-    #   image_url: @cloud.icon.url(:small),
-    #   text: @cloud.label,
-    #   link_url: cloud_path(cloud_id: @cloud.id) )
-    #
-
-    # def clouds_menu_link
-    #   content_tag(:button, title: "Manage #{current_user.username} user clouds",
-    #   class: 'btn btn-lg btn_resource',
-    #   'data-dismiss': :modal,
-    #   'data-toggle': :modal, 'data-target': '#clouds_menu_modal') do
-    #     icon_text 'fa-cloud', 'Clouds'
-    #   end
-    # end
-
-    # def cloud_portal_or_administer_link
-    #   # controller_path
-    #   if controller_path == 'clouds/portals'
-    #     cloud_administer_link
-    #   else
-    #     cloud_portal_link
-    #   end
-    # end
 
     def new_cloud_local_system_link(cloud)
       resource_link :cloud_system,
@@ -112,8 +62,8 @@ module Clouds
     def new_cloud_system_link(cloud)
       resource_link :new_cloud_system,
         params: {cloud_id: cloud.id},
-        text: 'Connect system',
-        icon: 'fa-wifi',
+        text: 'New system',
+        icon: 'fa-plus',
         title: 'Connect an Engines system'
     end
 
@@ -139,8 +89,6 @@ module Clouds
       confirm: {text: "Are you sure that you want to remove #{cloud.label}?" }
     end
 
-
-
     def cloud_libraries_link(cloud)
       resource_link :cloud_libraries,
       params: {cloud_id: cloud.id},
@@ -158,15 +106,6 @@ module Clouds
       params: {cloud_id: cloud.id},
       text: 'Change cloud', icon: 'fa-caret-right', title: 'Cloud selection menu'
     end
-
-
-
-    # def cloud_properties_link
-    #   edit_resource_link :cloud_properties,
-    #   params: {cloud_id: @cloud.id},
-    #   text: 'Edit',
-    #   title: 'Configure cloud'
-    # end
 
   end
 end

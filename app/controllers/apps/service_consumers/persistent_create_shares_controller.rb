@@ -17,18 +17,22 @@ module Apps
       private
 
       def create_service_consumer
-        @persistent_service_consumer_share_constructor.save_to_system
-        flash.now[:notice] =
-          "Successfully shared "\
-          "#{@persistent_service_consumer_share_constructor.label} service "\
-          "for #{@app.name}."
+        if @persistent_service_consumer_share_constructor.save_to_system
+          flash.now[:notice] =
+            "Successfully shared "\
+            "#{@persistent_service_consumer_share_constructor.label} service "\
+            "for #{@app.name}."
+        else
+          flash.now[:alert] =
+            "Failed to share "\
+            "#{@persistent_service_consumer_share_constructor.label} service "\
+            "for #{@app.name}."
+        end
         render 'apps/service_consumers/index'
       rescue EnginesError => e
-        flash.now[:alert] =
-          "Failed to share "\
+        raise EnginesError.new "Failed to share "\
           "#{@persistent_service_consumer_share_constructor.label} service "\
-          "for #{@app.name}. #{e}"
-        render 'apps/service_consumers/index'
+          "for #{@app.name}."
       end
 
       def strong_params

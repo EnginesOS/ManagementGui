@@ -1,16 +1,14 @@
 module EnginesSystemCore
   class CoreApp
 
-    # include Actions
-    # include Inspections
-    # include Properties
     include CoreApi::ApiCall
 
-    def initialize(api_url, token, name)
-      @api_url = api_url
+    def initialize(system_url, token, name)
+      @system_url = system_url
       @token = token
       @name = name
     end
+
     attr_reader :name
 
     # detail
@@ -21,12 +19,6 @@ module EnginesSystemCore
 
     def container_processes
       get "containers/engine/#{name}/ps", expect: :json
-    # rescue
-    #   # dummy data
-    #   {
-    #     "Processes": [["this","is","dummy","data","","","","","","",""], ["22673","4473","0.0","0.0","100340","768","?","Ss","Oct28","0:00","/bin/bash /home/start.bash"],["22673","4928","0.0","0.0","100376","804","?","S","Oct28","0:00","/bin/bash /home/engines/scripts/custom_start.sh"],["22673","4932","0.0","1.8","774028","37244","?","Sl","Oct28","0:00","npm"],["22673","4939","0.0","0.0","4512","84","?","S","Oct28","0:00","sh -c node index"],["22673","4940","0.0","7.1","986584","146084","?","Sl","Oct28","0:26","node index"]],
-    #     "Titles": ["USER","PID","%CPU","%MEM","VSZ","RSS","TTY","STAT","START","TIME","COMMAND"]
-    #   }
     end
 
     def blueprint
@@ -34,17 +26,21 @@ module EnginesSystemCore
     end
 
     def build_report
-      get "containers/engine/#{name}/build_report", expect: :string
+      get "containers/engine/#{name}/build_report", expect: :plain_text
     end
 
     # state
 
     def state
-      get "containers/engine/#{name}/state", expect: :string
+      get "containers/engine/#{name}/state", expect: :plain_text
     end
 
     def status
       get "containers/engine/#{name}/status", expect: :json
+    end
+
+    def clear_had_oom
+      get "containers/engine/#{name}/clear_error", expect: :boolean
     end
 
     # websites
@@ -57,7 +53,7 @@ module EnginesSystemCore
     # instructions
 
     def stop
-      get "containers/engine/#{name}/stop", expect: :boolean
+      get "containers/engine/#{name}/stop", expect: :boolean, timeout: 30
     end
 
     def start
@@ -73,7 +69,7 @@ module EnginesSystemCore
     end
 
     def restart
-      get "containers/engine/#{name}/restart", expect: :boolean
+      get "containers/engine/#{name}/restart", expect: :boolean, timeout: 30
     end
 
     def create
@@ -93,7 +89,7 @@ module EnginesSystemCore
     end
 
     def uninstall(params={})
-      delete "containers/engine/#{name}/delete/#{params[:remove_data] ? 'all' : 'none'}", expect: :boolean
+      delete "containers/engine/#{name}/delete/#{params[:remove_data] ? 'all' : 'none'}", expect: :boolean, timeout: 30
     end
 
     # properties
@@ -133,35 +129,13 @@ module EnginesSystemCore
       get "service_manager/available_services/type/#{type_path}", expect: :json
     end
 
-    # def persistent_service_consumer_subservice_consumers_for(service_handle)
-    #
-    #
-    #   get /v0/containers/service/:service_name/sub_services
-    #    opt_get_param = [:engine_name, :service_handle]
-    #
-    #
-    # end
-
     def create_persistent_service_consumer_subservice_consumer(params)
       publisher_namespace, type_path = params[:publisher_type_path].split('/', 2)
       post "containers/service/#{params[:service_name]}/sub_services/#{name}/#{params[:parent_service_handle]}",
-        { publisher_namespace: publisher_namespace,
+        params: { publisher_namespace: publisher_namespace,
           type_path: type_path,
           variables: params[:variables] }, expect: :boolean
-      #
-      # create_non_persistent_service_consumer_subservice_consumer(
-      #   service_name: parent_service_definition[:service_container],
-      #   parent_service_handle: parent_service_handle,
-      #   publisher_type_path: publisher_type_path,
-      #   variables: variable_values )
-      #
-      #
-      # post /v0/containers/service/:service_name/sub_services/:engine_name/:service_handle/:sub_handle
-      #  params = [ :service_handle :publisher_namespace :type_path :variables => { }] These are of the service being attached
-      #
-      #
     end
-
 
     def update_persistent_service_consumer(params)
       post "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}", params: { variables: params[:variables] }, expect: :boolean
@@ -173,9 +147,6 @@ module EnginesSystemCore
 
     def update_persistent_service_consumer_share(params)
       post "containers/engine/#{name}/service/persistent/shared/#{params[:parent_engine]}/#{params[:publisher_type_path]}/#{params[:service_handle]}", params: { variables: params[:variables] }, expect: :boolean
-    # rescue
-    #   return [true,false].sample if Rails.env.development?
-    #   raise
     end
 
     def register_non_persistent_service_consumer(params)
@@ -192,31 +163,19 @@ module EnginesSystemCore
 
     def remove_persistent_service_consumer(params)
       delete "containers/engine/#{name}/services/persistent/#{params[:remove_data] ? 'all' : 'none'}/#{params[:publisher_type_path]}/#{params[:service_handle]}", expect: :boolean
-    # rescue
-    #   return [true,false].sample if Rails.env.development?
-    #   raise
     end
 
     def remove_non_persistent_service_consumer(params)
       delete "containers/engine/#{name}/services/non_persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}", expect: :boolean
-    # rescue
-    #   return [true,false].sample if Rails.env.development?
-    #   raise
     end
 
     def remove_persistent_service_consumer_share(params)
       delete "containers/engine/#{name}/services/persistent/shared/#{params[:parent_engine]}/#{params[:publisher_type_path]}/#{params[:service_handle]}", expect: :boolean
-    # rescue
-    #   return [true,false].sample if Rails.env.development?
-    #   raise
     end
 
 
     def create_persistent_service_consumer(params)
       post "containers/engine/#{name}/services/persistent/#{params[:publisher_type_path]}", params: { variables: params[:variables] }, expect: :boolean
-    # rescue
-    #   return [true,false].sample if Rails.env.development?
-    #   raise
     end
 
     def create_persistent_service_consumer_share(params)
@@ -238,16 +197,13 @@ module EnginesSystemCore
     end
 
     def persistent_service_consumer_import(params)
-      post "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/#{params[:write]}",
-        { expect: :boolean }, params[:data_file]
-    # rescue
-    #   !true
+      put_file "containers/engine/#{name}/service/persistent/#{params[:publisher_type_path]}/#{params[:service_handle]}/#{params[:write]}", file: params[:data_file], expect: :boolean
     end
 
     # resolve string
 
     def resolve_string(string)
-      post "containers/engine/#{name}/template", params: {template_string: string}, expect: :string
+      post "containers/engine/#{name}/template", params: {template_string: string}, expect: :plain_text
     end
 
     # actions
@@ -260,14 +216,26 @@ module EnginesSystemCore
       get "containers/engine/#{name}/action/#{actionator_name}", expect: :json
     end
 
-    def perform_actionator_for(actionator_name, params)
-      post "containers/engine/#{name}/action/#{actionator_name}", params: params, expect: :string
+    def perform_actionator_for(actionator_name, params, return_type)
+      post "containers/engine/#{name}/action/#{actionator_name}", params: params, expect: return_type.to_sym
     end
 
     # logs
 
     def logs
       get "containers/engine/#{name}/logs", expect: :json
+    end
+
+    #memory
+
+    def memory_metrics
+      get "containers/engine/#{name}/metrics/memory", expect: :json
+    end
+
+    #network
+
+    def network_metrics
+      get "containers/engine/#{name}/metrics/network", expect: :json
     end
 
   end

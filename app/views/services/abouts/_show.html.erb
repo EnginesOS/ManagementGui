@@ -1,0 +1,7 @@
+<%= modal footer_close: true, header: {text: "About #{@service.name}", icon: 'fa-info-circle'} do %>
+  <%= up_to_service_control_panel_link(@service) %>
+  Type path: <%= @service.service_definition.dig(:type_path) %><br>
+  Publisher namespace: <%= @service.service_definition.dig(:publisher_namespace) %><br>
+  <hr>
+  <%= @service.service_definition.dig(:description) %><br>
+<% end %>

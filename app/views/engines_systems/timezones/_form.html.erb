@@ -1,0 +1,8 @@
+<%= custom_form_for @timezone,
+    url: system_timezone_path(
+      engines_system_id: @timezone.engines_system.id ),
+    method: :patch do |f| %>
+<%= f.engines_field :timezone, as: :timezone, include_blank: true %>
+<%= f.engines_cancel_submit url: system_control_panel_path(
+      engines_system_id: @timezone.engines_system.id ), remote: true %>
+<% end %>

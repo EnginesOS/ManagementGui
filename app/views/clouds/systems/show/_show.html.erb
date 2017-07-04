@@ -1,0 +1,21 @@
+<%= content_tag :div, class: "pull-right engines_system_status" do %>
+  <%= ( link_to icon_text('fa-warning', engines_system.needs.join(' - ') ), system_menu_path(engines_system_id: engines_system.id), remote: true ) if engines_system.needs.any? %>
+<% end %>
+<%= system_menu_link(engines_system, connected: true) %>
+<%= content_tag :div, class: 'engines_containers apps' do %>
+  <% engines_system.installed_apps.each do |app| %>
+    <%= render '/clouds/apps/app', app: app %>
+  <% end %>
+<% end %>
+<% if engines_system.cloud.show_services %>
+  <%= content_tag :div, class: 'engines_containers services' do %>
+    <% engines_system.installed_services.each do |service| %>
+      <%= render '/clouds/services/service', service: service %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<script>
+  SubcribeToEnginesSystemEventsChannel(<%= engines_system.id %>, '<%= engines_system.label %>');
+  SubcribeToEnginesSystemViewUpdateChannel(<%= engines_system.id %>);
+</script>

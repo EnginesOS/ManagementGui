@@ -5,7 +5,7 @@ module Services
 
    def show
      render
-     @service.perform_instruction(:restart)
+     Thread.new { @service.perform_instruction(:restart) }
    end
 
  end

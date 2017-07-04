@@ -1,4 +1,4 @@
-<%= modal footer_close: true, header: 'App', id: "container_#{ @app.name }_menu_modal" do %>
+<%= modal footer_close: true, header: 'App', id: "engines_system_#{ @app.engines_system.id }_container_#{ @app.name }_menu_modal" do %>
   <%= content_tag :div, class: 'container_menu_header clearfix' do %>
     <%= content_tag :div, class: 'container_menu_header_icon' do %>
       <% unless @app.icon.blank? || @app.icon.dirty? %>
@@ -14,6 +14,9 @@
       <% end %>
       <%= content_tag :div, class: 'container_menu_header_label_subtext' do %>
         <%= @app.title %>
+      <% end %>
+      <%= content_tag(:div, class: "container_needs_indicator") do %>
+        <%= icon_text('fa-warning', @app.needs.join(' - ')) if @app.needs.any? %>
       <% end %>
     <% end %>
     <%= content_tag :div, class: 'container_menu_header_detail pull_right_wide_media' do %>
@@ -37,10 +40,23 @@
     <%= edit_resource_link :app_properties, params: {app_id: @app.id}, text: 'Edit', icon: 'fa-edit', title: "Edit #{@app.name} properties", class: 'pull_right_wide_media' %>
   <% end %>
   <hr>
-  <% app_state = @app.core_app.state %>
+  <% if @app.why_stopped? %>
+    <div class='why_container_stopped_message'>
+      <label>Why stopped?</label>
+      <%= @app.why_stopped? %>
+    </div>
+    <hr>
+  <% end %>
+  <% if @app.had_oom? %>
+    <div class='clearfix'>
+      <div class='ran_out_of_memory_message pull-left'><%= icon_text('fa-warning', 'Ran out of memory') %></div>
+      <%= resource_link :app_clear_had_oom, params: {app_id: @app.id}, text: 'Clear', icon: 'fa-times', title: "Clear out-of-memory flag for #{@app.name}", class: 'pull_right_wide_media' %>
+    </div>
+    <hr>
+  <% end %>
   <%= content_tag :span, class: "container_state_indicators #{@app.name}_container_state" do %>
-    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused ].each do |state| %>
-      <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if app_state.to_s != state.to_s) do %>
+    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused, :kill, :die ].each do |state| %>
+      <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if @app.state.to_sym != state) do %>
         <%= content_tag :div, class: "container_state_indicator_area" do %>
           <%= content_tag :div, class: "container_state_indicator_icon" do %>
             <%= state_indicator_for state %>
@@ -51,12 +67,12 @@
         <% end %>
         <%= content_tag(:div) do %>
           <%= app_instruction_link(@app, :start, icon: 'fa-play') if [ :stopped ].include?(state) %>
-          <%= app_instruction_link(@app, :stop, icon: 'fa-stop') if [ :running ].include?(state) %>
-          <%= app_instruction_link(@app, :pause, icon: 'fa-pause') if [ :running ].include?(state) %>
+          <%= app_instruction_link(@app, :stop, icon: 'fa-stop') if [ :running, :oom ].include?(state) || ( state == :stopped && !@app.in_set_state? ) %>
+          <%= app_instruction_link(@app, :pause, icon: 'fa-pause') if [ :running,:oom ].include?(state) %>
           <%= app_instruction_link(@app, :unpause, icon: 'fa-pause-circle') if [ :paused ].include?(state) %>
-          <%= app_instruction_link(@app, :restart, icon: 'fa-repeat') if [ :running ].include?(state) %>
+          <%= app_instruction_link(@app, :restart, icon: 'fa-repeat') if [ :running,:oom ].include?(state) %>
           <%= app_instruction_link(@app, :create, icon: 'fa-wrench') if [ :nocontainer ].include?(state) %>
-          <%= app_instruction_link(@app, :recreate, icon: 'fa-refresh') if [ :nocontainer, :stopped ].include?(state) %>
+          <%= app_instruction_link(@app, :recreate, icon: 'fa-refresh') if [ :stopped ].include?(state) %>
           <%= app_instruction_link(@app, :destroy, icon: 'fa-bomb') if [ :stopped ].include?(state) %>
         <% end %>
       <% end %>

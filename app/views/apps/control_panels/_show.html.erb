@@ -7,11 +7,11 @@
   <%= edit_resource_link :app_memory, params: {app_id: @app.id}, text: 'Memory', icon: 'fa-pie-chart', title: "Memory settings for #{@app.name}" %>
   <%= resource_link :app_environment, params: {app_id: @app.id}, text: 'Environment', icon: 'fa-question-circle-o', title: "Environment variables for #{@app.name}" %>
   <hr>
-  <%= resource_link :app_processes, params: {app_id: @app.id}, text: 'Processes', icon: 'fa-list-alt', title: "Processes for #{@app.name}" %>
-  <%= resource_link :app_logs, params: {app_id: @app.id}, text: 'Logs', icon: 'fa-file-text-o', title: "Logs for #{@app.name}" %>
+  <%= resource_link :app_about, params: {app_id: @app.id}, text: 'About', icon: 'fa-info-circle', title: "About #{@app.name}" %>
   <%= resource_link :app_report, params: {app_id: @app.id}, text: 'Report', icon: 'fa-stethoscope', title: "Report for #{@app.name}" %>
   <%= resource_link :app_installation_report, params: {app_id: @app.id}, text: 'Installation report', icon: 'fa-list-ol', title: "Installation report for #{@app.name}" %>
-  <% # = resource_link :app_about, params: {app_id: @app.id}, text: 'About', icon: 'fa-info-circle', title: "About #{@app.name}" %>
+  <%= resource_link :app_logs, params: {app_id: @app.id}, text: 'Logs', icon: 'fa-file-text-o', title: "Logs for #{@app.name}" %>
+  <%= resource_link :app_processes, params: {app_id: @app.id}, text: 'Processes', icon: 'fa-list-alt', title: "Processes for #{@app.name}" %>
   <hr>
   <%= resource_link :app_reinstall, params: {app_id: @app.id}, text: 'Reinstall', icon: 'fa-plus', title: "Reinstall #{@app.name}" %>
   <%= resource_link :new_app_uninstall, params: {app_id: @app.id}, text: 'Uninstall', icon: 'fa-minus-square', title: "Uninstall #{@app.name}" %>

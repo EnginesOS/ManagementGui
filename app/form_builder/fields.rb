@@ -15,10 +15,12 @@ module Fields
     opts[:width] = object.width.present? ? object.width.to_i : nil
     opts[:right] = object.right.present? ? object.right.to_i : nil
     opts[:collection] = object.collection || []
+    opts[:include_blank] = object.collection_include_blank.to_s == 'true'
     opts[:tooltip] = object.tooltip
     opts[:hint] = object.hint
     opts[:placeholder] = object.placeholder
     opts[:comment] = object.comment
+    opts[:required] = object.required.to_s == 'true'
     opts[:validate_regex] = object.validate_regex
     opts[:validate_invalid_message] = object.validate_invalid_message
     opts[:depend_on] = { input: object.depend_on_input,
@@ -39,11 +41,13 @@ module Fields
     hidden_field(:left) +
     hidden_field(:width) +
     hidden_field(:right) +
-    hidden_field(:collection) +
+    hidden_field(:collection, value: object.collection.to_json) +
+    hidden_field(:collection_include_blank) +
     hidden_field(:tooltip) +
     hidden_field(:hint) +
     hidden_field(:placeholder) +
     hidden_field(:comment) +
+    hidden_field(:required) +
     hidden_field(:validate_regex) +
     hidden_field(:validate_invalid_message) +
     hidden_field(:depend_on_input) +
@@ -150,6 +154,12 @@ module Fields
       engines_password_with_confirmation_field method, opts
     when :read_only
       engines_read_only_field method, opts
+    when :timezone
+      engines_timezone_select_field method, opts
+    when :country
+      engines_country_select_field method, opts
+    when :language
+      engines_language_select_field method, opts
     else
       opts[:value] = "Unknown type '#{data_type}' for '#{method}'"
       engines_read_only_field method, opts

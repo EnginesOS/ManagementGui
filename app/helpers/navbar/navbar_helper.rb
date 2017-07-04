@@ -19,12 +19,6 @@ module Navbar
         cloud_admin_banner(@cloud) +
         cloud_navbar(@cloud)
       end
-      #  +
-      # if current_user
-      #   user_menu_modal
-      # else
-      #   ''.html_safe # user_sign_in_modal
-      # end
     end
 
     def navbar_left_links
@@ -34,7 +28,7 @@ module Navbar
     def navbar_right_links
       if current_user
         if controller_path == 'clouds/portals'
-          navbar_user_portal_link +
+          ( config.enable_user_portal ? navbar_user_portal_link : ''.html_safe ) +
           navbar_cloud_link(@cloud)
         else
           ''.html_safe

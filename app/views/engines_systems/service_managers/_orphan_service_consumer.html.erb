@@ -7,19 +7,19 @@
   <%= data_list_text 'Parent app', orphan_service_consumer[:parent_engine] %>
   <%= data_list_text 'Service handle', orphan_service_consumer[:service_handle] %>
 <% end %>
-
-
-<%= destroy_resource_link :service_manager_orphan_service_consumer,
+<div class='clearfix'>
+  <%= destroy_resource_link :service_manager_orphan_service_consumer,
       url: system_service_manager_orphan_service_consumer_path(
       engines_system_id: @engines_system.id,
       service_label: service_definition[:title],
       type_path: "#{orphan_service_consumer[:publisher_namespace]}/#{orphan_service_consumer[:type_path]}",
       parent_engine: orphan_service_consumer[:parent_engine],
       service_handle: orphan_service_consumer[:service_handle]),
-      form_class: 'display_inline',
+      form_class: 'display_inline pull_right_wide_media',
       text: "Delete",
       icon: 'fa-trash', title: "Delete #{service_definition[:title]} z#{orphan_service_consumer[:service_handle]} for #{orphan_service_consumer[:parent_engine]}",
       confirm: {
         text: "Are you sure that you want to delete #{service_definition[:title]} #{orphan_service_consumer[:service_handle]} for #{orphan_service_consumer[:parent_engine]}?",
         title: {text: 'Confirm delete'}
       } %>
+</div>

@@ -14,7 +14,7 @@ module Navbar
       button_to cloud_path, params: {cloud_id: cloud.id},
         title: "Administer #{cloud.label}",
         form_class: 'display_inline', method: :get,
-        class: 'btn_navbar show_wait_for_system_response_spinner' do
+        class: 'btn_navbar show_waiting_spinner' do
           icon 'fa-cog'
         end
     end
@@ -23,7 +23,7 @@ module Navbar
       button_to cloud_portal_path, params: {cloud_id: cloud.id},
         title: "#{cloud.label} portal",
         form_class: 'display_inline', method: :get,
-        class: 'btn_navbar show_wait_for_system_response_spinner' do
+        class: 'btn_navbar show_waiting_spinner' do
           icon 'fa-th'
         end
     end
@@ -32,7 +32,7 @@ module Navbar
       button_to user_profile_portal_path,
         title: "User portal",
         form_class: 'display_inline', method: :get,
-        class: 'btn_navbar show_wait_for_system_response_spinner' do
+        class: 'btn_navbar show_waiting_spinner' do
           icon 'fa-home'
         end
     end

@@ -63,10 +63,5 @@ module Apps
       end
     end
 
-    # def new_app_service_connection_link(app)
-    #   resource_link :new_app_service, params: { app_id: app.id },
-    #   text: 'New', icon: 'fa-plus-square-o', title: 'New service connection for #{app.name}'
-    # end
-
   end
 end

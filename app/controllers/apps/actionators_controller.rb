@@ -27,10 +27,14 @@ module Apps
     def process_app_action
       @actionator.save_to_system
       if @actionator.return_type == 'file'
-        send_data @actionator.api_post_result,  :filename => "#{@app.name}_#{@actionator.actionator_name}"
+        send_data @actionator.api_post_result,
+          filename: "#{@app.name}__#{@actionator.actionator_name}__#{Time.now.utc}"
       else
         render 'result'
       end
+    rescue EnginesError => e
+      raise EnginesError.new "Failed to perform action "\
+        "#{@actionator.to_label} for #{@app.name}.\n\n#{e}"
     end
 
     def strong_params

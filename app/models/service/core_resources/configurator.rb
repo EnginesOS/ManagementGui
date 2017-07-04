@@ -10,7 +10,6 @@ class Service
         configurator_params[:label] || configurator_name.to_s.humanize
       end
 
-
       def fields_attributes=(params={})
         @fields = params.map { |i, field| Field.new field.merge({field_consumer: self}) }
       end
@@ -53,19 +52,43 @@ class Service
             field_consumer: self,
             attribute_name: variable[:name],
             value: variable[:value],
-            label: variable[:label],
-            as: variable[:as] || variable[:field_type],
-            title: variable[:title],
-            collection: variable[:collection] || variable[:select_collection],
-            tooltip: variable[:tooltip],
-            hint: variable[:hint],
-            placeholder: variable[:placeholder],
-            comment: variable[:comment],
-            validate_regex: variable[:validate_regex],
-            validate_invalid_message: variable[:validate_invalid_message],
+            label: variable.dig(:input, :label) || variable.dig(:label),
+            as: variable.dig(:input, :type) || variable_field_type_for( variable.dig(:as) || variable.dig(:field_type) ),
+            title: variable.dig(:input, :title) || variable.dig(:title),
+            collection: variable.dig(:input, :collection, :items) || variable.dig(:collection) || variable.dig(:select_collection),
+            collection_include_blank: variable.dig(:input, :collection, :include_blank),
+            tooltip: variable.dig(:input, :tooltip) || variable.dig(:tooltip),
+            hint: variable.dig(:input, :hint) || variable.dig(:hint),
+            placeholder: variable.dig(:input, :placeholder) || variable.dig(:placeholder),
+            comment: variable.dig(:input, :comment) || variable.dig(:comment),
+            validate_regex: variable.dig(:input, :validation, :pattern) || variable.dig(:validate_regex),
+            validate_invalid_message: variable.dig(:input, :validation, :message) || variable.dig(:validate_invalid_message),
             required: variable[:mandatory],
             read_only: false
           }
+      end
+
+      def variable_field_type_for(v)
+        case v.to_s.to_sym
+        when :boolean
+          :boolean
+        when :collection, :select, :select_single
+          :select
+        when :int
+          :integer
+        when :hidden
+          :hidden
+        when :password
+          :password
+        when :password_with_confirmation
+          :password_with_confirmation
+        when :text, :text_area
+          :text
+        when :text_field
+          :string
+        else
+          :string
+        end
       end
 
       def fields

@@ -5,9 +5,7 @@ module EnginesSystems
       before_action :set_engines_system
 
       def create
-        # @certificate = @engines_system.certificate #.first_or_create
         @certificate_detail = @engines_system.build_certificate_upload_detail(strong_params)
-        # @certificate_detail.assign_attributes(strong_params)
         if @certificate_detail.valid?
           if @certificate_detail.save_certificate_to_system
             flash.now[:notice] = 'The certificate has been successfully saved to the system.'

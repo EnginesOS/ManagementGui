@@ -2,34 +2,28 @@ module EnginesSystemCore
   module CoreApi
     module ApiStream
 
-      def read_stream(url, token)
-        uri = URI(url)
-        Net::HTTP.start(uri.host, uri.port) do |http|
+      def read_stream(api_path)
+        Rails.logger.debug "API events from #{@system_url} - build get"
+        uri = URI @system_url
+        net_http = Net::HTTP.new(uri.host,uri.port)
+        net_http.use_ssl = (uri.scheme == 'https')
+        net_http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        net_http.start do |http|
           begin
-            request = Net::HTTP::Get.new(uri)
-            request['access_token'] = token
+            Rails.logger.debug "API events from #{@system_url} - build get"
+            request = Net::HTTP::Get.new URI("#{@system_url}/v0/#{api_path}")
+            request['access_token'] = @token
+            Rails.logger.debug "API events from #{@system_url} - make request"
+            # byebug
             http.request(request) do |response|
-              Rails.logger.debug "API events from #{url} request response: #{response}"
-              # raise EnginesSystemApiConnectionAuthenticationError if response.is_a?(Net::HTTPForbidden)
+              Rails.logger.debug "API events from #{@system_url} request response: #{response}"
               response.read_body do |event|
-                Rails.logger.debug "API events from #{url} response body event: #{event}"
+                Rails.logger.debug "API events from #{@system_url} response body event: #{event}"
                 yield event
               end
             end
           rescue EOFError
             return
-          rescue Encoding::UndefinedConversionError
-            p "Encoding error. Continue..."
-          rescue => e
-            raise EnginesError.new "Failed to read to build log. #{e}"
-          # rescue Encoding::UndefinedConversionError
-          #   raise EnginesError.new 'Failed to read to build log. Event stream encoding error.'
-          # rescue Errno::ECONNREFUSED
-          #   raise EnginesSystemApiConnectionRefusedError
-          # rescue Errno::ECONNRESET
-          #   raise EnginesSystemApiConnectionResetError
-          # rescue Net::OpenTimeout
-          #   raise EnginesSystemApiConnectionTimeoutError
           end
         end
       end

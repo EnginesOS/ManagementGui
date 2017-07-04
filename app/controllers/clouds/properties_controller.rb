@@ -8,9 +8,6 @@ module Clouds
 
     def update
       if @cloud.update(strong_params)
-        # redirect_to cloud_path(
-        #   cloud_id: @cloud.id),
-        #   notice: "Cloud properties for #{@cloud.label} were successfully updated."
         render
       else
         render 'edit'

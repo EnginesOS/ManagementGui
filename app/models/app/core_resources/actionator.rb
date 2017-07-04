@@ -35,16 +35,17 @@ class App
             field_consumer: self,
             attribute_name: variable[:name],
             value: variable[:value],
-            label: variable[:input][:label],
-            as: variable[:input][:type],
-            title: variable[:input][:title],
-            collection: variable[:input][:collection],
-            tooltip: variable[:input][:tooltip],
-            hint: variable[:input][:hint],
-            placeholder: variable[:input][:placeholder],
-            comment: variable[:input][:comment],
-            validate_regex: variable[:input][:validation][:pattern],
-            validate_invalid_message: variable[:input][:validation][:message],
+            label: variable.dig(:input, :label) || variable.dig(:label),
+            as: variable.dig(:input, :type) || variable_field_type_for( variable.dig(:as) || variable.dig(:field_type) ),
+            title: variable.dig(:input, :title) || variable.dig(:title),
+            collection: variable.dig(:input, :collection, :items) || variable.dig(:collection) || variable.dig(:select_collection),
+            collection_include_blank: variable.dig(:input, :collection, :include_blank),
+            tooltip: variable.dig(:input, :tooltip) || variable.dig(:tooltip),
+            hint: variable.dig(:input, :hint) || variable.dig(:hint),
+            placeholder: variable.dig(:input, :placeholder) || variable.dig(:placeholder),
+            comment: variable.dig(:input, :comment) || variable.dig(:comment),
+            validate_regex: variable.dig(:input, :validation, :pattern) || variable.dig(:validate_regex),
+            validate_invalid_message: variable.dig(:input, :validation, :message) || variable.dig(:validate_invalid_message),
             # depend_on_input: variable[:depend_on_input],
             # depend_on_regex: variable[:depend_on_regex],
             # depend_on_value: variable[:depend_on_value],
@@ -55,9 +56,31 @@ class App
           }
       end
 
+      def variable_field_type_for(v)
+        case v.to_s.to_sym
+        when :boolean
+          :boolean
+        when :collection, :select, :select_single
+          :select
+        when :int
+          :integer
+        when :hidden
+          :hidden
+        when :password
+          :password
+        when :password_with_confirmation
+          :password_with_confirmation
+        when :text, :text_area
+          :text
+        when :text_field
+          :string
+        else
+          :string
+        end
+      end
+
       def fields
         @fields ||= form_params.map { |field| Field.new field }
-        # @fields ||= {}.tap{|result| form_params.each_with_index { |field, index| result[index] = Field.new field } }
       end
 
       def persisted?
@@ -74,11 +97,19 @@ class App
       end
 
       def save_to_system
-        @api_post_result = app.core_app.perform_actionator_for(actionator_name, perform_actionator_params)
+        @api_post_result = app.core_app.perform_actionator_for(actionator_name, perform_actionator_params, return_type)
       end
 
       def return_type
-        @return_type ||= actionator_params[:return_type]
+        @return_type ||= return_type_for actionator_params[:return_type]
+      end
+
+      def return_type_for(raw_return_type)
+        # mutate return types that have been incorrectly specified
+        case raw_return_type
+        when 'text/plain'; 'plain_text'
+        else; raw_return_type
+        end
       end
 
       def perform_actionator_params

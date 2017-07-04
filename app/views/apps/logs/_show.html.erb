@@ -1,9 +1,3 @@
-<% begin %>
-  <% container_logs = @app.core_app.logs %>
-<% rescue EnginesError #EnginesSystemApiResourceNotFoundError %>
-  <% container_logs = nil %>
-<% end %>
-
 <%= modal footer_close: true, large: true, header: {text: "Logs for #{@app.name}", icon: 'fa-file-text-o'} do %>
   <%= up_to_app_control_panel_link(@app) %>
   <%= resource_link :app_logs, params: {app_id: @app.id}, text: 'Refresh', icon: 'fa-repeat', title: "Refresh logs for #{@app.name}" %>
@@ -13,10 +7,10 @@
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="log_out">
-      <pre><%= container_logs[:stdout] %></pre>
+      <pre><%= @app.logs[:stdout] %></pre>
     </div>
     <div role="tabpanel" class="tab-pane" id="log_errors">
-      <pre><%= container_logs[:stderr] %></pre>
+      <pre><%= @app.logs[:stderr] %></pre>
     </div>
   </div>
 <% end %>

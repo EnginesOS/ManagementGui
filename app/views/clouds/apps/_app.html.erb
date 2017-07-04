@@ -1,38 +1,6 @@
 <%= content_tag :div, class: 'engines_container app' do %>
   <%= link_to app_menu_path(app_id: app.id), title: "#{app.name} menu",
-      id: "app_#{app.id}", remote: true do %>
-    <%= content_tag :div, class: 'engines_container_label' do %>
-      <%= content_tag :div, class: 'button_icon' do %>
-        <% if app.icon.present? %>
-          <%= image_tag app.icon.url(:small), alt: '' %>
-        <% end %>
-      <% end %>
-      <%= content_tag :div, class: "container_state_indicators #{app.name}_container_state" do %>
-        <% ([ :nocontainer, :nostate, :oom, :create, :running, :stopped, :paused ] + ( app.state.to_sym == :installing ? [:installing] : [] )).each do |state| %>
-          <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if app.state.to_sym != state) do %>
-            <%= content_tag :div, class: "container_state_indicator_icon" do %>
-              <%= state_indicator_for state %>
-            <% end %>
-          <% end %>
-        <% end %>
-      <% end %>
-      <%= content_tag :div, class: 'engines_container_label_text' do %>
-        <%= content_tag :div do %>
-          <%= app.name %>
-          <%= content_tag :span, class: 'app_show_on_portal_indicator' do %>
-            <% if app.show_on_portal %>
-              <% if app.worker && app.portal_worker_message.present? %>
-                <%= content_tag :span, icon('fa-square-o') %>
-              <% elsif !app.worker && app.portal_link.present? %>
-                <%= content_tag :span, icon('fa-external-link') %>
-              <% else %>
-                <%= content_tag :span, icon('fa-square') %>
-              <%end %>
-            <% end %>
-          <%end %>
-        <% end %>
-        <%= content_tag :div, (app.label.present? ? app.label : '&nbsp;'.html_safe), class: 'engines_container_label_subtext' %>
-      <% end %>
-    <% end %>
+      id: "app_#{app.id}", class: 'show_waiting_spinner', remote: true do %>
+    <%= render '/clouds/apps/show', app: app %>
   <% end %>
 <% end %>

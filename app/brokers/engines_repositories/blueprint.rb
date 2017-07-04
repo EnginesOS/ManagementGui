@@ -25,7 +25,7 @@ module EnginesRepositories
     def get_blueprint
       Rails.logger.info "Engines installer get blueprint."
       RestClient.get(@url)
-    rescue URI::InvalidURIError => e
+    rescue => e
       Rails.logger.warn "Engines installer get blueprint failed: #{e.class}"
       raise EnginesError.new "Repository error. Failed to get blueprint from repository at #{@url}. #{e}"
     end
@@ -35,7 +35,7 @@ module EnginesRepositories
       clear_exisiting_clone
       Git.clone @url, 'engines_installer_blueprint', path: clone_dir, depth: 1
       File.read cloned_blueprint_path
-    rescue URI::InvalidURIError => e
+    rescue => e
       Rails.logger.warn "Engines installer clone blueprint failed: #{e}"
       raise EnginesError.new "Repository error. Failed to clone blueprint from repository at #{@url}. #{e}"
     end
@@ -61,7 +61,6 @@ module EnginesRepositories
     def clear_exisiting_clone
       FileUtils.rm_rf "#{clone_dir}/engines_installer_blueprint"
     end
-
 
   end
 end

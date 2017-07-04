@@ -9,23 +9,25 @@ module Apps
 
    def update
      @memory = @app.build_memory(strong_params)
-     if @memory.valid? && @memory.update_system
-       flash.now[:notice] = "Memory settings for #{@memory.app.name} were successfully updated."
+     if @memory.valid?
+       if @memory.update_system
+         flash.now[:notice] = "Successfully updated memory settings for #{@app.name}."
+       else
+         flash.now[:alert] = "Failed to update memory settings for #{@app.name}."
+       end
        render 'apps/control_panels/show'
      else
        render 'edit'
      end
    rescue EnginesError => e
-     flash.now[:alert] =
-     "Failed to update memory settings for #{@memory.app.name}. #{e}"
-     render 'apps/control_panels/show'
+     raise EnginesError.new "Failed to update memory settings for #{@app.name}.\n\n#{e}"
    end
 
    private
 
    def strong_params
      params.require(:app_core_resources_memory).permit(
-       :memory, :minimum, :recommended)
+       :limit, :minimum, :recommended)
    end
 
  end

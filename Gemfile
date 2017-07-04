@@ -51,10 +51,14 @@ gem 'listjs-rails'
 # ANSI to HTML text converter
 gem 'ansi-to-html'
 
+# # Country select
+# gem 'country_select'
 
-# group :production do
-#   gem 'redis', '~> 3.0'
-# end
+
+
+group :production do
+  gem 'redis', '~> 3.0'
+end
 
 
 ## Default Rails Gems

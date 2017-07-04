@@ -7,8 +7,6 @@ module Clouds
       @show_sign_in = params[:sign_in]
       @apps = @cloud.cloud_portal_apps
       render 'portals/show'
-    # rescue
-    #   render plain: 'No cloud'
     end
 
     private

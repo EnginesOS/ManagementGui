@@ -3,7 +3,7 @@ module Shared
 
     def markdown_text(text)
       Markdown.new(
-        text,
+        text.to_s,
         :hard_wrap, :filter_html, :autolink,
         :no_intra_emphasis, :fenced_code_blocks ).
         to_html.html_safe
@@ -18,7 +18,6 @@ module Shared
         end
       end
     end
-    # alias pp pretty_print
 
     def time_ago(time)
       distance_of_time_in_words(time, DateTime.now) + ' ago'

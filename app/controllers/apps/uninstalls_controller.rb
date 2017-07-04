@@ -11,18 +11,16 @@ module Apps
       @uninstall = @app.build_uninstall(strong_params)
       if @uninstall.uninstall
         render 'create'
+        engines_system = @app.engines_system
         @app.delete
+        EnginesSystemViewUpdateJob.perform_later(engines_system)
       else
-        if @uninstall.exception
-          flash.now[@uninstall.exception.flash_message_params[:type]] =
-         "Failed to uninstall #{ @uninstall.app.name }. The system reported the following error: #{
-          @uninstall.exception.flash_message_params[:message] }"
-        else
-          flash.now[@uninstall.exception.flash_message_params[:type]] =
-         "Failed to uninstall #{ @uninstall.app.name }."
-        end
-        render 'new'
+        flash.now[:alert] =
+          "Failed to uninstall #{ @uninstall.app.name }."
+        render '/apps/control_panels/show'
       end
+    rescue EnginesError => e
+      raise EnginesError.new "Failed to uninstall #{ @uninstall.app.name }.\n\n#{e}"
     end
 
     private

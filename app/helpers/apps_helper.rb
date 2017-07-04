@@ -1,3 +1,0 @@
-module AppsHelper
-
-end
