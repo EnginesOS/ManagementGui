@@ -100,7 +100,7 @@ class ApplicationController < ActionController::Base
   end
 
   def error_render(error, partial, opts)
-    p "RENDER ERROR ****************************************************************************"
+    Rails.logger.warn "RENDER ERROR ****************************************************************************"
     if response_body
       Rails.logger.warn "============================\n#{partial}\n#{opts}\n#{status}\n#{error}\nresponse body #{response_body}\n=============================================="
       status = opts[:status]

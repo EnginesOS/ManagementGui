@@ -5,7 +5,6 @@ module EnginesSystems
       before_action :set_engines_system
 
       def show
-        byebug
         @certificate = @engines_system.build_certificate_download(certificate_path: params[:certificate_path])
         @certificate_file = @certificate.file_from_system
         if @certificate_file
