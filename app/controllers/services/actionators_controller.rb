@@ -28,7 +28,7 @@ module Services
       @actionator.save_to_system
       if @actionator.return_type == 'file'
         send_data @actionator.api_post_result,
-          filename: "#{@service.name}__#{@actionator.actionator_name}__#{Time.now.utc}"
+          filename: @actionator.actionator_params[:return_file_name]
       else
         render 'result'
       end

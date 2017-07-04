@@ -3,7 +3,7 @@ class Service < ApplicationRecord
   include CoreResources
   include Properties
   include Status
-  include LabelData
+  # include LabelData
 
   before_save :update_display_attributes
   belongs_to :engines_system
@@ -28,10 +28,10 @@ class Service < ApplicationRecord
     name.to_s.humanize
   end
 
-  def icon
-    return label_data[name.to_sym][:icon] if label_data[name.to_sym]
-    'fa-square-o'
-  end
+  # def icon
+  #   return label_data[name.to_sym][:icon] if label_data[name.to_sym]
+  #   'fa-square-o'
+  # end
 
 
   def perform_instruction(action)

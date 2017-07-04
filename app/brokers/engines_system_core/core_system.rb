@@ -37,12 +37,12 @@ module EnginesSystemCore
       get 'system/certs/', expect: :json
     end
 
-    def certificate_file(domain_name)
-      get "system/certs/#{domain_name}", expect: :file
+    def certificate_file(certificate_path)
+      get "system/certs/#{certificate_path}", expect: :file
     end
 
-    def delete_certificate(domain_name)
-      delete "system/certs/#{domain_name}", expect: :boolean
+    def delete_certificate(certificate_path) # certificate_params[:certificate], store: certificate_params[:store]
+      delete "system/certs/#{certificate_path}", expect: :boolean
     end
 
     def save_domain_certificate(domain_name, certificate, key, password=nil)

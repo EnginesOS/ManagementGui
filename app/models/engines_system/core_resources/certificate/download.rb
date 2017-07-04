@@ -5,10 +5,10 @@ class EnginesSystem
 
         include ActiveModel::Model
 
-        attr_accessor :engines_system, :domain_name
+        attr_accessor :engines_system, :certificate_path
 
         def file_from_system
-          core_system.certificate_file(domain_name)
+          core_system.certificate_file(certificate_path)
         end
 
         def core_system

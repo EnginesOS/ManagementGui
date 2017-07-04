@@ -23,7 +23,7 @@ module EnginesSystems
 
       def strong_params
         params.require(:engines_system_core_resources_certificate_upload_detail).
-        permit(:certificate_for, :key, :host_domain, :tmp_filename, :cname)
+        permit(:certificate_for, :key, :password, :host_domain, :tmp_filename, :cname)
       end
 
     end

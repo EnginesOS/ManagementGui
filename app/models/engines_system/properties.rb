@@ -35,7 +35,7 @@ class EnginesSystem
     # certificates
 
     def certificates
-      @certificates ||= core_system.certificate_domain_names[:certs].sort
+      @certificates ||= core_system.certificate_domain_names[:certs]
     end
 
     # container states
