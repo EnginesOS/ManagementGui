@@ -4,6 +4,9 @@
     <%= f.engines_field :certificate_string, as: :hidden %>
     <%= f.engines_field :certificate_cname, as: :hidden %>
     <% if @certificate_private_key.certificate_cname.present? %>
+      <div class='dl-horizontal'>
+        <%= data_list_text 'Certificate cname', @certificate_private_key.certificate_cname %>
+      </div>
       <%= f.engines_field :private_key_upload_method_selection, as: :radios, collection: [[:file, 'File'], [:text, 'Text']], label: 'Private key' %>
       <%= f.engines_field :private_key_file_upload, as: :file, horizontal: true, label: false, hint: 'PEM',
             depend_on: { input: 'engines_system_core_resources_certificate_upload_private_key_private_key_upload_method_selection_file', property: :checked} %>
