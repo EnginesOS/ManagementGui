@@ -1,0 +1,8 @@
+<%= modal header: {text: "Apply certificate to #{@service_certificate.service_name}", icon: 'fa-chain'} do %>
+
+  <%= custom_form_for @service_certificate, url: system_certificates_service_path(engines_system_id: @engines_system.id, service_name: @service_certificate.service_name), method: :patch do |f| %>
+    <%= f.engines_field :cert_name, as: :select, collection: @service_certificate.cert_name_collection, label: "Certificate for #{@service_certificate.service_name}" %>
+    <%= f.engines_cancel_submit url: system_certificates_path(engines_system_id: @engines_system), remote: true %>
+  <% end %>
+
+<% end %>

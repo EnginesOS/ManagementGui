@@ -8,9 +8,10 @@ module EnginesSystems
         @system_ca = @engines_system.build_system_ca_download
         @system_ca_file = @system_ca.file_from_system
         if @system_ca_file
-          send_data @system_ca_file,  :filename => "engines_system_ca.pem"
+          send_data @system_ca_file,  :filename => "EnginesCA.crt"
         else
-          redirect_to cloud_path, alert: 'Failed to retrieve system CA from the Engines system.'
+          flash[:alert] = 'Failed to retrieve system CA from the Engines system.'
+          render 'show_fail'
         end
       end
 

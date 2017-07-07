@@ -1,0 +1,24 @@
+<%= modal(header: {text: "Certificates for #{@engines_system.label}", icon: 'fa-certificate'}, footer_close: true) do %>
+  <%= up_to_system_control_panel_link(@engines_system) %>
+  <% # cert_auth_service = @engines_system.installed_services.find{|service| service.name.to_s == 'cert_auth'} %>
+  <% if true # cert_auth_service.present? && true # cert_auth_service.state == 'running'%>
+
+  <%= new_system_certificate_link(@engines_system) %>
+  <%= system_certificates_manage_link(@engines_system) %>
+  <%= system_ca_link(@engines_system) %>
+<hr>
+    <%= content_tag(:table) do %>
+      <% @engines_system.service_certificates.each do |service_certificate| %>
+        <tr>
+          <td><%= edit_system_certificates_service_link(@engines_system, service_certificate[:service_name]) %></td>
+          <td><%= service_certificate[:cert_name] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+
+
+
+  <% else %>
+    <p>The cert_auth service must be running to manage certificates.</p>
+  <% end %>
+<% end %>

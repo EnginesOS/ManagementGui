@@ -35,7 +35,11 @@ class EnginesSystem
     # certificates
 
     def certificates
-      @certificates ||= core_system.certificate_domain_names[:certs]
+      @certificates ||= core_system.certificates
+    end
+
+    def service_certificates
+      @service_certificates ||= core_system.service_certificates
     end
 
     # container states

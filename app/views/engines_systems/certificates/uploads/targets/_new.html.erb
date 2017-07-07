@@ -1,0 +1,20 @@
+<%= modal header: {text: "Certificate upload for #{@engines_system.label}", icon: 'fa-upload'} do %>
+  <p><label>Step 3</label></p>
+  <%= custom_form_for @certificate_target, url: system_certificates_upload_target_path(engines_system_id: @certificate_target.engines_system.id), method: :post do |f| %>
+    <%= f.engines_field :certificate_cname, as: :hidden %>
+    <%= f.engines_field :certificate_string, as: :hidden %>
+    <%= f.engines_field :private_key_string, as: :hidden %>
+    <%= f.engines_field :password, as: :hidden %>
+    <%= f.engines_field :certificate_for, as: :radios, horizontal: true, label: 'For', left: 4,
+      collection: [ [:default, "System default"], [:target, "Service"] ] %>
+    <%= f.engines_field :host_domain, as: :string, left: 4, horizontal: true,
+        label: 'host.domain',
+        depend_on: { input: 'engines_system_core_resources_certificate_upload_target_certificate_for_custom', property: :checked, display: :hide } %>
+    <%= f.engines_field :target, as: :collection, collection: [''] + @engines_system.service_certificates.map{ |service_cert| service_cert[:service_name] }.delete_if{|service_name| service_name == 'system'},
+    depend_on: { input: 'engines_system_core_resources_certificate_upload_target_certificate_for_target', property: :checked} %>
+
+    <%= f.engines_cancel_submit(
+          { url: system_certificates_path(engines_system_id: @certificate_target.engines_system.id),
+            remote: true }, { text: 'Save' } ) %>
+  <% end %>
+<% end %>
