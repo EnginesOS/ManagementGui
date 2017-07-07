@@ -7,6 +7,7 @@
   <%= system_certificates_manage_link(@engines_system) %>
   <%= system_ca_link(@engines_system) %>
 <hr>
+
     <%= content_tag(:table) do %>
       <% @engines_system.service_certificates.each do |service_certificate| %>
         <tr>
@@ -16,6 +17,7 @@
       <% end %>
     <% end %>
 
+    <%= pretty_print @engines_system.service_certificates %>
 
 
   <% else %>

@@ -9,9 +9,9 @@ class EnginesSystem
 
           attr_accessor :host_domain, :certificate_for, :password, :engines_system, :certificate_string, :certificate_cname, :private_key_string, :target
 
-          validate :custom_host_domain_present_if_required
+          # validate :custom_host_domain_present_if_required
 
-          custom_attribute_labels host_domain: 'Custom host.domain'
+          # custom_attribute_labels host_domain: 'Custom host.domain'
 
           def certificate_for
             @certificate_for || :default
@@ -42,11 +42,18 @@ class EnginesSystem
                 password: password)
                 # certificate_tmp_file, key, password)
             else
-              engines_system.core_system.save_service_certificate(
-                certificate: certificate_string,
-                private_key: private_key_string,
-                password: password,
-                target: target )
+              # if password_instead_private_key?
+                engines_system.core_system.save_service_certificate(
+                  certificate: certificate_string,
+                  password: password,
+                  private_key: private_key_string,
+                  target: ( certificate_for.to_sym == :unassigned ? '' : target ) )
+              # else
+              #   engines_system.core_system.save_service_certificate(
+              #     certificate: certificate_string,
+              #     private_key: private_key_string,
+              #     target: ( certificate_for.to_sym == :unassigned ? '' : target ) )
+              # end
 
                 # host_domain, certificate_tmp_file, key, password)
             end
@@ -54,9 +61,13 @@ class EnginesSystem
             # delete_certificate_tmp_file
           end
 
-          def custom_host_domain_present_if_required
-            errors.add(:host_domain, "can't be blank") if certificate_for.to_sym == :custom && host_domain.blank?
-          end
+          # def custom_host_domain_present_if_required
+          #   errors.add(:host_domain, "can't be blank") if certificate_for.to_sym == :custom && host_domain.blank?
+          # end
+
+          # def password_instead_private_key?
+          #   certificate_cname.blank?
+          # end
 
         end
       end

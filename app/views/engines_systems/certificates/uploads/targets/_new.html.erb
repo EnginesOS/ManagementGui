@@ -6,7 +6,7 @@
     <%= f.engines_field :private_key_string, as: :hidden %>
     <%= f.engines_field :password, as: :hidden %>
     <%= f.engines_field :certificate_for, as: :radios, horizontal: true, label: 'For', left: 4,
-      collection: [ [:default, "System default"], [:target, "Service"] ] %>
+      collection: [ [:default, "System default"], [:target, "Service"], [:unassigned, "Unassigned"] ] %>
     <%= f.engines_field :host_domain, as: :string, left: 4, horizontal: true,
         label: 'host.domain',
         depend_on: { input: 'engines_system_core_resources_certificate_upload_target_certificate_for_custom', property: :checked, display: :hide } %>
