@@ -12,9 +12,8 @@
             depend_on: { input: 'engines_system_core_resources_certificate_upload_private_key_private_key_upload_method_selection_file', property: :checked} %>
       <%= f.engines_field :private_key_input, as: :text, label: false, hint: 'PEM',
             depend_on: { input: 'engines_system_core_resources_certificate_upload_private_key_private_key_upload_method_selection_text', property: :checked} %>
-    <% else %>
-      <%= f.engines_field :password, as: :password %>
     <% end %>
+    <%= f.engines_field :password, as: :password %>
     <%= f.engines_cancel_submit(
         { url: system_certificates_path(engines_system_id: @certificate_private_key.engines_system.id),
           remote: true }, { text: 'Next', icon: 'fa-arrow-right' } ) %>
