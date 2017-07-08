@@ -37,16 +37,16 @@ class EnginesSystem
             # true
             if certificate_for.to_sym == :default
               engines_system.core_system.save_default_certificate(
-                certificate: tmp_file_content.gsub(/\\nn/, "\n") ,
-                private_key: private_key_string.gsub("\r", "").gsub(/\\nn/, "\n") ,
+                certificate: tmp_file_content.gsub("\n", "\\n") ,
+                private_key: private_key_string.gsub("\r\n", "\\n") ,
                 password: password)
                 # certificate_tmp_file, key, password)
             else
               # if password_instead_private_key?
                 engines_system.core_system.save_service_certificate(
-                  certificate: tmp_file_content.gsub(/\\nn/, "\n") ,
+                  certificate: tmp_file_content.gsub("\n", "\\n") ,
                   password: password,
-                  private_key: private_key_string.gsub("\r", "").gsub(/\\nn/, "\n") ,
+                  private_key: private_key_string.gsub("\r\n", "\\n") ,
                   target: ( certificate_for.to_sym == :unassigned ? '' : target ) )
               # else
               #   engines_system.core_system.save_service_certificate(
