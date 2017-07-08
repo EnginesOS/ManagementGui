@@ -150,7 +150,7 @@ eS8mw2HxyBipJpMwnQ7gj3UuGmizbuxM+YqtBG5MOd8lKa0kfmO/k5SAPT2mVobG\n\
               FileUtils.mv upload_filepath, tmp_dir
               File.rename "#{tmp_dir}/#{upload_filename}", "#{tmp_dir}/#{tmp_file_name}"
             else
-              File.write "#{tmp_dir}/#{tmp_file_name}", certificate_input.gsub("\r", "")
+              File.write "#{tmp_dir}/#{tmp_file_name}", certificate_input
             end
             true
           rescue

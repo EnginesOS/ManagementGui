@@ -34,19 +34,20 @@ class EnginesSystem
           end
 
           def save_certificate_to_system
+            byebug
             # true
             if certificate_for.to_sym == :default
               engines_system.core_system.save_default_certificate(
-                certificate: tmp_file_content.gsub("\n", "\\n") ,
-                private_key: private_key_string.gsub("\r\n", "\\n") ,
+                certificate: tmp_file_content,
+                private_key: private_key_string,
                 password: password)
                 # certificate_tmp_file, key, password)
             else
               # if password_instead_private_key?
                 engines_system.core_system.save_service_certificate(
-                  certificate: tmp_file_content.gsub("\n", "\\n") ,
+                  certificate: tmp_file_content,
                   password: password,
-                  private_key: private_key_string.gsub("\r\n", "\\n") ,
+                  private_key: private_key_string,
                   target: ( certificate_for.to_sym == :unassigned ? '' : target ) )
               # else
               #   engines_system.core_system.save_service_certificate(
