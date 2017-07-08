@@ -59,7 +59,7 @@ module EnginesSystemCore
     end
 
     def update_service_certificate(params)
-      post "system/certs/service_certs/#{params[:service_name]}", params: params, expect: :boolean
+      post "system/certs/default/#{params[:service_name]}/#{params[:cert_name]}", params: {}, expect: :boolean
     # rescue
     #   false
     end

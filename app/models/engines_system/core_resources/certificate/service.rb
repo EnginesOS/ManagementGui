@@ -12,7 +12,7 @@ class EnginesSystem
         end
 
         def cert_name_collection
-          @cert_name_collection ||= core_system.certificates.map{ |cert| cert[:cert_name] }
+          @cert_name_collection ||= core_system.certificates.map{ |cert| [ cert[:store], cert[:cert_name] ].join('/') }
         end
 
         def core_system
