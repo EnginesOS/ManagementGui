@@ -1,10 +1,10 @@
 <%= modal header: {text: "Certificate upload for #{@engines_system.label}", icon: 'fa-upload'} do %>
   <p><label>Step 3</label></p>
   <%= custom_form_for @certificate_target, url: system_certificates_upload_target_path(engines_system_id: @certificate_target.engines_system.id), method: :post do |f| %>
-    <%= f.engines_field :certificate_cname, as: :read_only %>
-    <%= f.engines_field :certificate_tmp_file, as: :read_only %>
-    <%= f.engines_field :private_key_string, as: :text %>
-    <%= f.engines_field :password, as: :read_only %>
+    <%= f.engines_field :certificate_cname, as: :hidden %>
+    <%= f.engines_field :certificate_tmp_file, as: :hidden %>
+    <%= f.engines_field :private_key_string, as: :hidden %>
+    <%= f.engines_field :password, as: :hidden %>
     <%= f.engines_field :certificate_for, as: :radios, horizontal: true, label: 'For', left: 4,
       collection: [ [:default, "System default"], [:target, "Service"], [:unassigned, "Unassigned"] ] %>
     <%= f.engines_field :host_domain, as: :string, left: 4, horizontal: true,
