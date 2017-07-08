@@ -12,15 +12,15 @@ module EnginesSystems
         def create
           @certificate = @engines_system.build_certificate_upload(strong_params)
           if @certificate.valid?
-            # if @certificate.save_to_tmp
+            if @certificate.save_to_tmp
               @certificate_private_key = @engines_system.
                   build_certificate_upload_private_key(
-                    certificate_string: @certificate.certificate_string, certificate_cname: @certificate.certificate_cname  )
+                    certificate_tmp_file: @certificate.tmp_file_name, certificate_cname: @certificate.certificate_cname  )
               render 'engines_systems/certificates/uploads/private_keys/new'
-            # else
-            #   flash.now[:alert] = 'Failed to add certificate. The certificate may be invalid.'
-            #   render 'engines_systems/certificates/manage/show'
-            # end
+            else
+              flash.now[:alert] = 'Failed to save certificate to tmp.'
+              render 'engines_systems/certificates/manages/show'
+            end
           else
             render 'new'
           end

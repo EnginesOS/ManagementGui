@@ -11,7 +11,7 @@ module EnginesSystems
             # if @certificate_private_key.save_to_tmp
               @certificate_target = @engines_system.
                   build_certificate_upload_target(
-                    certificate_string: @certificate_private_key.certificate_string,
+                    certificate_tmp_file: @certificate_private_key.certificate_tmp_file,
                     certificate_cname: @certificate_private_key.certificate_cname,
                     private_key_string: @certificate_private_key.private_key_string,
                     password: @certificate_private_key.password)
@@ -35,7 +35,7 @@ module EnginesSystems
 
         def strong_params
           params.require(:engines_system_core_resources_certificate_upload_private_key).
-            permit( :certificate_string, :certificate_cname, :password,
+            permit( :certificate_tmp_file, :certificate_cname, :password,
                     :private_key_file_upload, :private_key_input, :private_key_upload_method_selection)
         # rescue ActionController::ParameterMissing # is thrown when user does not attach a file to form. Would have expected Rails to return empty params rather than error.
         #   {}

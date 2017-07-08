@@ -6,7 +6,7 @@ class EnginesSystem
 
           include ActiveModel::Model
 
-          attr_accessor :engines_system, :certificate_string, :certificate_cname,
+          attr_accessor :engines_system, :certificate_tmp_file, :certificate_cname,
                         :private_key_file_upload, :private_key_input, :password
           attr_writer :private_key_upload_method_selection
 
@@ -141,7 +141,7 @@ qIk=\n\
           #
           # def tmp_dir
           #   @tmp_dir ||=
-          #   "#{Rails.application.config.tmp_dir}/certificate_uploads"
+          #   "#{Rails.application.config.tmp_dir}/engines_gui_certificate_uploads"
           # end
           #
           # def tmp_filepath

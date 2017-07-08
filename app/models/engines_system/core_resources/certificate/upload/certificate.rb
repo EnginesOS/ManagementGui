@@ -143,32 +143,36 @@ eS8mw2HxyBipJpMwnQ7gj3UuGmizbuxM+YqtBG5MOd8lKa0kfmO/k5SAPT2mVobG\n\
           #
           #
           #
-          # def save_to_tmp
+          def save_to_tmp
           # byebug
-          # #   if certificate_upload_method_selection.to_s == 'file'
-          # #     FileUtils.mv upload_filepath, tmp_dir
-          # #     File.rename "#{tmp_dir}/#{upload_filename}", tmp_file_name
-          # #   else
-          # #     File.write( "#{tmp_dir}/#{tmp_file_name}", certificate_input)
-          # #   end
-          # end
-          #
-          # def tmp_file_name
-          #   @tmp_file_name ||= "certificate_#{SecureRandom.hex}.pem"
-          # end
-          #
-          # def upload_filepath
-          #   @upload_filepath ||= certificate_file_upload.tempfile.to_path.to_s
-          # end
-          #
-          # def upload_filename
-          #   File.basename upload_filepath
-          # end
-          #
-          # def tmp_dir
-          #   @tmp_dir ||=
-          #   "#{Rails.application.config.tmp_dir}/certificate_uploads"
-          # end
+            # Dir.mkdir('tmp/engines_gui_certificate_uploads') unless Dir.exist?('tmp/engines_gui_certificate_uploads')
+            if certificate_upload_method_selection.to_s == 'file'
+              FileUtils.mv upload_filepath, tmp_dir
+              File.rename "#{tmp_dir}/#{upload_filename}", "#{tmp_dir}/#{tmp_file_name}"
+            else
+              File.write "#{tmp_dir}/#{tmp_file_name}", certificate_input.gsub("\r", "")
+            end
+            true
+          rescue
+            false
+          end
+
+          def tmp_file_name
+            @tmp_file_name ||= SecureRandom.hex
+          end
+
+          def upload_filepath
+            @upload_filepath ||= certificate_file_upload.tempfile.to_path.to_s
+          end
+
+          def upload_filename
+            File.basename upload_filepath
+          end
+
+          def tmp_dir
+            @tmp_dir ||=
+            "#{Rails.application.config.tmp_dir}/engines_gui_certificate_uploads"
+          end
 
   ############3
 

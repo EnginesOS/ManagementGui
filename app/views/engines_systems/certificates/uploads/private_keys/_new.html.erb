@@ -1,7 +1,7 @@
 <%= modal header: {text: 'Certificate upload', icon: 'fa-upload'} do %>
   <p><label>Step 2</label></p>
   <%= custom_form_for @certificate_private_key, url: system_certificates_upload_private_key_path(engines_system_id: @certificate_private_key.engines_system.id), method: :post do |f| %>
-    <%= f.engines_field :certificate_string, as: :hidden %>
+    <%= f.engines_field :certificate_tmp_file, as: :hidden %>
     <%= f.engines_field :certificate_cname, as: :hidden %>
     <% if @certificate_private_key.certificate_cname.present? %>
       <div class='dl-horizontal'>
