@@ -22,7 +22,7 @@ var SubcribeToEnginesSystemEventsChannel = function(engines_system_id, engines_s
             case "empty":
               break;
             case "error":
-              alert('Event stream error: ' + event.message);
+              alert_modal('Event stream error', event.message);
               break;
             case "timeout":
               console.log('Timeout on API events stream ' + engines_system_label);

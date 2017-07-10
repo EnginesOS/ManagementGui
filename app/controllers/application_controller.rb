@@ -61,36 +61,38 @@ class ApplicationController < ActionController::Base
   # Error handling
 
   def handle_exception(error)
-    Rails.logger.warn "Handling exception (#{error.class})..."
+    Rails.logger.debug "Handling exception (#{error.class})..."
     return handle_event_stream_error(error) if request.format == "text/event-stream"
     error = error.cause if error.is_a?(ActionView::Template::Error)
     return handle_engines_error(error) if error.is_a?(EnginesError) || error.is_a?(EnginesError::ApiConnectionError) || error.is_a?(EnginesError::ApiConnectionAuthenticationError)
     handle_fatal_error(error)
+  rescue
+    handle_fatal_error(error)
   end
 
   def handle_event_stream_error(error)
-    Rails.logger.warn "Engines event stream error"
-    Rails.logger.warn error.class
-    Rails.logger.warn error.to_s
+    Rails.logger.debug "Engines event stream error"
+    Rails.logger.debug error.class
+    Rails.logger.debug error.to_s
     log_error_backtrace_for(error)
     render plain: {type: "error"}.to_json, status: 200
   end
 
   def handle_engines_error(error)
-    Rails.logger.warn "Engines error"
-    Rails.logger.warn error.class
-    Rails.logger.warn error.to_s
+    Rails.logger.debug "Engines error"
+    Rails.logger.debug error.class
+    Rails.logger.debug error.to_s
     @error = error
     respond_to do |format|
       format.js{ error_render error, 'exceptions/engines_errors/show', status: 200 }
-      format.html{ error_render error, 'exceptions/engines_errors/show', status: 200, layout: false }
+      format.html{ raise StandardError.new(error) }
     end
   end
 
   def handle_fatal_error(error)
-    Rails.logger.warn "Fatal error"
-    Rails.logger.warn error.class
-    Rails.logger.warn error.to_s
+    Rails.logger.debug "Fatal error"
+    Rails.logger.debug error.class
+    Rails.logger.debug error.to_s
     log_error_backtrace_for(error)
     @bug_report = BugReport.new self, error
     respond_to do |format|
@@ -100,9 +102,9 @@ class ApplicationController < ActionController::Base
   end
 
   def error_render(error, partial, opts)
-    p "RENDER ERROR ****************************************************************************"
+    Rails.logger.debug "RENDER ERROR ****************************************************************************"
     if response_body
-      Rails.logger.warn "============================\n#{partial}\n#{opts}\n#{status}\n#{error}\nresponse body #{response_body}\n=============================================="
+      Rails.logger.debug "============================\n#{partial}\n#{opts}\n#{status}\n#{error}\nresponse body #{response_body}\n=============================================="
       status = opts[:status]
       response_body = [ ( render_to_string partial, layout: opts[:layout] ) ]
     else
@@ -112,7 +114,7 @@ class ApplicationController < ActionController::Base
   end
 
   def log_error_backtrace_for(error)
-    error.backtrace.each { |line| Rails.logger.warn line }
+    error.backtrace.each { |line| Rails.logger.debug line }
   end
 
 end

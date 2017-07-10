@@ -2,7 +2,7 @@ module UserProfiles
   module ModalsHelper
 
     def user_menu_modal
-      modal(header: {text: current_user.username, icon: 'fa-user'},
+      modal(header: {text: "GUI admin user", icon: 'fa-user'},
       footer_close: true) do
         content_tag(:div, class: 'dl-horizontal') do
           data_list_text('Email', @user.email) +
@@ -11,8 +11,8 @@ module UserProfiles
           data_list_text('Last sign in', "#{format_time @user.last_sign_in_at} (from #{@user.last_sign_in_ip})", title: time_ago(@user.last_sign_in_at))
         end +
         content_tag(:hr) +
-        user_profile_portal_link +
-        user_profile_clouds_menu_link +
+        ( config.enable_user_portal ? user_profile_portal_link : ''.html_safe ) +
+        ( config.enable_multiple_clouds ? user_profile_clouds_menu_link : ''.html_safe ) +
         resource_link(:edit_user_modals_password, text: 'Password', icon: 'fa-lock') +
         resource_link(:edit_user_modals_email, text: 'Email', icon: 'fa-envelope-o') +
         user_sign_out_link

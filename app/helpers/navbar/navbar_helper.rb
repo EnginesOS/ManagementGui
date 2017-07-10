@@ -28,7 +28,7 @@ module Navbar
     def navbar_right_links
       if current_user
         if controller_path == 'clouds/portals'
-          navbar_user_portal_link +
+          ( config.enable_user_portal ? navbar_user_portal_link : ''.html_safe ) +
           navbar_cloud_link(@cloud)
         else
           ''.html_safe

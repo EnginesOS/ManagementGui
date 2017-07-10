@@ -105,7 +105,7 @@
         <% end %>
       <% end %>
 
-      <%= f.engines_field :license_accept, as: :boolean, label: '',
+      <%= f.engines_field :license_accept, as: :boolean, label: '', required: true,
           checkbox_text: 'I have read and accept the license', horizontal: true %>
       <% cancel_path = @new_app.library_id.present? ?
           install_library_path( engines_system_id: @engines_system.id,

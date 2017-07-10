@@ -21,7 +21,7 @@ var SubcribeToBuildLogChannel = function(engines_system_id, app_name) {
               install_process_builder_log_eof(engines_system_id, app_name);
               break;
             default:
-              alert('Build log error. Unhandled build log channel message: ' + message_text);
+              alert_modal('Build log error', 'Unhandled build log channel message: ' + message_text);
           };
         }
       }

@@ -6,16 +6,13 @@
   <% end %>
 
   <% @service.actionators.values.each do |actionator| %>
+    <% browser_save_file_dialog = actionator[:return_type] == 'file' %>
     <%= resource_link :new_service_actionator,
+        remote: !browser_save_file_dialog,
+        spinner: !browser_save_file_dialog,
         params: { service_id: @service.id,
                   actionator_name: actionator[:name] },
                   text: actionator[:label] || actionator[:name].to_s.humanize %>
   <% end %>
-
-
-  <hr>
-  <p>@service.actionators</p>
-    <%= pretty_print @service.actionators %>
-
 
 <% end %>

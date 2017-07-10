@@ -20,6 +20,7 @@ module Fields
     opts[:hint] = object.hint
     opts[:placeholder] = object.placeholder
     opts[:comment] = object.comment
+    opts[:required] = object.required.to_s == 'true'
     opts[:validate_regex] = object.validate_regex
     opts[:validate_invalid_message] = object.validate_invalid_message
     opts[:depend_on] = { input: object.depend_on_input,
@@ -46,6 +47,7 @@ module Fields
     hidden_field(:hint) +
     hidden_field(:placeholder) +
     hidden_field(:comment) +
+    hidden_field(:required) +
     hidden_field(:validate_regex) +
     hidden_field(:validate_invalid_message) +
     hidden_field(:depend_on_input) +
@@ -78,7 +80,7 @@ module Fields
                         depend_on_regex: depend_on[:regex],
                         depend_on_property: depend_on[:property],
                         depend_on_display: depend_on[:display] } : {}
-    if opts[:as] && opts[:as].to_sym == :hidden
+    if opts[:as].to_s =='hidden'
       engines_hidden_field method, opts
     else
       @template.content_tag(:span, data: depend_on_data) do
@@ -132,8 +134,8 @@ module Fields
       engines_checkbox_field method, opts
     when :enum
       engines_enum_field method, opts
-    when :parent, :belongs_to
-      engines_association_field method, opts
+    # when :parent, :belongs_to
+    #   engines_association_field method, opts
     when :radios
       engines_collection_radios_field method, opts
     when :select, :select_single

@@ -15,7 +15,7 @@ class EnginesSystem
       end
 
       def current_domain_params
-        @current_domain_params ||= engines_system.domain_for(domain_name)
+        @current_domain_params ||= domain_name.present? ? engines_system.domain_for(domain_name) : {}
       end
 
       def self_hosted

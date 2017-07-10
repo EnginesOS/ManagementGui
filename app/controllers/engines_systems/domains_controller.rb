@@ -38,10 +38,10 @@ module EnginesSystems
       @domain =  @engines_system.build_domain(strong_params)
       if @domain.remove_from_system
         flash.now[:notice] = 'Successfully deleted domain.'
-        render 'index'
       else
-        render 'edit'
+        flash.now[:alert] = 'Failed to deleted domain.'
       end
+      render 'index'
     end
 
     private

@@ -3,7 +3,6 @@
     <%= content_tag :div, class: 'container_menu_header_detail pull_right_wide_media' do %>
     <% end %>
     <%= content_tag :div, class: 'container_menu_header_icon' do %>
-      <%= icon @service.icon %>
     <% end %>
     <%= content_tag :div, class: 'container_menu_header_names' do %>
       <%= content_tag :div, class: 'container_menu_header_label' do %>
@@ -37,7 +36,7 @@
     <hr>
   <% end %>
   <%= content_tag :span, class: "container_state_indicators #{@service.name}_container_state" do %>
-    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused ].each do |state| %>
+    <% [ :nocontainer, :installing, :nostate, :oom, :create, :running, :stopped, :paused, :kill, :die ].each do |state| %>
       <%= content_tag :div, class: "container_state_indicator #{state}", style: ('display: none;' if @service.state.to_sym != state) do %>
         <%= content_tag :div, class: "container_state_indicator_area" do %>
           <%= content_tag :div, class: "container_state_indicator_icon" do %>
@@ -55,7 +54,7 @@
                 title: 'Restart local mgmt', form_class: 'display_inline' %>
           <% else %>
             <%= service_instruction_link(@service, :start, icon: 'fa-play') if [ :stopped ].include?(state) %>
-            <%= service_instruction_link(@service, :stop, icon: 'fa-stop') if [ :running, :oom ].include?(state) %>
+            <%= service_instruction_link(@service, :stop, icon: 'fa-stop') if [ :running, :oom ].include?(state) || ( state == :stopped && !@service.in_set_state? ) %>
             <%= service_instruction_link(@service, :pause, icon: 'fa-pause') if [ :running, :oom ].include?(state) %>
             <%= service_instruction_link(@service, :unpause, icon: 'fa-pause-circle') if [ :paused ].include?(state) %>
             <%= service_instruction_link(@service, :restart, icon: 'fa-repeat') if [ :running, :oom ].include?(state) %>

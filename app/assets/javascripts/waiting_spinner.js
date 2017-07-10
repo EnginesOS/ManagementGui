@@ -11,6 +11,12 @@ var bind_show_waiting_spinner_click_event = function() {
   $('.show_waiting_spinner').click(function() {
     show_waiting_spinner();
   });
+
+  // hide spinner when a form invalid
+  $('input').on('invalid', function(e){
+    hide_waiting_spinner();
+  });
+
 };
 
 window.show_waiting_spinner = function() {

@@ -35,7 +35,11 @@ class EnginesSystem
     # certificates
 
     def certificates
-      @certificates ||= core_system.certificate_domain_names[:certs].sort
+      @certificates ||= core_system.certificates
+    end
+
+    def service_certificates
+      @service_certificates ||= core_system.service_certificates
     end
 
     # container states
@@ -71,6 +75,12 @@ class EnginesSystem
 
     def logs
       @logs ||= core_system.logs
+    end
+
+    # admin
+
+    def admin_email
+      @admin_email ||= core_system.admin_user[:email]
     end
 
   end

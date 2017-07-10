@@ -26,13 +26,12 @@ function local_system_busy_polling(engines_system_id, poll_url, redirect_url, in
           } else if (request.status === 401) {
             window.location.replace(redirect_url);
           } else {
-            alert(response);
-            location.reload();
+            alert_modal('Polling error', response);
           };
         });
       }), poll_period);
     } else {
-      alert('Failed to connect with application server.');
+      alert_modal('Polling error', 'Failed to connect with application server.');
     };
   };
 };

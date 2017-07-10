@@ -3,7 +3,7 @@ module Navbar
 
     def navbar_user_menu_link
       button_to user_modals_menu_path,
-        title: 'User menu',
+        title: 'GUI user menu',
         form_class: 'display_inline', method: :get, remote: true,
         class: 'btn_navbar show_waiting_spinner' do
           icon 'fa-user'

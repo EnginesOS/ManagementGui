@@ -48,7 +48,7 @@ class EnginesSystem
         begin
           core_system.system_memory_statistics
         rescue => e
-          Rails.logger.warn "Failed to get 'memory statistics' from Engines System API. #{e}"
+          Rails.logger.debug "Failed to get 'memory statistics' from Engines System API. #{e}"
           raise
         end
       end

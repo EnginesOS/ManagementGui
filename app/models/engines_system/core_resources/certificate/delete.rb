@@ -5,10 +5,10 @@ class EnginesSystem
 
         include ActiveModel::Model
 
-        attr_accessor :engines_system, :domain_name
+        attr_accessor :engines_system, :certificate_path
 
         def update_system
-          core_system.delete_certificate(domain_name)
+          core_system.delete_certificate(certificate_path)
         end
 
         def core_system

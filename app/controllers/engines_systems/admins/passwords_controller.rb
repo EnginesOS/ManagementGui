@@ -11,8 +11,8 @@ module EnginesSystems
       def update
         @password = @engines_system.build_password(strong_params)
         if @password.update_system
-          flash.now[:notice] = "Admin password for #{@engines_system.label} was successfully updated."
-          render 'engines_systems/admins/show'
+          flash.now[:notice] = "Admin password for #{@engines_system.label} was successfully updated.\n\nYou will need to re-authenticate to connect to the system."
+          render 'update'
         else
           render 'edit'
         end
