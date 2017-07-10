@@ -33,24 +33,51 @@ module EnginesSystemCore
 
     # certificates
 
-    def certificate_domain_names
+    def certificates
       get 'system/certs/', expect: :json
+    # rescue => e
+    #   raise e unless Rails.env.development?
+    #   [{ cert_name: "fake data for development!!!!!!!!! engines", store: "/systems/system"},{ cert_name: "ipvpn.engines.dev", store: "/services/ivpn"},{ cert_name: "engines", store: ""}]
     end
 
-    def certificate_file(domain_name)
-      get "system/certs/#{domain_name}", expect: :file
+    def service_certificates
+      get 'system/certs/service_certs', expect: :json
+    # rescue => e
+    #   raise e unless Rails.env.development?
+      # [
+      #   {"service_name":"email","cert_name":"engines"},
+      #   {"service_name":"ftp","cert_name":"engines"},
+      #   {"service_name":"imap","cert_name":"engines"},
+      #   {"service_name":"ivpn","cert_name":"engines"},
+      #   {"service_name":"mgmt","cert_name":"engines"},
+      #   {"service_name":"mysql","cert_name":"engines"},
+      #   {"service_name":"nginx","cert_name":"engines"},
+      #   {"service_name":"pqsql","cert_name":"engines"},
+      #   {"service_name":"smtp","cert_name":"engines"},
+      #   {"service_name":"system","cert_name":"engines"}
+      # ]
     end
 
-    def delete_certificate(domain_name)
-      delete "system/certs/#{domain_name}", expect: :boolean
+    def update_service_certificate(params)
+      post "system/certs/default/#{params[:service_name]}/#{params[:cert_name]}", params: {}, expect: :boolean
+    # rescue
+    #   false
     end
 
-    def save_domain_certificate(domain_name, certificate, key, password=nil)
-      post 'system/certs/', params: {domain_name: domain_name, certificate: certificate, key: key, password: password}, expect: :boolean
+    def certificate_file(certificate_path)
+      get "system/certs/#{certificate_path}", expect: :file
     end
 
-    def save_default_certificate(certificate, key, password=nil)
-      post 'system/certs/default', params: {certificate: certificate, key: key, password: password}, expect: :boolean
+    def delete_certificate(certificate_path) # certificate_params[:certificate], store: certificate_params[:store]
+      delete "system/certs/#{certificate_path}", expect: :boolean
+    end
+
+    def save_service_certificate(params)
+      post 'system/certs/', params: params, expect: :boolean
+    end
+
+    def save_default_certificate(params)
+      post 'system/certs/default', params: params, expect: :boolean
     end
 
     def system_ca

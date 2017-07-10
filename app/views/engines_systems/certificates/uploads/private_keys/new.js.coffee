@@ -1,5 +1,9 @@
 $('.modal').modal 'hide'
-$('body').append '<%= j (render 'engines_systems/certificates/details/new') %>'
+<% if remotipart_submitted? %>
+$('body').append '<%= j "#{(render '/engines_systems/certificates/uploads/private_keys/new')}" %>'
+<% else %>
+$('body').append '<%= j (render '/engines_systems/certificates/uploads/private_keys/new') %>'
+<% end %>
 $('#remote_modal').modal(backdrop: 'static').modal 'show'
 $('#remote_modal').on 'hidden.bs.modal', -> $(this).remove()
 $("#remote_modal_flash_messages").html("<%= j(flash_messages) %>");

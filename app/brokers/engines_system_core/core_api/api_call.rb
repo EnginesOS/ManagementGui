@@ -14,6 +14,15 @@ module EnginesSystemCore
         api_call_opts = { timeout: opts[:timeout],
                           payload: { api_vars: opts[:params] }.to_json,
                           content_type: 'application/json' }
+puts "=============================================="
+puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+puts "PARSE JSON and output cert using JSON.parse(api_call_opts[:payload], symbolize_names: true)[:api_vars][:certificate] "
+puts api_call_opts[:payload]
+puts JSON.parse(api_call_opts[:payload], symbolize_names: true)[:api_vars][:certificate]
+puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+puts "=============================================="
+
+
         parse api_call( :post, api_route, api_call_opts ), opts[:expect]
       end
 
@@ -30,7 +39,7 @@ module EnginesSystemCore
       end
 
       def api_call(http_method, api_route, opts={})
-        timeout = ( opts[:timeout] || 10 )
+        timeout = ( opts[:timeout] || 30 )
         if http_method == :post || http_method == :put
           payload = opts[:payload]
           content_type = opts[:content_type]
@@ -67,7 +76,7 @@ module EnginesSystemCore
       rescue RestClient::Forbidden => e # can't authenticate. Throwing custom error so that gui knows to present authentication link
         raise EnginesError::ApiConnectionAuthenticationError.new "Failed to authenticate the connection with the Engines system."
       rescue => e
-        Rails.logger.warn \
+        Rails.logger.debug \
         "++++++++\n"\
         "UNHANDLED ENGINES API ERROR in EnginesSystemCore::CoreApi::ApiCall.api_call\n"\
         "api call: #{http_method} #{api_route} #{payload}\n"\
@@ -98,7 +107,7 @@ module EnginesSystemCore
           raise EnginesError::ApiParseError.new "Invalid content type. Expected #{expected_content} #{expected_content.class} but received #{api_call_result.net_http_res.content_type} #{api_call_result.net_http_res.content_type.class}.", result
         end
       rescue => e
-        Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{e}"
+        Rails.logger.debug "Engines System API result parse #{expected_content} failed: #{e}"
         raise e
       end
 
@@ -179,7 +188,7 @@ end
 #       rescue RestClient::Forbidden => e # can't authenticate. Throwing custom error so that gui knows to present authentication link
 #         raise EnginesError::ApiConnectionAuthenticationError.new "Failed to authenticate the connection with the Engines system."
 #       rescue => e
-#         Rails.logger.warn \
+#         Rails.logger.debug \
 #         "++++++++\n"\
 #         "UNHANDLED ENGINES API ERROR in EnginesSystemCore::CoreApi::ApiCall.api_call\n"\
 #         "api call: #{http_method} #{api_path} #{payload}\n"\
@@ -210,7 +219,7 @@ end
 #           raise EnginesError::ApiParseError.new "Invalid content type. Expected #{expected_content} #{expected_content.class} but received #{api_call_result.net_http_res.content_type} #{api_call_result.net_http_res.content_type.class}.", result
 #         end
 #       rescue => e
-#         Rails.logger.warn "Engines System API result parse #{expected_content} failed: #{e}"
+#         Rails.logger.debug "Engines System API result parse #{expected_content} failed: #{e}"
 #         raise e
 #       end
 #

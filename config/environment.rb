@@ -5,5 +5,5 @@ require_relative 'application'
 Rails.application.initialize!
 
 # Create certificate_uploads directory in tmp directory
-dirname = "#{Rails.application.config.tmp_dir}/certificate_uploads"
-FileUtils.mkdir_p(dirname) unless Dir.exist?(dirname)
+dirname = "#{Rails.application.config.tmp_dir}/engines_gui_certificate_uploads"
+Dir.mkdir(dirname) unless Dir.exist?(dirname)

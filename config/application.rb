@@ -35,5 +35,7 @@ module SystemGui
     config.enable_user_portal = ENV['ENABLE_USER_PORTAL'] # default is false -- User portal feature is partially implemented
     config.enable_multiple_users = ENV['ENABLE_MULTIPLE_USERS'] # default is false -- Doesn't do anything. Multi user feature is not implemented yet
 
+    ActionCable.server.config.logger = Logger.new(nil)
+
   end
 end

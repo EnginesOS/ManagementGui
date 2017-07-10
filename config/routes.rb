@@ -57,13 +57,20 @@ Rails.application.routes.draw do
       resource :password, only: [:edit, :update]
       resource :email, only: [:edit, :update]
     end
-    resources :certificates, only: [:index]
-    namespace :certificate, module: :certificates do
+    resource :certificates, only: [:show]
+    namespace :certificates, module: :certificates do
+      resource :manage, only: [:show]
       resource :download_ca, only: [:show]
-      resource :upload, only: [:new, :create]
-      resource :detail, only: [:new, :create]
+      namespace :upload, module: :uploads do
+        resource :certificate, only: [:new, :create]
+        resource :private_key, only: [:create]
+        resource :target, only: [:create]
+      end
+      # resource :upload, only: [:new, :create]
+      # resource :detail, only: [:new, :create]
       resource :download, only: [:show]
       resource :destroy, only: [:destroy]
+      resource :service, only: [:edit, :update]
     end
     resource :keys, only: [:show]
     namespace :key, module: :keys do

@@ -83,6 +83,17 @@ module Systems
       end
     end
 
+    def up_to_system_certificates_link(engines_system)
+      content_tag :div, class: 'clearfix' do
+        resource_link :system_certificates,
+        params: {engines_system_id: engines_system.id},
+        text: false, icon: 'fa-arrow-up',
+        title: 'Return to system certificates',
+        class: 'pull_right_wide_media'
+      end
+    end
+
+
     # def system_services_link(engines_system)
     #   resource_link :system_services,
     #   params: {engines_system_id: engines_system.id},
@@ -203,6 +214,12 @@ module Systems
       resource_link :system_certificates,
       params: {engines_system_id: engines_system.id},
       text: 'Certificates', icon: 'fa-certificate', title: 'Certificate'
+    end
+
+    def system_certificates_manage_link(engines_system)
+      resource_link :system_certificates_manage,
+      params: {engines_system_id: engines_system.id},
+      text: 'Manage certificates', icon: 'fa-folder-o', title: 'Add and remove certificates'
     end
 
     def system_admin_link(engines_system)

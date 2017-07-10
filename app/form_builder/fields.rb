@@ -80,7 +80,7 @@ module Fields
                         depend_on_regex: depend_on[:regex],
                         depend_on_property: depend_on[:property],
                         depend_on_display: depend_on[:display] } : {}
-    if opts[:as] && opts[:as].to_sym == :hidden
+    if opts[:as].to_s =='hidden'
       engines_hidden_field method, opts
     else
       @template.content_tag(:span, data: depend_on_data) do
@@ -134,8 +134,8 @@ module Fields
       engines_checkbox_field method, opts
     when :enum
       engines_enum_field method, opts
-    when :parent, :belongs_to
-      engines_association_field method, opts
+    # when :parent, :belongs_to
+    #   engines_association_field method, opts
     when :radios
       engines_collection_radios_field method, opts
     when :select, :select_single
