@@ -1,5 +1,5 @@
 <%= modal header: {text: 'Certificate upload', icon: 'fa-upload'} do %>
-  <p><label>Step 1</label></p>
+  <p><label>Step 1 of 3</label></p>
   <%= custom_form_for @certificate, url: system_certificates_upload_certificate_path(engines_system_id: @certificate.engines_system.id), method: :post do |f| %>
     <%= f.engines_field :certificate_upload_method_selection, as: :radios, collection: [[:file, 'File'], [:text, 'Text']], label: "Certificate" %>
     <%= f.engines_field :certificate_file_upload, as: :file, horizontal: true, label: false, hint: 'PEM or PKS',
