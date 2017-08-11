@@ -8,6 +8,14 @@
         <%= markdown_text @actionator.api_post_result %>
       <% when :plain_text %>
         <% @actionator.api_post_result.split("\n").map do |line| %><%= line %><br><% end %>
+      <% when :code %>
+        <pre><% @actionator.api_post_result.split("\n").map do |line| %><%= line %><br><% end %><pre>
+      <% when :json %>
+        <%= pretty_print @actionator.api_post_result %>
+      <% when :none %>
+        Sucessfully performed action <%= @actionator.to_label %>.
+      <% else %>
+        <%= @actionator.api_post_result %>
       <% end %>
     </div>
   </div>

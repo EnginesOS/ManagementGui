@@ -14,15 +14,6 @@ module EnginesSystemCore
         api_call_opts = { timeout: opts[:timeout],
                           payload: { api_vars: opts[:params] }.to_json,
                           content_type: 'application/json' }
-puts "=============================================="
-puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-puts "PARSE JSON and output cert using JSON.parse(api_call_opts[:payload], symbolize_names: true)[:api_vars][:certificate] "
-puts api_call_opts[:payload]
-puts JSON.parse(api_call_opts[:payload], symbolize_names: true)[:api_vars][:certificate]
-puts "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-puts "=============================================="
-
-
         parse api_call( :post, api_route, api_call_opts ), opts[:expect]
       end
 

@@ -314,7 +314,8 @@ module EnginesSystemCore
     end
 
     def first_run_required?
-      get 'system/status/first_run_required', expect: :boolean
+      raise WTF
+      # get 'system/status/first_run_required', expect: :boolean
     end
 
     # updates
