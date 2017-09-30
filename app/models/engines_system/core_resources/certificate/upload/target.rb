@@ -4,6 +4,8 @@ class EnginesSystem
       module Upload
         class Target
 
+          require "base64"
+
           include ActiveModel::Model
           extend ApplicationRecord::CustomAttributeLabels
 
@@ -28,6 +30,18 @@ class EnginesSystem
 
           def tmp_file_content
             @tmp_file_content ||=
+            if certificate_cname.present?
+              raw_tmp_file_content
+            else
+              encoded_tmp_file_content
+            end
+          end
+
+          def encoded_tmp_file_content
+            Base64.encode64 raw_tmp_file_content
+          end
+
+          def raw_tmp_file_content
             File.open(tmp_filepath, 'r') do |file|
               file.read
             end
@@ -39,7 +53,7 @@ class EnginesSystem
             if certificate_for.to_sym == :default
               engines_system.core_system.save_default_certificate(
                 certificate: tmp_file_content,
-                private_key: private_key_string,
+                private_key: private_key_string, #.gsub("\r", ""),
                 password: password)
                 # certificate_tmp_file, key, password)
             else
@@ -47,7 +61,7 @@ class EnginesSystem
                 engines_system.core_system.save_service_certificate(
                   certificate: tmp_file_content,
                   password: password,
-                  private_key: private_key_string,
+                  private_key: private_key_string, #.gsub("\r", ""),
                   target: ( certificate_for.to_sym == :unassigned ? '' : target ) )
               # else
               #   engines_system.core_system.save_service_certificate(
@@ -57,9 +71,8 @@ class EnginesSystem
               # end
 
                 # host_domain, certificate_tmp_file, key, password)
-            end
-            #  &&
-            # delete_certificate_tmp_file
+            end &&
+            delete_certificate_tmp_file
           end
 
           # def custom_host_domain_present_if_required

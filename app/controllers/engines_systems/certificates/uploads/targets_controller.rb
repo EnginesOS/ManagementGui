@@ -13,7 +13,7 @@ module EnginesSystems
             else
               flash.now[:alert] = 'Failed to save the certificate to the system.'
             end
-            render 'engines_systems/certificates/manages/show'
+            render 'engines_systems/certificates/show'
           else
             render 'new'
           end
